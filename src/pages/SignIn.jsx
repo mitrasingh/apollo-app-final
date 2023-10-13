@@ -59,12 +59,12 @@ export const SignIn = () => {
                 className="mt-4"
             >
                 <Form onSubmit={handleSubmit(handleLogin)} noValidate>
-                    <Card className="px-4 py-4">
+                    <Card className="px-4 py-4 myCard">
                         <h4 className="fw-bold d-flex justify-content-center">Sign In</h4>
                         <p className="d-flex justify-content-center">
                             Not registered?&nbsp;
                             <Link
-                                className="link-primary fw-bold"
+                                className="link-primary fw-bold myLink"
                                 style={{ cursor: "pointer" }}
                                 to="/signup"
                             >
@@ -110,7 +110,7 @@ export const SignIn = () => {
 
                         <Button
                             style={{ fontSize: "10px", maxHeight: "30px" }}
-                            variant="primary"
+                            className="buttonPrimary"
                             size="sm"
                             type="submit"
                             disabled={!isDirty}
@@ -119,7 +119,7 @@ export const SignIn = () => {
                         </Button>
 
                         <Link
-                            className="d-flex justify-content-center link-primary mt-3"
+                            className="d-flex justify-content-center link-primary mt-3 myLink"
                             as={Link}
                             to="/forgotpassword"
                         >
