@@ -2,11 +2,12 @@ import { createUserWithEmailAndPassword, updateProfile, getAuth } from "firebase
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { db } from "../utils/firebase-config"
-import { Container, Form, Card, Button } from "react-bootstrap"
+import { Container, Form, Card, Button, Stack, Image } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { loginUser } from "../features/user/userSlice"
 import { Link, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form";
+import "../pages/SignUp.css";
 
 export const SignUp = () => {
 
@@ -65,17 +66,25 @@ export const SignUp = () => {
 
     return (
         <>
-            <Container
-                style={{ fontSize: "10px", maxWidth: "400px" }}
-                className="mt-4"
-            >
+            <Container className="formContainer">
+                <h6 className="text-center">Welcome to</h6>
+                <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+                    <Image
+                        src="public/img/rocket_white.svg"
+                        width="50"
+                        height="50"
+                        className="d-inline-block align-top"
+                        alt="apollo logo"
+                    />
+                    <h1 className="fw-bold">Apollo</h1>
+                </Stack>
                 <Form onSubmit={handleSubmit(handleSignUp)} noValidate>
-                    <Card className="px-4 py-4">
+                    <Card className="px-4 py-4 myCard">
                         <h4 className="fw-bold d-flex justify-content-center">Sign Up</h4>
                         <p className="d-flex justify-content-center">
                             Already registered?&nbsp;
                             <Link
-                                className="link-primary fw-bold"
+                                className="link-primary fw-bold myLink"
                                 style={{ cursor: "pointer" }}
                                 to="/signin"
                             >
@@ -83,13 +92,8 @@ export const SignUp = () => {
                             </Link>
                         </p>
 
-                        <p
-                            className="fw-bold mb-1"
-                            style={{ fontSize: "10px", margin: "0px" }}
-                        >
-                            First Name
-                        </p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1"> First Name </p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="text"
@@ -101,16 +105,11 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.firstname?.message}</p>
+                            <p className="errorMessage">{errors.firstname?.message}</p>
                         </Form.Group>
 
-                        <p
-                            className="fw-bold mb-1"
-                            style={{ fontSize: "10px", margin: "0px" }}
-                        >
-                            Last Name
-                        </p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1"> Last Name </p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="text"
@@ -122,16 +121,11 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.lastname?.message}</p>
+                            <p className="errorMessage">{errors.lastname?.message}</p>
                         </Form.Group>
 
-                        <p
-                            className="fw-bold mb-1"
-                            style={{ fontSize: "10px", margin: "0px" }}
-                        >
-                            Title
-                        </p>
-                        <Form.Group className="mb-3" controlId="progress">
+                        <p className="fw-bold mb-1"> Title </p>
+                        <Form.Group className="mb-2" controlId="progress">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="text"
@@ -143,16 +137,11 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.title?.message}</p>
+                            <p className="errorMessage">{errors.title?.message}</p>
                         </Form.Group>
 
-                        <p
-                            className="fw-bold mb-1"
-                            style={{ fontSize: "10px", margin: "0px" }}
-                        >
-                            Email Address
-                        </p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1"> Email Address </p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="text"
@@ -168,16 +157,11 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.email?.message}</p>
+                            <p className="errorMessage">{errors.email?.message}</p>
                         </Form.Group>
 
-                        <p
-                            className="fw-bold mb-1"
-                            style={{ fontSize: "10px", margin: "0px" }}
-                        >
-                            Password
-                        </p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1"> Password </p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="password"
@@ -193,16 +177,11 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.password?.message}</p>
+                            <p className="errorMessage">{errors.password?.message}</p>
                         </Form.Group>
 
-                        <p
-                            className="fw-bold mb-1"
-                            style={{ fontSize: "10px", margin: "0px" }}
-                        >
-                            Confirm Password
-                        </p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1"> Confirm Password </p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="password"
@@ -219,12 +198,11 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.passwordconfirm?.message}</p>
+                            <p className="errorMessage">{errors.passwordconfirm?.message}</p>
                         </Form.Group>
 
                         <Button
-                            style={{ fontSize: "10px", maxHeight: "30px" }}
-                            variant="primary"
+                            className="buttonPrimary"
                             size="sm"
                             type="submit"
                             disabled={!isDirty}
@@ -233,9 +211,7 @@ export const SignUp = () => {
                         </Button>
 
                         <Button
-                            style={{ fontSize: "10px", maxHeight: "30px" }}
-                            variant="secondary"
-                            className="mt-2"
+                            className="buttonSecondary"
                             size="sm"
                             as={Link}
                             to="/signin"
@@ -244,7 +220,7 @@ export const SignUp = () => {
                         </Button>
 
                         <Link
-                            className="d-flex justify-content-center link-primary mt-3"
+                            className="text-center mt-3 myLink"
                             as={Link}
                             to="/forgotpassword"
                         >
