@@ -1,22 +1,3 @@
 body {
 	background-color: #191a23;
 }
-
-.myCard {
-	background-color: #393b50;
-	color: #ffffff;
-}
-
-.buttonPrimary {
-	background-color: #6c79ff !important;
-	border: none;
-}
-
-.myLink {
-	color: #ffa500 !important;
-	text-decoration: none;
-}
-.myLink:hover {
-	color: #ffa500 !important;
-	text-decoration: none;
-}
