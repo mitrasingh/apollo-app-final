@@ -1,9 +1,10 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { Stack, Form, Modal, Button } from "react-bootstrap";
+import { Stack, Form, Modal, Button, Image } from "react-bootstrap";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import "../pages/ForgotPassword.css";
 
 export const ForgotPassword = () => {
     // React Hook Form
@@ -28,23 +29,24 @@ export const ForgotPassword = () => {
     };
 
     return (
-        <Container style={{ fontSize: "10px", maxWidth: "400px" }} className="mt-4">
+        <Container className="formContainer">
+            <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+                <Image
+                    src="public/img/rocket_white.svg"
+                    width="50"
+                    height="50"
+                    className="d-inline-block align-top"
+                    alt="apollo logo"
+                />
+                <h1 className="fw-bold">Apollo</h1>
+            </Stack>
             <Form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
                 <Modal.Body>
-                    <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
-                        <Modal.Title>Forgot your password?</Modal.Title>
+                    <Modal.Header>
+                        <Modal.Title className="textHeaderStyle mt-4">Forgot your password?</Modal.Title>
                     </Modal.Header>
 
-                    <p
-                        style={{
-                            fontSize: "13px",
-                            display: "flex",
-                            justifyContent: "center",
-                            marginTop: "5px",
-                        }}
-                    >
-                        {modalAlertMessage}
-                    </p>
+                    <p className="modalAertMessage text-center"> {modalAlertMessage} </p>
 
                     <Form.Group>
                         <Form.Control
@@ -71,9 +73,7 @@ export const ForgotPassword = () => {
                         <Stack>
                             {modalAlertMessage === "Email has been sent!" ? null : (
                                 <Button
-                                    style={{ fontSize: "10px", maxHeight: "30px" }}
-                                    className="ms-2"
-                                    variant="primary"
+                                    className="ms-2 buttonPrimary"
                                     size="sm"
                                     type="submit"
                                 >
@@ -84,8 +84,7 @@ export const ForgotPassword = () => {
                             {modalAlertMessage === "Email has been sent!" ? (
                                 <Button
                                     style={{ fontSize: "10px", maxHeight: "30px" }}
-                                    className="ms-2"
-                                    variant="primary"
+                                    className="ms-2 buttonPrimary"
                                     size="sm"
                                     as={Link}
                                     to="/"
@@ -95,8 +94,7 @@ export const ForgotPassword = () => {
                             ) : (
                                 <Button
                                     style={{ fontSize: "10px", maxHeight: "30px" }}
-                                    className="ms-2 mt-2"
-                                    variant="secondary"
+                                    className="ms-2 mt-2 buttonSecondary"
                                     size="sm"
                                     as={Link}
                                     to="/"
