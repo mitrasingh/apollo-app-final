@@ -7,6 +7,7 @@ import { loginUser } from "../features/user/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { useForm } from "react-hook-form";
+import "./SignIn.css";
 
 export const SignIn = () => {
     // Invokes error message if login fails
