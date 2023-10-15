@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Container, Form, Alert } from "react-bootstrap";
+import { Button, Card, Container, Form, Alert, Stack, Image } from "react-bootstrap";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -54,14 +54,22 @@ export const SignIn = () => {
                 </Alert>
             ) : null}
 
-            <Container
-                style={{ fontSize: "10px", maxWidth: "400px" }}
-                className="mt-4"
-            >
+            <Container className="formContainer">
+                <h6 className="text-center">Welcome to</h6>
+                <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+                    <Image
+                        src="public/img/rocket_white.svg"
+                        width="50"
+                        height="50"
+                        className="d-inline-block align-top"
+                        alt="apollo logo"
+                    />
+                    <h1 className="fw-bold">Apollo</h1>
+                </Stack>
                 <Form onSubmit={handleSubmit(handleLogin)} noValidate>
-                    <Card className="px-4 py-4 myCard">
-                        <h4 className="fw-bold d-flex justify-content-center">Sign In</h4>
-                        <p className="d-flex justify-content-center">
+                    <Card className="px-4 py-4 myCard" >
+                        <h4 className="fw-bold text-center">Sign In</h4>
+                        <p className="text-center">
                             Not registered?&nbsp;
                             <Link
                                 className="link-primary fw-bold myLink"
@@ -72,8 +80,8 @@ export const SignIn = () => {
                             </Link>
                         </p>
 
-                        <p className="fw-bold mb-1" style={{ fontSize: "10px", margin: "0px" }}>Email Address</p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1">Email Address</p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="text"
@@ -89,11 +97,11 @@ export const SignIn = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.email?.message}</p>
+                            <p className="errorMessage">{errors.email?.message}</p>
                         </Form.Group>
 
-                        <p className="fw-bold mb-1" style={{ fontSize: "10px", margin: "0px" }}>Password</p>
-                        <Form.Group className="mb-3">
+                        <p className="fw-bold mb-1">Password</p>
+                        <Form.Group className="mb-2">
                             <Form.Control
                                 style={{ fontSize: "10px" }}
                                 type="password"
@@ -105,11 +113,10 @@ export const SignIn = () => {
                                     }
                                 })}
                             />
-                            <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.password?.message}</p>
+                            <p className="errorMessage">{errors.password?.message}</p>
                         </Form.Group>
 
                         <Button
-                            style={{ fontSize: "10px", maxHeight: "30px" }}
                             className="buttonPrimary"
                             size="sm"
                             type="submit"
@@ -119,7 +126,7 @@ export const SignIn = () => {
                         </Button>
 
                         <Link
-                            className="d-flex justify-content-center link-primary mt-3 myLink"
+                            className="text-center mt-3 myLink"
                             as={Link}
                             to="/forgotpassword"
                         >
