@@ -1,0 +1,39 @@
+h1,
+h6 {
+	color: #ffffff !important;
+}
+
+.myCard {
+	background-color: #393b50;
+	color: #ffffff;
+	margin-top: 30px;
+}
+
+.buttonPrimary {
+	background-color: #6c79ff !important;
+	border: none;
+	font-size: 10px;
+}
+
+.myLink {
+	color: #ffa500 !important;
+	text-decoration: none;
+}
+.myLink:hover {
+	color: #ffa500 !important;
+	text-decoration: none;
+}
+
+.errorMessage {
+	margin-top: 6px;
+	margin-left: 2px;
+	font-size: 10px;
+	color: #fff;
+}
+
+.formContainer {
+	font-size: 10px;
+	max-width: 375px;
+	min-height: 100vh;
+	margin-top: 100px;
+}
