@@ -1,0 +1,16 @@
+body .formContainer {
+	font-size: 10px;
+	max-width: 375px;
+	max-height: 100vh;
+	margin-top: 100px;
+	color: #fff;
+}
+
+body .customCard {
+	color: #ffffff;
+}
+
+.customImage {
+	object-fit: "cover";
+	border-radius: "50%";
+}
