@@ -1,10 +1,11 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { Stack, Form, Modal, Button, Image } from "react-bootstrap";
+import { Stack, Form, Modal, Button, Image, Card } from "react-bootstrap";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import "../pages/ForgotPassword.css";
+import styles from "./ForgotPassword.module.css";
+
 
 export const ForgotPassword = () => {
     // React Hook Form
@@ -14,7 +15,7 @@ export const ForgotPassword = () => {
     const emailRegex =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    const [modalAlertMessage, setModalAlertMessage] = useState("A link will be sent to your email");
+    const [modalAlertMessage, setModalAlertMessage] = useState("Email will be sent to reset password");
 
     const handleForgotPassword = async (data) => {
         const auth = getAuth();
@@ -29,7 +30,8 @@ export const ForgotPassword = () => {
     };
 
     return (
-        <Container className="formContainer">
+        <Container className={styles.formContainer}>
+            <h6 className="text-center">Welcome to</h6>
             <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                 <Image
                     src="public/img/rocket_white.svg"
@@ -41,16 +43,13 @@ export const ForgotPassword = () => {
                 <h1 className="fw-bold">Apollo</h1>
             </Stack>
             <Form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
-                <Modal.Body>
-                    <Modal.Header>
-                        <Modal.Title className="textHeaderStyle mt-4">Forgot your password?</Modal.Title>
-                    </Modal.Header>
-
-                    <p className="modalAertMessage text-center"> {modalAlertMessage} </p>
+                <Card className={`mt-4 p-4 ${styles.customCard}`}>
+                    <h4 className="text-center">Forgot your password?</h4>
+                    <p className={styles.modalAertMessage}> {modalAlertMessage} </p>
 
                     <Form.Group>
                         <Form.Control
-                            style={{ fontSize: "10px" }}
+                            style={{ fontSize: "10px", marginTop: "10px" }}
                             type="text"
                             placeholder="Email"
                             {...register("email", {
@@ -64,16 +63,15 @@ export const ForgotPassword = () => {
                                 },
                             })}
                         />
-                        <p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-                            {errors.email?.message}
-                        </p>
+                        <p className="mt-2"> {errors.email?.message} </p>
                     </Form.Group>
 
                     <Modal.Footer>
                         <Stack>
                             {modalAlertMessage === "Email has been sent!" ? null : (
                                 <Button
-                                    className="ms-2 buttonPrimary"
+                                    className="fw-bold mt-2 text-light"
+                                    variant="primary"
                                     size="sm"
                                     type="submit"
                                 >
@@ -83,8 +81,8 @@ export const ForgotPassword = () => {
 
                             {modalAlertMessage === "Email has been sent!" ? (
                                 <Button
-                                    style={{ fontSize: "10px", maxHeight: "30px" }}
-                                    className="ms-2 buttonPrimary"
+                                    className="fw-bold mt-3 text-light"
+                                    variant="primary"
                                     size="sm"
                                     as={Link}
                                     to="/"
@@ -93,8 +91,8 @@ export const ForgotPassword = () => {
                                 </Button>
                             ) : (
                                 <Button
-                                    style={{ fontSize: "10px", maxHeight: "30px" }}
-                                    className="ms-2 mt-2 buttonSecondary"
+                                    className="fw-bold mt-3 text-light"
+                                    variant="secondary"
                                     size="sm"
                                     as={Link}
                                     to="/"
@@ -104,7 +102,7 @@ export const ForgotPassword = () => {
                             )}
                         </Stack>
                     </Modal.Footer>
-                </Modal.Body>
+                </Card>
             </Form>
         </Container>
     );
