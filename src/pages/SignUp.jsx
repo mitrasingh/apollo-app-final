@@ -202,7 +202,7 @@ export const SignUp = () => {
                         </Form.Group>
 
                         <Button
-                            className="fw-bold mt-1 fs-8 text-light"
+                            className="fw-bold mt-1 text-light"
                             variant="primary"
                             size="sm"
                             type="submit"
@@ -211,7 +211,7 @@ export const SignUp = () => {
                         </Button>
 
                         <Button
-                            className="fw-bold mt-3 fs-8 text-light"
+                            className="fw-bold mt-3 text-light"
                             variant="secondary"
                             size="sm"
                             as={Link}

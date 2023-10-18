@@ -118,7 +118,7 @@ export const SignIn = () => {
                         </Form.Group>
 
                         <Button
-                            className="fw-bold text-light fs-8"
+                            className="fw-bold text-light"
                             variant="primary"
                             size="sm"
                             type="submit"
