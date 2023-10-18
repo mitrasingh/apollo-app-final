@@ -7,6 +7,7 @@ import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
 import { Container, Form, Card, Button, Alert, Row, Col, Stack, Image } from "react-bootstrap";
+import styles from "./PhotoUpload.module.css";
 
 export const PhotoUpload = () => {
 	const [userPhoto, setUserPhoto] = useState(null); // Users' chosen file to upload
@@ -89,38 +90,40 @@ export const PhotoUpload = () => {
 				</Alert>
 			) : null}
 
-			<Container
-				style={{ maxWidth: "400px" }}
-				className="mt-4 text-center d-flex justify-content-center"
-			>
+			<Container className={styles.formContainer}>
+				<h6 className="text-center">Welcome to</h6>
+				<Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+					<Image
+						src="public/img/rocket_white.svg"
+						width="50"
+						height="50"
+						alt="apollo logo"
+					/>
+					<h1 className="fw-bold">Apollo</h1>
+				</Stack>
 				<Form>
-					<Card className="px-4 py-4">
+					<Card className={`mt-4 p-4 ${styles.customCard}`}>
 						<Row>
-							<h4 style={{ fontSize: "14px" }} className="fw-bold">
+							<h4 className="fw-bold text-center">
 								User Photo Upload
 							</h4>
 						</Row>
 
-						<Row className="mb-2 mt-2">
-							<Col>
-								<Stack direction="vertical">
-									<Image
-										style={{
-											height: "80px",
-											width: "80px",
-											objectFit: "cover",
-											borderRadius: "50%",
-										}}
-										src={photoURL}
-										roundedCircle
-									/>
-								</Stack>
+						<Row>
+							<Col className="mt-3 d-flex justify-content-center">
+								<Image
+									className={styles.customImage}
+									width="80px"
+									height="80px"
+									src={photoURL}
+									roundedCircle
+								/>
 							</Col>
 						</Row>
 
-						<Row className="mb-3">
+						<Row className="mt-1 text-center">
 							<Form.Group>
-								<Form.Label style={{ fontSize: "10px" }} className="mb-4">
+								<Form.Label className="mt-1 mb-3">
 									Current photo for {userState.firstName} {userState.lastName}
 								</Form.Label>
 								<Form.Control
@@ -131,37 +134,24 @@ export const PhotoUpload = () => {
 							</Form.Group>
 						</Row>
 
-						<Row className="justify-content-center">
-							<Button
-								style={{
-									fontSize: "10px",
-									maxHeight: "30px",
-									maxWidth: "130px",
-								}}
-								variant="secondary"
-								size="sm"
-								type="submit"
-								onClick={handlePreviewPhoto}
-							>
-								Preview Photo
-							</Button>
-						</Row>
+						<Button
+							className="fw-bold mt-4 text-light"
+							variant="secondary"
+							size="sm"
+							type="submit"
+							onClick={handlePreviewPhoto}
+						>
+							Preview Photo
+						</Button>
 
-						<Row className="justify-content-center">
-							<Button
-								style={{
-									fontSize: "10px",
-									maxHeight: "30px",
-									maxWidth: "130px",
-								}}
-								variant="primary"
-								className="mt-2"
-								size="sm"
-								onClick={handleAcceptPhoto}
-							>
-								Accept and Continue
-							</Button>
-						</Row>
+						<Button
+							className="fw-bold mt-3 text-light"
+							variant="primary"
+							size="sm"
+							onClick={handleAcceptPhoto}
+						>
+							Accept and Continue
+						</Button>
 					</Card>
 				</Form>
 			</Container>
