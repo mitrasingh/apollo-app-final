@@ -1,0 +1,22 @@
+html body {
+	background-color: #191a23;
+}
+
+body .customContainer {
+	font-size: 10px;
+	max-width: 375px;
+	max-height: 100vh;
+	margin-top: 100px;
+	color: #fff;
+}
+
+body .customCard {
+	color: #ffffff;
+}
+
+.customLink {
+	color: #ffa500;
+}
+.customLink:hover {
+	color: #ffa500;
+}
