@@ -7,14 +7,14 @@ import { useDispatch } from "react-redux"
 import { loginUser } from "../features/user/userSlice"
 import { Link, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form";
-import "../pages/SignUp.css";
+import styles from "./SignUp.module.css";
 
 export const SignUp = () => {
 
     // React Hook Form
     const form = useForm({ mode: "onChange" });
     const { register, handleSubmit, watch, formState } = form;
-    const { errors, isDirty } = formState;
+    const { errors } = formState;
     const watchPassword = watch("password") // Observes password field (to match confirm password)
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -66,7 +66,7 @@ export const SignUp = () => {
 
     return (
         <>
-            <Container className="formContainer">
+            <Container className={styles.formContainer}>
                 <h6 className="text-center">Welcome to</h6>
                 <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                     <Image
@@ -79,12 +79,12 @@ export const SignUp = () => {
                     <h1 className="fw-bold">Apollo</h1>
                 </Stack>
                 <Form onSubmit={handleSubmit(handleSignUp)} noValidate>
-                    <Card className="px-4 py-4 myCard">
+                    <Card className={`mt-4 p-4 ${styles.customCard}`}>
                         <h4 className="fw-bold d-flex justify-content-center">Sign Up</h4>
                         <p className="d-flex justify-content-center">
                             Already registered?&nbsp;
                             <Link
-                                className="link-primary fw-bold myLink"
+                                className={`fw-bold text-decoration-none ${styles.customLink}`}
                                 style={{ cursor: "pointer" }}
                                 to="/signin"
                             >
@@ -105,7 +105,7 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.firstname?.message}</p>
+                            <p className="mt-2">{errors.firstname?.message}</p>
                         </Form.Group>
 
                         <p className="fw-bold mb-1"> Last Name </p>
@@ -121,7 +121,7 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.lastname?.message}</p>
+                            <p className="mt-2">{errors.lastname?.message}</p>
                         </Form.Group>
 
                         <p className="fw-bold mb-1"> Title </p>
@@ -137,7 +137,7 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.title?.message}</p>
+                            <p className="mt-2">{errors.title?.message}</p>
                         </Form.Group>
 
                         <p className="fw-bold mb-1"> Email Address </p>
@@ -157,7 +157,7 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.email?.message}</p>
+                            <p className="mt-2">{errors.email?.message}</p>
                         </Form.Group>
 
                         <p className="fw-bold mb-1"> Password </p>
@@ -177,7 +177,7 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.password?.message}</p>
+                            <p className="mt-2">{errors.password?.message}</p>
                         </Form.Group>
 
                         <p className="fw-bold mb-1"> Confirm Password </p>
@@ -198,20 +198,21 @@ export const SignUp = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.passwordconfirm?.message}</p>
+                            <p className="mt-2">{errors.passwordconfirm?.message}</p>
                         </Form.Group>
 
                         <Button
-                            className="buttonPrimary"
+                            className="fw-bold mt-1 fs-8 text-light"
+                            variant="primary"
                             size="sm"
                             type="submit"
-                            disabled={!isDirty}
                         >
                             Sign Up
                         </Button>
 
                         <Button
-                            className="buttonSecondary"
+                            className="fw-bold mt-3 fs-8 text-light"
+                            variant="secondary"
                             size="sm"
                             as={Link}
                             to="/signin"
@@ -220,7 +221,7 @@ export const SignUp = () => {
                         </Button>
 
                         <Link
-                            className="text-center mt-3 myLink"
+                            className={`text-decoration-none mt-3 text-center ${styles.customLink}`}
                             as={Link}
                             to="/forgotpassword"
                         >

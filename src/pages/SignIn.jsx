@@ -7,7 +7,7 @@ import { loginUser } from "../features/user/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { useForm } from "react-hook-form";
-import "./SignIn.css";
+import styles from "./SignIn.module.css";
 
 export const SignIn = () => {
     // Invokes error message if login fails
@@ -17,7 +17,7 @@ export const SignIn = () => {
     // React Hook Form
     const form = useForm();
     const { register, handleSubmit, formState } = form;
-    const { errors, isDirty } = formState;
+    const { errors } = formState;
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     const auth = getAuth();
@@ -55,7 +55,7 @@ export const SignIn = () => {
                 </Alert>
             ) : null}
 
-            <Container className="formContainer">
+            <Container className={styles.customContainer}>
                 <h6 className="text-center">Welcome to</h6>
                 <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                     <Image
@@ -68,12 +68,12 @@ export const SignIn = () => {
                     <h1 className="fw-bold">Apollo</h1>
                 </Stack>
                 <Form onSubmit={handleSubmit(handleLogin)} noValidate>
-                    <Card className="px-4 py-4 myCard" >
+                    <Card className={`mt-4 p-4 ${styles.customCard}`} >
                         <h4 className="fw-bold text-center">Sign In</h4>
                         <p className="text-center">
                             Not registered?&nbsp;
                             <Link
-                                className="link-primary fw-bold myLink"
+                                className={`fw-bold text-decoration-none ${styles.customLink}`}
                                 style={{ cursor: "pointer" }}
                                 to="/signup"
                             >
@@ -98,7 +98,7 @@ export const SignIn = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.email?.message}</p>
+                            <p className="mt-2">{errors.email?.message}</p>
                         </Form.Group>
 
                         <p className="fw-bold mb-1">Password</p>
@@ -114,20 +114,20 @@ export const SignIn = () => {
                                     }
                                 })}
                             />
-                            <p className="errorMessage">{errors.password?.message}</p>
+                            <p className="mt-2">{errors.password?.message}</p>
                         </Form.Group>
 
                         <Button
-                            className="buttonPrimary"
+                            className="fw-bold text-light fs-8"
+                            variant="primary"
                             size="sm"
                             type="submit"
-                            disabled={!isDirty}
                         >
                             Login
                         </Button>
 
                         <Link
-                            className="text-center mt-3 myLink"
+                            className={`text-decoration-none mt-3 text-center ${styles.customLink}`}
                             as={Link}
                             to="/forgotpassword"
                         >
@@ -136,7 +136,7 @@ export const SignIn = () => {
 
                     </Card>
                 </Form>
-            </Container>
+            </Container >
         </>
     );
 };
