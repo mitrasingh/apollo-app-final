@@ -1,80 +1,67 @@
-import { Col, Container, Nav, NavDropdown, Navbar, Image, Stack } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { auth } from '../utils/firebase-config'
-import { logoutUser } from '../features/user/userSlice'
-import { signOut } from 'firebase/auth'
+import { Container, Nav, Navbar, Image, Stack, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../utils/firebase-config";
+import { logoutUser } from "../features/user/userSlice";
+import { signOut } from "firebase/auth";
+import styles from "./Navigation.module.css";
 
 export const Navigation = () => {
     // Fetching user values from Redux
-    const user = useSelector((state) => state.user)
+    const user = useSelector((state) => state.user);
 
     // Adding a timestamp to avoid cache settings, allowing photo to display most up-to-date version
-    const userImage = `${user.userPhoto}?timestamp=${Date.now()}`
+    const userImage = `${user.userPhoto}?timestamp=${Date.now()}`;
 
     // Logs user out and redirects to sign in page
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleLogout = () => {
-        dispatch(logoutUser())
-        signOut(auth)
-        navigate("/signin")
-    }
+        dispatch(logoutUser());
+        signOut(auth);
+        navigate("/signin");
+    };
 
     return (
-        <Navbar bg="light" variant="light" className="px-5">
-            {/* <Navbar collapseOnSelect expand="sm" bg="light" variant="light" className="px-5"> */}
-            {/* <Navbar.Toggle aria-controls="navbarScroll" data-bs-target="#navbarScroll" /> */}
+        <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.myNav}`}>
             <Container>
-
-                <Col className="d-flex justify-content-start">
+                <Navbar.Brand className="fw-bold fs-4">
+                    <Image
+                        className="pr-2"
+                        as={Link}
+                        to="/"
+                        src="public/img/rocket_white.svg"
+                        width="40"
+                        height="40"
+                        alt="apollo logo"
+                    />{" "}
+                    Apollo
+                </Navbar.Brand>
+                <Form className="order-lg-last">
                     <Stack direction="horizontal">
-                        <Navbar.Brand as={Link} to="/">
-                            <img
-                                src="public/img/rocket.svg"
-                                width="30"
-                                height="30"
-                                className="d-inline-block align-top"
-                                alt="apollo logo"
-                            />
-                        </Navbar.Brand>
-                        {/* <Navbar.Brand style={{ fontSize: "12px" }} className="fw-bold" as={Link} to="/">Apollo</Navbar.Brand> */}
-                    </Stack>
-                </Col>
-
-                <Col md="auto" className="d-flex justify-content-center text-nowrap">
-                    <Navbar.Collapse id="navbarScroll">
-                        <Nav style={{ fontSize: "10px" }} className="fw-bold mt-1">
-                            <Nav.Link as={Link} to="/" className="me-1">Home</Nav.Link>
-                            <Nav.Link as={Link} to="/createtask">Create Task</Nav.Link>
-                            <Nav.Link as={Link} to="/shoutboard" className="ms-1">Shout Board</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Col>
-
-                <Col className="d-flex justify-content-end">
-                    <Nav>
-                        <NavDropdown drop="down" title="" menuVariant="light">
-                            <NavDropdown.Item style={{ fontSize: "9px" }} as={Link} to="/profile">Edit Profile</NavDropdown.Item>
-                            <NavDropdown.Item style={{ fontSize: "9px" }} onClick={handleLogout}>Logout</NavDropdown.Item>
-                        </NavDropdown>
-                        <Navbar.Brand>
+                        <Link to="/profile">
                             <Image
-                                style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    objectFit: "cover",
-                                    borderRadius: "50%"
-                                }}
+                                className={styles.customImage}
+                                height="35px"
+                                width="35px"
                                 src={userImage}
-                                roundedCircle />
-                        </Navbar.Brand>
-                        {/* <Nav.Link style={{ fontSize: "9px" }} className="fw-bold pt-3 ps-0">Hi, <strong>{user.firstName}</strong></Nav.Link> */}
+                                roundedCircle
+                            />
+                        </Link>
+                        <p className="ms-2 mt-3">Hi, {user.firstName}</p>
+                    </Stack>
+                </Form>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav" className="text-center">
+                    <Nav className="mx-auto">
+                        <Nav.Link eventKey="1" as={Link} to="/" className="me-1">Home</Nav.Link>
+                        <Nav.Link eventKey="2" as={Link} to="/createtask">Create Task</Nav.Link>
+                        <Nav.Link eventKey="3" as={Link} to="/shoutboard" className="ms-1">Shout Board</Nav.Link>
+                        <Nav.Link eventKey="4" onClick={handleLogout}>Logout</Nav.Link>
                     </Nav>
-                </Col>
-
+                </Navbar.Collapse>
             </Container>
         </Navbar>
-    )
-}
+    );
+};
 
