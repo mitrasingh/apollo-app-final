@@ -23,7 +23,7 @@ export const Navigation = () => {
     };
 
     return (
-        <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.myNav}`}>
+        <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.customNav}`}>
             <Container>
                 <Navbar.Brand className="fw-bold fs-4">
                     <Image
@@ -48,7 +48,7 @@ export const Navigation = () => {
                                 roundedCircle
                             />
                         </Link>
-                        <p className="ms-2 mt-3">Hi, {user.firstName}</p>
+                        <p className={`ms-2 mt-3 ${styles.customGreeting}`}>Hi, {user.firstName}</p>
                     </Stack>
                 </Form>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -56,7 +56,7 @@ export const Navigation = () => {
                     <Nav className="mx-auto">
                         <Nav.Link eventKey="1" as={Link} to="/" className="me-1">Home</Nav.Link>
                         <Nav.Link eventKey="2" as={Link} to="/createtask">Create Task</Nav.Link>
-                        <Nav.Link eventKey="3" as={Link} to="/shoutboard" className="ms-1">Shout Board</Nav.Link>
+                        <Nav.Link eventKey="3" as={Link} to="/shoutboard" >Shout Board</Nav.Link>
                         <Nav.Link eventKey="4" onClick={handleLogout}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

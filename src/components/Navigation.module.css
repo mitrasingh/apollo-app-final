@@ -1,5 +1,5 @@
-.myNav {
-	border-bottom: 0.5px solid #42488a;
+.customNav {
+	border-bottom: 0.5px solid #33386b;
 }
 
 .customImage {
@@ -12,7 +12,7 @@
 	flex-direction: row-reverse;
 }
 
-p {
+.customGreeting {
 	font-size: 13px;
-	color: #fff;
+	color: #c3c3c3;
 }
