@@ -9,8 +9,17 @@ $navbar-toggler-focus-width: none;
 $navbar-toggler-border-radius: 0.15rem;
 $nav-link-font-size: 13px;
 
+$card-color: #bcbcbc;
+$card-border-color: #35384a;
+$card-bg: #20212e;
+
 $dropdown-min-width: 5.5rem;
 $dropdown-font-size: 9px;
 $dropdown-dark-bg: #393b50;
+
+$input-bg: #393b50;
+$input-color: #fff;
+$input-border-width: none;
+$input-placeholder-color: #fff;
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
