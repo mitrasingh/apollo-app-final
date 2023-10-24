@@ -14,17 +14,17 @@ export const SearchBar = ({ userInputSearchBar, filterSearchHandle }) => { // Pr
     }
 
     return (
-        <Container className="mt-4">
+        <Container className="mt-4 mb-3">
             <Row className="justify-content-center">
-                <Col sm={5}>
+                <Col lg={5} md={8} sm={8}>
                     <Form className="d-flex">
                         <InputGroup>
-                            <Button variant="light">
+                            <Button >
                                 <img
-                                    src="public/img/search.svg"
-                                    width="30"
-                                    height="30"
-                                    className="d-inline-block align-top"
+                                    className="mb-1"
+                                    src="public/img/search_new.svg"
+                                    width="20"
+                                    height="20"
                                     alt="Search bar button"
                                     onClick={filterSearchHandle}
                                 />
