@@ -70,7 +70,7 @@ export const ForgotPassword = () => {
                         <Stack>
                             {modalAlertMessage === "Email has been sent!" ? null : (
                                 <Button
-                                    className="fw-bold mt-2 text-light"
+                                    className="fw-bold mt-2 fs-5 text-light"
                                     variant="primary"
                                     size="sm"
                                     type="submit"
@@ -81,7 +81,7 @@ export const ForgotPassword = () => {
 
                             {modalAlertMessage === "Email has been sent!" ? (
                                 <Button
-                                    className="fw-bold mt-3 text-light"
+                                    className="fw-bold mt-3 fs-5 text-light"
                                     variant="primary"
                                     size="sm"
                                     as={Link}
@@ -91,7 +91,7 @@ export const ForgotPassword = () => {
                                 </Button>
                             ) : (
                                 <Button
-                                    className="fw-bold mt-3 text-light"
+                                    className="fw-bold mt-3 fs-5 text-light"
                                     variant="secondary"
                                     size="sm"
                                     as={Link}
