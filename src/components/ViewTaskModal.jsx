@@ -4,6 +4,7 @@ import { db } from "../utils/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import { useState } from "react";
+import styles from "./ViewTaskModal.module.css";
 
 export const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creatorName }) => {
 
@@ -37,55 +38,41 @@ export const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, 
 
 	return (
 		<>
-			<Modal show={isViewModal} onHide={handleClose}>
+			<Modal show={isViewModal} onHide={handleClose} className="mt-4">
 				<Modal.Header closeButton>
-					<Modal.Title style={{ fontSize: "15px" }} className="fw-bold">
+					<Modal.Title className="fw-bold fs-3">
 						{taskName}
 					</Modal.Title>
 				</Modal.Header>
 
-				<Modal.Body style={{ fontSize: "11px" }}>
-					<p className="fw-bold" style={{ margin: "0px" }}>
-						Description of Task
-					</p>
+				<Modal.Body className="fs-6">
+					<p className={`fw-bold ${styles.detailText}`}>Description of Task </p>
 					<p>{descriptionTask}</p>
 
-					<p className="fw-bold" style={{ margin: "0px" }}>
-						Status of Project
-					</p>
+					<p className={`fw-bold ${styles.detailText}`}>Status of Project</p>
 					<p>{statusProject}</p>
 
-					<p className="fw-bold" style={{ margin: "0px" }}>
-						Percent Completed
-					</p>
+					<p className={`fw-bold ${styles.detailText}`}>Percent Completed</p>
 					<p>{priorityLevel}</p>
 
-					<p className="fw-bold" style={{ margin: "0px" }}>
-						Due Date
-					</p>
+					<p className={`fw-bold ${styles.detailText}`}>Due Date</p>
 					<p>{dueDate}</p>
 
 					<Stack direction="horizontal">
 						<Image
-							style={{
-								height: "35px",
-								width: "35px",
-								objectFit: "cover",
-								borderRadius: "50%",
-							}}
-							src={creatorPhoto} // user photo will be placed here
+							className={styles.customImage}
+							height="35px"
+							width="35px"
+							src={creatorPhoto}
 							roundedCircle
 						/>
-						<p style={{ fontSize: "10px" }} className="mt-3 ms-2">
-							Created by: {creatorName}
-						</p>
+						<p className="mt-3 ms-2 fs-6">Created by: {creatorName}</p>
 					</Stack>
 				</Modal.Body>
 
 				<Modal.Footer>
 					<Button
-						style={{ fontSize: "10px", maxHeight: "30px" }}
-						className="ms-2"
+						className="fs-6 text-light fw-bold"
 						variant="primary"
 						size="sm"
 						onClick={handleClose}
