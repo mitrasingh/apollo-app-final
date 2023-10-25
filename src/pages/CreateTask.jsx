@@ -1,4 +1,4 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { collection, addDoc } from "firebase/firestore";
@@ -6,6 +6,7 @@ import { db } from "../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import * as dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
+import styles from "./CreateTask.module.css";
 
 export const CreateTask = () => {
 	// React Hook Form
@@ -41,14 +42,13 @@ export const CreateTask = () => {
 	};
 
 	return (
-		<Container className="mt-4">
+		<Container className={`text-light fs-6 ${styles.formContainer}`}>
 			<Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
-				<Form.Group className="mb-3">
-					<Form.Label style={{ fontSize: "10px" }} className="fw-bold">
-						Task name
-					</Form.Label>
+				<Form.Label className="fs-2 fw-bold d-flex justify-content-center">Create A Task</Form.Label>
+				<Form.Group>
+					<Form.Label className="fw-bold mt-3">Task name</Form.Label>
 					<Form.Control
-						style={{ fontSize: "10px" }}
+						className="fs-6 shadow-none"
 						maxLength={50}
 						type="text"
 						{...register("taskname", {
@@ -59,17 +59,15 @@ export const CreateTask = () => {
 						})}
 						placeholder="Enter the name of task"
 					/>
-					<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-						{errors.taskname?.message}
-					</p>
+					<p className="mt-2">{errors.taskname?.message}</p>
 				</Form.Group>
 
 				<Form.Group className="mb-3">
-					<Form.Label style={{ fontSize: "10px" }} className="fw-bold">
+					<Form.Label className="fw-bold">
 						Description of task
 					</Form.Label>
 					<Form.Control
-						style={{ fontSize: "10px", resize: "none" }}
+						className="fs-6 shadow-none"
 						as="textarea"
 						rows={3}
 						maxLength={450}
@@ -82,17 +80,15 @@ export const CreateTask = () => {
 						})}
 						placeholder="Give a short description of the task you are requesting."
 					/>
-					<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-						{errors.taskdescription?.message}
-					</p>
+					<p className="mt-2">{errors.taskdescription?.message}</p>
 				</Form.Group>
 
 				<Form.Group className="mb-3">
-					<Form.Label style={{ fontSize: "10px" }} className="fw-bold">
+					<Form.Label className="fw-bold">
 						What is the status of this project?
 					</Form.Label>
 					<Form.Select
-						style={{ fontSize: "10px" }}
+						className="fs-6 shadow-none"
 						aria-label="Default select example"
 						{...register("taskstatus", {
 							required: {
@@ -107,17 +103,15 @@ export const CreateTask = () => {
 						<option value="Done">Done</option>
 						<option value="Cancelled">Cancelled</option>
 					</Form.Select>
-					<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-						{errors.taskstatus?.message}
-					</p>
+					<p className="mt-2">{errors.taskstatus?.message}</p>
 				</Form.Group>
 
 				<Form.Group className="mb-3">
-					<Form.Label style={{ fontSize: "10px" }} className="fw-bold">
+					<Form.Label className="fw-bold">
 						What is the priority level of this project?
 					</Form.Label>
 					<Form.Select
-						style={{ fontSize: "10px" }}
+						className="fs-6 shadow-none"
 						aria-label="Default select example"
 						{...register("taskpriority", {
 							required: {
@@ -132,17 +126,15 @@ export const CreateTask = () => {
 						<option value="Medium">Medium</option>
 						<option value="Low">Low</option>
 					</Form.Select>
-					<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-						{errors.taskpriority?.message}
-					</p>
+					<p className="mt-2">{errors.taskpriority?.message}</p>
 				</Form.Group>
 
 				<Form.Group className="mb-3">
-					<Form.Label style={{ fontSize: "10px" }} className="fw-bold">
+					<Form.Label className="fw-bold">
 						Due date
 					</Form.Label>
 					<Form.Control
-						style={{ fontSize: "10px" }}
+						className="fs-6 shadow-none"
 						type="date"
 						{...register("taskduedate", {
 							valueAsDate: true,
@@ -153,29 +145,29 @@ export const CreateTask = () => {
 						})}
 						placeholder="mm/dd/yyyy"
 					/>
-					<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-						{errors.taskduedate?.message}
-					</p>
+					<p className="mt-2">{errors.taskduedate?.message}</p>
 				</Form.Group>
+				<Row>
+					<Col className="d-flex justify-content-end">
+						<Button
+							className={`mt-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+							variant="secondary"
+							size="sm"
+							href="/"
+						>
+							Cancel
+						</Button>
 
-				<Button
-					style={{ fontSize: "10px", maxHeight: "30px" }}
-					variant="secondary"
-					size="sm"
-					href="/"
-				>
-					Cancel
-				</Button>
-
-				<Button
-					style={{ fontSize: "10px", maxHeight: "30px" }}
-					className="ms-2"
-					variant="primary"
-					size="sm"
-					type="submit"
-				>
-					Submit
-				</Button>
+						<Button
+							className={`ms-2 mt-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+							variant="primary"
+							size="sm"
+							type="submit"
+						>
+							Submit
+						</Button>
+					</Col>
+				</Row>
 			</Form>
 		</Container>
 	);
