@@ -15,7 +15,7 @@ export const ForgotPassword = () => {
     const emailRegex =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    const [modalAlertMessage, setModalAlertMessage] = useState("Email will be sent to reset password");
+    const [modalAlertMessage, setModalAlertMessage] = useState("Once submitted, an email will be sent.");
 
     const handleForgotPassword = async (data) => {
         const auth = getAuth();
@@ -31,7 +31,7 @@ export const ForgotPassword = () => {
 
     return (
         <Container className={styles.formContainer}>
-            <h6 className="text-center">Welcome to</h6>
+            <h6 className="text-center text-light">Welcome to</h6>
             <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                 <Image
                     src="public/img/rocket_white.svg"
@@ -40,12 +40,12 @@ export const ForgotPassword = () => {
                     className="d-inline-block align-top"
                     alt="apollo logo"
                 />
-                <h1 className="fw-bold">Apollo</h1>
+                <h1 className="fw-bold text-light">Apollo</h1>
             </Stack>
             <Form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
                 <Card className={`mt-4 p-4 ${styles.customCard}`}>
                     <h4 className="text-center">Forgot your password?</h4>
-                    <p className={styles.modalAertMessage}> {modalAlertMessage} </p>
+                    <p className={`fs-5 mt-2 ${styles.modalAertMessage}`}> {modalAlertMessage} </p>
 
                     <Form.Group>
                         <Form.Control
