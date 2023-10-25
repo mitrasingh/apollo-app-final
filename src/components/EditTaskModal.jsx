@@ -67,7 +67,7 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 
 	return (
 		<>
-			<Modal show={isEditModal} onHide={handleEditModalClose}>
+			<Modal show={isEditModal} onHide={handleEditModalClose} className="mt-4">
 				<Form onSubmit={handleSubmit(handleUpdate)} noValidate>
 					<Modal.Header closeButton>
 						<Modal.Title className="fw-bold fs-3">
