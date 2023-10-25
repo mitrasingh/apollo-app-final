@@ -6,6 +6,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form"
 import * as dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
+import styles from "./EditTaskModal.module.css";
 
 // Props are from TaskCard.jsx
 export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto, creatorName, refreshTasksHandle, }) => {
@@ -69,18 +70,18 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 			<Modal show={isEditModal} onHide={handleEditModalClose}>
 				<Form onSubmit={handleSubmit(handleUpdate)} noValidate>
 					<Modal.Header closeButton>
-						<Modal.Title style={{ fontSize: "15px" }} className="fw-bold">
+						<Modal.Title className="fw-bold fs-3">
 							Edit Task
 						</Modal.Title>
 					</Modal.Header>
 
-					<Modal.Body style={{ fontSize: "11px" }}>
+					<Modal.Body>
 						<Form.Group className="mb-3">
-							<Form.Label className="fw-bold" style={{ margin: "2px" }}>
+							<Form.Label className="fw-bold fs-6">
 								Current Task Name
 							</Form.Label>
 							<Form.Control
-								style={{ fontSize: "10px" }}
+								className="fs-6 shadow-none"
 								type="text"
 								{...register("taskname", {
 									required: {
@@ -89,15 +90,15 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 									}
 								})}
 							/>
-							<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.taskname?.message}</p>
+							<p className="fs-6 mt-1">{errors.taskname?.message}</p>
 						</Form.Group>
 
 						<Form.Group className="mb-3">
-							<Form.Label className="fw-bold" style={{ margin: "2px" }}>
+							<Form.Label className="fw-bold fs-6">
 								Description of Task
 							</Form.Label>
 							<Form.Control
-								style={{ fontSize: "10px" }}
+								className="fs-6 shadow-none"
 								type="text"
 								as="textarea"
 								rows={3}
@@ -108,15 +109,15 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 									}
 								})}
 							/>
-							<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.taskdescription?.message}</p>
+							<p className="fs-6 mt-1">{errors.taskdescription?.message}</p>
 						</Form.Group>
 
 						<Form.Group className="mb-3">
-							<Form.Label className="fw-bold" style={{ margin: "2px" }}>
+							<Form.Label className="fw-bold fs-6">
 								Status of Project
 							</Form.Label>
 							<Form.Select
-								style={{ fontSize: "10px" }}
+								className="fs-6 shadow-none"
 								aria-label="Default select example"
 								{...register("taskstatus", {
 									required: true,
@@ -129,15 +130,15 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 								<option value="Done">Done</option>
 								<option value="Cancelled">Cancelled</option>
 							</Form.Select>
-							<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.taskstatus?.message}</p>
+							<p className="fs-6 mt-1">{errors.taskstatus?.message}</p>
 						</Form.Group>
 
 						<Form.Group className="mb-3" controlId="progress">
-							<Form.Label style={{ fontSize: "10px" }} className="fw-bold">
+							<Form.Label className="fw-bold fs-6">
 								What is the priority level of this project?
 							</Form.Label>
 							<Form.Select
-								style={{ fontSize: "10px" }}
+								className="fs-6 shadow-none"
 								aria-label="Default select example"
 								{...register("taskpriority", {
 									required: true,
@@ -150,15 +151,15 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 								<option value="Medium">Medium</option>
 								<option value="Low">Low</option>
 							</Form.Select>
-							<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.taskpriority?.message}</p>
+							<p className="fs-6 mt-1">{errors.taskpriority?.message}</p>
 						</Form.Group>
 
 						<Form.Group className="mb-3">
-							<Form.Label className="fw-bold" style={{ margin: "2px" }}>
+							<Form.Label className="fw-bold fs-6">
 								Due Date
 							</Form.Label>
 							<Form.Control
-								style={{ fontSize: "10px" }}
+								className="fs-6 shadow-none"
 								type="date"
 								{...register("taskduedate", {
 									valueAsDate: true,
@@ -168,21 +169,18 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 									}
 								})}
 							/>
-							<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.taskduedate?.message}</p>
+							<p className="fs-6 mt-1">{errors.taskduedate?.message}</p>
 						</Form.Group>
 
 						<Stack direction="horizontal">
 							<Image
-								style={{
-									height: "35px",
-									width: "35px",
-									objectFit: "cover",
-									borderRadius: "50%",
-								}}
+								className={styles.customImage}
+								height="35px"
+								width="35px"
 								src={creatorPhoto}
 								roundedCircle
 							/>
-							<p style={{ fontSize: "10px" }} className="mt-3 ms-2">
+							<p className="mt-3 fs-6 ms-2">
 								Created by: {creatorName}
 							</p>
 						</Stack>
@@ -190,8 +188,7 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 
 					<Modal.Footer>
 						<Button
-							style={{ fontSize: "10px", maxHeight: "30px" }}
-							className="ms-2"
+							className="ms-2 fs-6 fw-bold text-light"
 							variant="secondary"
 							size="sm"
 							onClick={handleEditModalClose}
@@ -200,8 +197,7 @@ export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creat
 						</Button>
 
 						<Button
-							style={{ fontSize: "10px", maxHeight: "30px" }}
-							className="ms-2"
+							className="ms-2 fs-6 fw-bold text-light"
 							variant="primary"
 							size="sm"
 							type="submit"
