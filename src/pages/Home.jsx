@@ -124,7 +124,7 @@ export const Home = () => {
 					</Row> */}
 
 					{taskArrayFilter.length === 0 && (
-						<p className="mt-4 d-flex justify-content-center">No tasks found</p>
+						<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
 					)}
 
 					{taskArrayFilter.map((task) => {
