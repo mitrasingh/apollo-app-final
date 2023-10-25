@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-export const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type, }) => {
+export const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
 
 	const handleClose = () => setIsVisible(false); // Closes modal component
 
@@ -9,16 +9,16 @@ export const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type, }) =>
 		<>
 			<Modal show={isVisible} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title style={{ fontSize: "11px" }}>Confirm Delete</Modal.Title>
+					<Modal.Title className="fs-3 fw-bold">Confirm Delete</Modal.Title>
 				</Modal.Header>
-				<Modal.Body style={{ fontSize: "9px" }}>
+				<Modal.Body className="fs-5">
 					Are you sure you want to delete this {type}?
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
+					<Button className="fs-6 text-light fw-bold" variant="secondary" onClick={handleClose}>
 						Cancel
 					</Button>
-					<Button variant="primary" onClick={handleDelete}>
+					<Button className="fs-6 text-light fw-bold" variant="primary" onClick={handleDelete}>
 						Delete
 					</Button>
 				</Modal.Footer>
