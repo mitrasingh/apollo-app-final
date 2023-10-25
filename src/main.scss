@@ -1,13 +1,17 @@
 $primary: #6c79ff;
 $secondary: #808080;
-$card-bg: #393b50;
 $info: #191a23;
+$warning: #ffa500;
 
 $h6-font-size: 10px;
 $h5-font-size: 12px;
+$h4-font-size: 14px;
+$h3-font-size: 16px;
+$h2-font-size: 18px;
 
 $btn-color: #fff;
 $btn-font-size: 9px;
+$btn-close-color: #fff;
 
 $navbar-dark-color: #fff;
 $navbar-toggler-font-size: 0.9rem;
@@ -15,17 +19,27 @@ $navbar-toggler-focus-width: none;
 $navbar-toggler-border-radius: 0.15rem;
 $nav-link-font-size: 13px;
 
-$card-color: #bcbcbc;
+$card-color: #dad9d9;
 $card-border-color: #35384a;
 $card-bg: #20212e;
 
+$modal-content-bg: #20212e;
+$modal-content-color: #dad9d9;
+$modal-content-border-color: #35384a;
+
 $dropdown-min-width: 5.5rem;
-$dropdown-font-size: 9px;
-$dropdown-dark-bg: #393b50;
+$dropdown-font-size: 10px;
+$dropdown-bg: #20212e;
+$dropdown-color: #dad9d9;
+$dropdown-link-color: #fff;
+$dropdown-link-hover-bg: #6c79ff;
+$dropdown-divider-bg: #dad9d9;
+$dropdown-border-color: #35384a;
 
 $input-bg: #393b50;
 $input-color: #fff;
-$input-border-width: none;
 $input-placeholder-color: #fff;
+$input-border-color: #35384a;
+$input-focus-border-color: #cacaca;
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
