@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { DeleteModal } from "./DeleteModal";
 import styles from "./TaskCard.module.css";
 
-
 export const TaskCard = (props) => {
 
 	// Props from Home.jsx
@@ -77,11 +76,11 @@ export const TaskCard = (props) => {
 		<>
 			<Container className="mt-3">
 				<Card>
-					<Card.Header style={{ fontSize: "9px", height: "30px", color: "#FFF" }}>
+					<Card.Header className="fs-6 text-light">
 						<Row>
 							<Col>Task ID: {task.taskId}</Col>
 							{task.userId === currentUser.userId ? (
-								<Col style={{ fontSize: "10px", color: "red" }} className="d-flex justify-content-end fw-bold">
+								<Col className="d-flex justify-content-end fw-bold">
 									<Image
 										onClick={handleShow}
 										className={styles.cursorPointer}
@@ -90,22 +89,21 @@ export const TaskCard = (props) => {
 										height="15"
 										alt="trash icon"
 									/>
-									{/* <NavLink onClick={handleShow}>Delete Task</NavLink> */}
 								</Col>
 							) : null}
-							{/* DELETE MODAL AND PROPS USED IN COMMENTCARD, AVOID ANY NAME CHANGES */}
+							{/* DELETE MODAL AND PROPS USED IN COMMENTCARD.JSX, AVOID ANY NAME CHANGES */}
 							{isVisible ? (
 								<DeleteModal
 									handleDelete={handleDeleteTaskCard}
 									setIsVisible={setIsVisible}
 									isVisible={isVisible}
-									type={"task"} // Allowed to edit type prop name etc: "task" => "comment"
+									type={"task"} // Allowed to edit type prop name ie, "task" and "comment"
 								/>
 							) : null}
 						</Row>
 					</Card.Header>
 					<Card.Body>
-						<Row style={{ fontSize: "9px" }} className="fw-bold">
+						<Row className="fw-bold fs-6">
 							<Col xs lg="5">
 								Name
 							</Col>
@@ -119,7 +117,7 @@ export const TaskCard = (props) => {
 								Due
 							</Col>
 						</Row>
-						<Row style={{ fontSize: "12px" }}>
+						<Row className="fs-5 mb-1">
 							<Col xs lg="5">
 								{task.taskName}
 							</Col>
@@ -133,16 +131,13 @@ export const TaskCard = (props) => {
 								{task.dueDate}
 							</Col>
 						</Row>
-						<Row style={{ height: "55px" }}>
+						<Row className={styles.customFooter}>
 							<hr className="mt-2"></hr>
 							<Col className="d-flex">
 								<Image
-									style={{
-										height: "35px",
-										width: "35px",
-										objectFit: "cover",
-										borderRadius: "50%",
-									}}
+									className={styles.customImage}
+									height="35px"
+									width="35px"
 									src={creatorPhoto}
 									roundedCircle
 								/>

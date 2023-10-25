@@ -5,3 +5,7 @@
 .cursorPointer {
 	cursor: pointer;
 }
+
+.customFooter {
+	max-height: 55px;
+}
