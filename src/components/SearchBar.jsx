@@ -17,22 +17,21 @@ export const SearchBar = ({ userInputSearchBar, filterSearchHandle }) => { // Pr
         <Container className="mt-4 mb-3">
             <Row className="justify-content-center">
                 <Col lg={5} md={8} sm={8}>
-                    <Form className="d-flex">
+                    <Form onSubmit={filterSearchHandle} className="d-flex">
                         <InputGroup>
                             <Button >
                                 <img
-                                    className="mb-1"
                                     src="public/img/search_new.svg"
                                     width="20"
                                     height="20"
                                     alt="Search bar button"
+                                    type="button"
                                     onClick={filterSearchHandle}
                                 />
                             </Button>
                             <FormControl
-                                style={{ fontSize: "11px" }}
                                 type="text"
-                                className="me-2"
+                                className="me-2 fs-6 shadow-none"
                                 placeholder="Search by task name..."
                                 value={userInput}
                                 onChange={handleUserInput}
