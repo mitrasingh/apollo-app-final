@@ -5,8 +5,9 @@ import { RefreshButton } from "../components/RefreshButton";
 import { useEffect, useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { Row, Col, Container } from "react-bootstrap";
+import { Container, Stack } from "react-bootstrap";
 import { SyncLoader } from 'react-spinners';
+import styles from "./Home.module.css";
 
 export const Home = () => {
 	// Initial state for task data from database
@@ -87,7 +88,8 @@ export const Home = () => {
 		setIsClearFilterDisplayed(true);
 	};
 
-	const filterSearchHandle = () => {
+	const filterSearchHandle = (event) => {
+		event.preventDefault(); // function is used within a form so preventDefault method needed
 		const filterUserInput = [...taskArray.filter((task) => task.taskName.toLowerCase().includes(userInput.toLowerCase()))];
 		setTaskArrayFilter(filterUserInput);
 		setIsClearFilterDisplayed(true);
@@ -96,30 +98,30 @@ export const Home = () => {
 	return (
 		<>
 			{isLoading ?
-				<SyncLoader size={10} cssOverride={spinnerStyle} />
+				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
 				:
-				<Container className="mt-4">
+				<Container className={styles.customContainer}>
 					<SearchBar
 						userInputSearchBar={userInputSearchBar}
 						filterSearchHandle={filterSearchHandle}
 					/>
-					<Row>
-						<Col xs lg="1">
-							<Filter
-								filterNewestHandle={filterNewestHandle}
-								filterOldestHandle={filterOldestHandle}
-								filterPriorityHandle={filterPriorityHandle}
-								filterStatusHandle={filterStatusHandle}
-							/>
-						</Col>
-						<Col xs lg="2" className="mt-1 px-3">
-							<RefreshButton
-								refreshTasksHandle={refreshTasksHandle}
-								filterSearchHandle={filterSearchHandle}
-								isClearFilterDisplayed={isClearFilterDisplayed}
-							/>
-						</Col>
-					</Row>
+					{/* <Row>
+						<Col> */}
+					<Stack direction="horizontal" gap={3} className="ms-3 mt-4">
+						<Filter
+							filterNewestHandle={filterNewestHandle}
+							filterOldestHandle={filterOldestHandle}
+							filterPriorityHandle={filterPriorityHandle}
+							filterStatusHandle={filterStatusHandle}
+						/>
+						<RefreshButton
+							refreshTasksHandle={refreshTasksHandle}
+							filterSearchHandle={filterSearchHandle}
+							isClearFilterDisplayed={isClearFilterDisplayed}
+						/>
+					</Stack>
+					{/* </Col>
+					</Row> */}
 
 					{taskArrayFilter.length === 0 && (
 						<p className="mt-4 d-flex justify-content-center">No tasks found</p>
