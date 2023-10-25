@@ -95,7 +95,7 @@ export const SignUp = () => {
                         <p className="fw-bold mb-1"> First Name </p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="text"
                                 placeholder="Enter first name"
                                 {...register("firstname", {
@@ -111,7 +111,7 @@ export const SignUp = () => {
                         <p className="fw-bold mb-1"> Last Name </p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="text"
                                 placeholder="Enter last name"
                                 {...register("lastname", {
@@ -127,7 +127,7 @@ export const SignUp = () => {
                         <p className="fw-bold mb-1"> Title </p>
                         <Form.Group className="mb-2" controlId="progress">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="text"
                                 placeholder="Enter your company title"
                                 {...register("title", {
@@ -143,7 +143,7 @@ export const SignUp = () => {
                         <p className="fw-bold mb-1"> Email Address </p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="text"
                                 placeholder="Enter email"
                                 {...register("email", {
@@ -163,7 +163,7 @@ export const SignUp = () => {
                         <p className="fw-bold mb-1"> Password </p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="password"
                                 placeholder="Enter password"
                                 {...register("password", {
@@ -183,7 +183,7 @@ export const SignUp = () => {
                         <p className="fw-bold mb-1"> Confirm Password </p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="password"
                                 placeholder="Enter password again"
                                 {...register("passwordconfirm", {

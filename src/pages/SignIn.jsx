@@ -84,7 +84,7 @@ export const SignIn = () => {
                         <p className="fw-bold mb-1">Email Address</p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="text"
                                 placeholder="Enter email"
                                 {...register("email", {
@@ -104,7 +104,7 @@ export const SignIn = () => {
                         <p className="fw-bold mb-1">Password</p>
                         <Form.Group className="mb-2">
                             <Form.Control
-                                style={{ fontSize: "10px" }}
+                                className="shadow-none fs-6"
                                 type="password"
                                 placeholder="Enter password"
                                 {...register("password", {

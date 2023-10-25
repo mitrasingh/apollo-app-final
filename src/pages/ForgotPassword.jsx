@@ -49,7 +49,7 @@ export const ForgotPassword = () => {
 
                     <Form.Group>
                         <Form.Control
-                            style={{ fontSize: "10px", marginTop: "10px" }}
+                            className="shadow-none fs-6 mt-2"
                             type="text"
                             placeholder="Email"
                             {...register("email", {
