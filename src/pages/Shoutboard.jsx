@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { SyncLoader } from 'react-spinners';
+import styles from "./Shoutboard.module.css";
 
 export const Shoutboard = () => {
 	// Current state of data fetched from getTopics function
@@ -40,7 +41,7 @@ export const Shoutboard = () => {
 			} finally {
 				setTimeout(() => {
 					setIsLoading(false);
-				}, 1000)
+				}, 500)
 			}
 		};
 		fetchTopics();
@@ -54,13 +55,13 @@ export const Shoutboard = () => {
 	return (
 		<>
 			{isLoading ?
-				<SyncLoader size={10} cssOverride={spinnerStyle} />
+				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
 				:
-				<Container className="mt-4">
+				<Container className={styles.customContainer}>
+					<p className="fs-2 fw-bold d-flex justify-content-center text-light">Shout Board</p>
 					<Button
-						style={{ fontSize: "9px", maxHeight: "20px" }}
-						className="d-flex align-items-center"
-						variant="dark"
+						className={`fs-6 fw-bold text-light ms-3 mb-2 ${styles.customBtn}`}
+						variant="primary"
 						onClick={handleCreateTopic}
 					>
 						{!isCreateTopic ? "+ Create Topic" : "- Close"}
