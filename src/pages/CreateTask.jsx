@@ -41,6 +41,11 @@ export const CreateTask = () => {
 		}
 	};
 
+	// Goes to previous page
+	const handleCancel = () => {
+		navigate(-1);
+	}
+
 	return (
 		<Container className={`text-light fs-6 ${styles.formContainer}`}>
 			<Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
@@ -153,7 +158,7 @@ export const CreateTask = () => {
 							className={`mt-2 fs-6 text-light fw-bold ${styles.customBtn}`}
 							variant="secondary"
 							size="sm"
-							href="/"
+							onClick={handleCancel}
 						>
 							Cancel
 						</Button>
