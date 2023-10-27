@@ -111,7 +111,7 @@ export const TaskCard = (props) => {
 								Status
 							</Col>
 							<Col xs lg="2">
-								Priority Level
+								Priority
 							</Col>
 							<Col xs lg="2">
 								Due
