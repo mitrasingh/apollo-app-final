@@ -2,12 +2,13 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { Stack, Form, Modal, Button, Image, Card } from "react-bootstrap";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import styles from "./ForgotPassword.module.css";
 
 
 export const ForgotPassword = () => {
+
     // React Hook Form
     const form = useForm();
     const { register, handleSubmit, formState } = form;
@@ -28,6 +29,12 @@ export const ForgotPassword = () => {
             console.log(error);
         }
     };
+
+    const navigate = useNavigate();
+
+    const handleCancel = () => {
+        navigate(-1);
+    }
 
     return (
         <Container className={styles.formContainer}>
@@ -94,10 +101,9 @@ export const ForgotPassword = () => {
                                     className="fw-bold mt-3 fs-5 text-light"
                                     variant="secondary"
                                     size="sm"
-                                    as={Link}
-                                    to="/"
+                                    onClick={handleCancel}
                                 >
-                                    Back To Sign In
+                                    Cancel
                                 </Button>
                             )}
                         </Stack>
