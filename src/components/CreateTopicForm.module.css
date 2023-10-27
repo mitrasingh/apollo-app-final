@@ -1,0 +1,10 @@
+.customContainer {
+	max-width: 600px;
+}
+
+/* border: "2px solid grey" */
+
+.customBtn {
+	max-height: 25px;
+	min-width: 60px;
+}

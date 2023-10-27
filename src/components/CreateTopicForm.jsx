@@ -1,9 +1,10 @@
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import styles from "./CreateTopicForm.module.css";
 
 // Props are from Shoutboard.jsx
 export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
@@ -38,18 +39,16 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 	};
 
 	return (
-		<Container
-			style={{ border: "2px solid grey", maxWidth: "97.5%" }}
-			className="mt-3 mb-3 pb-3"
-		>
-			<Container style={{ maxWidth: "85%" }} className="mt-3">
+		<Container className="mt-2 mb-4 pb-3">
+			<Container className={`mt-4 p-4 border ${styles.customContainer}`}>
 				<Form onSubmit={handleSubmit(handleCreateTopic)} noValidate>
-					<Form.Group className="mb-3">
+					<Form.Group className="fs-6 text-light">
+						<Form.Label className="fw-bold">Title</Form.Label>
 						<Form.Control
-							style={{ fontSize: "10px" }}
+							className="fs-6 shadow-none"
 							maxLength={50}
 							type="text"
-							placeholder="Title"
+							placeholder="Shout your title"
 							{...register("title", {
 								required: {
 									value: true,
@@ -57,19 +56,16 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 								},
 							})}
 						/>
-						<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-							{errors.title?.message}
-						</p>
-					</Form.Group>
+						<p className="mt-2">{errors.title?.message}</p>
 
-					<Form.Group className="mb-3">
+						<Form.Label className="fw-bold">Message</Form.Label>
 						<Form.Control
-							style={{ fontSize: "10px" }}
+							className="fs-6 shadow-none"
 							maxLength={100000}
 							rows={5}
 							type="text"
 							as="textarea"
-							placeholder="Shout it out..."
+							placeholder="Shout your message"
 							{...register("description", {
 								required: {
 									value: true,
@@ -77,33 +73,29 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 								},
 							})}
 						/>
-						<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-							{errors.description?.message}
-						</p>
+						<p className="mt-2">{errors.description?.message}</p>
 					</Form.Group>
-					<Button
-						style={{ fontSize: "10px", maxHeight: "30px" }}
-						className="ms-2"
-						variant="secondary"
-						size="sm"
-						onClick={() => setIsCreateTopic(false)}
-					>
-						Cancel
-					</Button>
+					<Row>
+						<Col className="d-flex justify-content-end mb-1">
+							<Button
+								className={`fs-6 text-light fw-bold ${styles.customBtn}`}
+								variant="secondary"
+								size="sm"
+								onClick={() => setIsCreateTopic(false)}
+							>
+								Cancel
+							</Button>
 
-					<Button
-						style={{
-							fontSize: "10px",
-							maxHeight: "30px",
-							MozColumnWidth: "40px",
-						}}
-						className="ms-2"
-						variant="primary"
-						size="sm"
-						type="submit"
-					>
-						Post
-					</Button>
+							<Button
+								className={`ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+								variant="primary"
+								size="sm"
+								type="submit"
+							>
+								Post
+							</Button>
+						</Col>
+					</Row>
 				</Form>
 			</Container>
 		</Container>
