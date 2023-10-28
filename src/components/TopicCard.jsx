@@ -1,4 +1,4 @@
-import { Card, Col, Container, Row, Image } from "react-bootstrap";
+import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -7,6 +7,7 @@ import { db } from "../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import styles from "./TopicCard.module.css";
 
 export const TopicCard = (props) => {
 	// receiving prop data from Shoutboard.jsx
@@ -62,50 +63,47 @@ export const TopicCard = (props) => {
 	const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
-		<Container className="mt-2">
-			<Card style={{ maxHeight: "65px" }}>
-				<Card.Body>
+		<Container className="mt-3">
+			<Card className={styles.customCard}>
+				<Card.Body className="fs-6">
 					<Row>
-						<Col xs lg="1" className="d-flex justify-content-end">
+						<Col xs={1}>
 							<Image
-								style={{
-									height: "35px",
-									width: "35px",
-									objectFit: "cover",
-									borderRadius: "50%",
-								}}
+								className={styles.customImage}
+								height="35px"
+								width="35px"
 								src={creatorPhoto}
 								roundedCircle
 							/>
 						</Col>
 
-						<Col xs lg="9">
-							<Row style={{ fontSize: "13px" }} className="fw-bold">
-								<Col xs lg="5" as={Link} to={topic.topicId.toString()}>
-									{topic.title}
-								</Col>
-							</Row>
-							<Row style={{ fontSize: "9px" }}>
-								<Col xs lg="5">
-									by {topic.firstName} {topic.lastName}
-								</Col>
-								<Col xs lg="5">
-									posted {dateRelativeTime}
-								</Col>
-							</Row>
+						<Col className="ms-1" xs={4}>
+							<Stack direction="vertical">
+								<Link to={topic.topicId.toString()} className="fw-bold">
+									{topic.title.length > 20
+										? `${topic.title.substring(0, 20)}...`
+										: topic.title
+									}
+								</Link>
+								<p>by {topic.firstName} {topic.lastName}</p>
+							</Stack>
 						</Col>
 
-						<Col className="mt-2 d-flex">
-							<Image
-								src="public/img/comment-icon.png"
-								width="20"
-								height="20"
-								className="d-inline-block align-top"
-								alt="Apollo Logo"
-							/>
-							<p style={{ fontSize: "9px" }} className="mt-1 ms-2">
-								{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}
-							</p>
+						<Col className="mt-2">
+							posted {dateRelativeTime}
+						</Col>
+
+						<Col className="mt-2 d-flex justify-content-center">
+							<Stack direction="horizontal" gap={2}>
+								<Image
+									className="mb-3"
+									src="public/img/comments.svg"
+									width="18"
+									height="18"
+									alt="comments icon"
+								/>
+								<p>{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}</p>
+							</Stack>
 						</Col>
 					</Row>
 				</Card.Body>
