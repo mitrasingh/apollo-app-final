@@ -123,3 +123,5 @@ TopicCard.propTypes = {
 		datePosted: PropTypes.object.isRequired
 	})
 };
+
+
