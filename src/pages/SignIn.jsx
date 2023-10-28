@@ -68,13 +68,12 @@ export const SignIn = () => {
                     <h1 className="fw-bold">Apollo</h1>
                 </Stack>
                 <Form onSubmit={handleSubmit(handleLogin)} noValidate>
-                    <Card className={`mt-4 p-4 ${styles.customCard}`} >
+                    <Card className="mt-4 p-4 text-light" >
                         <h4 className="fw-bold text-center">Sign In</h4>
                         <p className="text-center">
                             Not registered?&nbsp;
                             <Link
-                                className={`fw-bold text-decoration-none ${styles.customLink}`}
-                                style={{ cursor: "pointer" }}
+                                className="fw-bold"
                                 to="/signup"
                             >
                                 Sign Up
@@ -127,7 +126,7 @@ export const SignIn = () => {
                         </Button>
 
                         <Link
-                            className={`text-decoration-none mt-3 text-center ${styles.customLink}`}
+                            className="mt-3 text-center"
                             as={Link}
                             to="/forgotpassword"
                         >

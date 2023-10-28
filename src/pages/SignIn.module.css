@@ -9,14 +9,3 @@ body .customContainer {
 	margin-top: 100px;
 	color: #fff;
 }
-
-body .customCard {
-	color: #ffffff;
-}
-
-.customLink {
-	color: #ffa500;
-}
-.customLink:hover {
-	color: #ffa500;
-}
