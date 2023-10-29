@@ -104,30 +104,33 @@ export const TaskCard = (props) => {
 					</Card.Header>
 					<Card.Body>
 						<Row className="fw-bold fs-6">
-							<Col xs lg="5">
+							<Col xs md lg={4}>
 								Name
 							</Col>
-							<Col xs lg="3">
+							<Col>
 								Status
 							</Col>
-							<Col xs lg="2">
+							<Col>
 								Priority
 							</Col>
-							<Col xs lg="2">
+							<Col>
 								Due
 							</Col>
 						</Row>
 						<Row className="fs-5 mb-1">
-							<Col xs lg="5">
-								{task.taskName}
+							<Col xs md lg={4}>
+								{task.taskName.length > 15
+									? `${task.taskName.substring(0, 15)}...`
+									: task.taskName
+								}
 							</Col>
-							<Col xs lg="3">
+							<Col>
 								{task.statusProject}
 							</Col>
-							<Col xs lg="2">
+							<Col>
 								{task.priorityLevel}
 							</Col>
-							<Col xs lg="2">
+							<Col>
 								{task.dueDate}
 							</Col>
 						</Row>
