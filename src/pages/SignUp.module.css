@@ -1,18 +1,5 @@
 body .formContainer {
-	font-size: 10px;
 	max-width: 375px;
 	max-height: 100vh;
 	margin-top: 50px;
-	color: #fff;
-}
-
-body .customCard {
-	color: #ffffff;
-}
-
-.customLink {
-	color: #ffa500;
-}
-.customLink:hover {
-	color: #ffa500;
 }

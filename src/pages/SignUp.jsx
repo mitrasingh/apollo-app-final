@@ -66,8 +66,8 @@ export const SignUp = () => {
 
     return (
         <>
-            <Container className={styles.formContainer}>
-                <h6 className="text-center">Welcome to</h6>
+            <Container className={`fs-6 ${styles.formContainer}`}>
+                <h6 className="text-center text-light">Welcome to</h6>
                 <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                     <Image
                         src="public/img/rocket_white.svg"
@@ -76,16 +76,15 @@ export const SignUp = () => {
                         className="d-inline-block align-top"
                         alt="apollo logo"
                     />
-                    <h1 className="fw-bold">Apollo</h1>
+                    <h1 className="fw-bold text-light">Apollo</h1>
                 </Stack>
                 <Form onSubmit={handleSubmit(handleSignUp)} noValidate>
-                    <Card className={`mt-4 p-4 ${styles.customCard}`}>
+                    <Card className="mt-4 p-4 text-light">
                         <h4 className="fw-bold d-flex justify-content-center">Sign Up</h4>
                         <p className="d-flex justify-content-center">
                             Already registered?&nbsp;
                             <Link
-                                className={`fw-bold text-decoration-none ${styles.customLink}`}
-                                style={{ cursor: "pointer" }}
+                                className="fw-bold"
                                 to="/signin"
                             >
                                 Sign In
@@ -221,7 +220,7 @@ export const SignUp = () => {
                         </Button>
 
                         <Link
-                            className={`text-decoration-none mt-3 text-center ${styles.customLink}`}
+                            className="mt-3 text-center"
                             as={Link}
                             to="/forgotpassword"
                         >
