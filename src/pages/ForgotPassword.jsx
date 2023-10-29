@@ -51,7 +51,7 @@ export const ForgotPassword = () => {
             </Stack>
             <Form onSubmit={handleSubmit(handleForgotPassword)} noValidate>
                 <Card className={`mt-4 p-4 ${styles.customCard}`}>
-                    <h4 className="text-center">Forgot your password?</h4>
+                    <h4 className="text-center text-light">Forgot your password?</h4>
                     <p className={`fs-5 mt-2 ${styles.modalAertMessage}`}> {modalAlertMessage} </p>
 
                     <Form.Group>
