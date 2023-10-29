@@ -1,3 +1,8 @@
 .customCard {
 	max-height: 65px;
 }
+
+.customImage {
+	object-fit: "cover";
+	border-radius: "50%";
+}

@@ -79,7 +79,7 @@ export const TopicCard = (props) => {
 
 						<Col className="ms-1" xs={4}>
 							<Stack direction="vertical">
-								<Link to={topic.topicId.toString()} className="fw-bold">
+								<Link to={topic.topicId.toString()} className="fw-bold fs-5">
 									{topic.title.length > 20
 										? `${topic.title.substring(0, 20)}...`
 										: topic.title
