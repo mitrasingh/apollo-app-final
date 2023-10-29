@@ -55,7 +55,7 @@ export const SignIn = () => {
                 </Alert>
             ) : null}
 
-            <Container className={styles.customContainer}>
+            <Container className={`text-light fs-6 ${styles.customContainer}`}>
                 <h6 className="text-center">Welcome to</h6>
                 <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                     <Image
