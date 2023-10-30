@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Row, Stack } from "react-bootstrap"
+import { Stack, Image } from "react-bootstrap"
 import { doc, collection, addDoc, getDocs, query, deleteDoc, where } from "firebase/firestore"
 import { db } from "../utils/firebase-config"
 import { useSelector } from "react-redux"
@@ -68,25 +68,23 @@ export const Like = ({ docId }) => { // Prop from CommentCard.jsx
     const hasUserLiked = likes.find((like) => like.userId === currentUser.userId);
 
     return (
-        <Row>
-            <Stack direction="horizontal" className="mt-3" gap={2}>
-                <img
-                    src={
-                        hasUserLiked
-                            ? "/public/img/rocketLike.svg"
-                            : "/public/img/rocketNoLike.svg"
-                    }
-                    width="20"
-                    height="20"
-                    className="d-inline-block align-top"
-                    alt="apollo logo"
-                    onClick={hasUserLiked ? removeLikeHandle : addLikeHandle}
-                />
-                <p style={{ fontSize: "9px", marginTop: "12px" }} className="mt-3">
-                    Likes: {likes.length}{" "}
-                </p>
-            </Stack>
-        </Row>
+        <Stack direction="horizontal" gap={2}>
+            <Image
+                src={
+                    hasUserLiked
+                        ? "/public/img/rocketLike.svg"
+                        : "/public/img/rocketNoLike.svg"
+                }
+                width="20"
+                height="20"
+                className="d-inline-block align-top"
+                alt="apollo logo"
+                onClick={hasUserLiked ? removeLikeHandle : addLikeHandle}
+            />
+            <p className="fs-6 mt-3 ms-1">
+                Likes: {likes.length}{" "}
+            </p>
+        </Stack>
     );
 };
 
