@@ -1,4 +1,4 @@
-import { Form, Stack, Button } from "react-bootstrap";
+import { Form, Stack, Button, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useContext } from "react";
 import { db } from "../utils/firebase-config";
@@ -40,10 +40,10 @@ export const EditComment = ({ userComment, setIsEditComment, commentId, setIsCom
 
 	return (
 		<>
-			<Form className="mt-4" onSubmit={handleSubmit(handleUpdateButton)} noValidate>
+			<Form className="mt-1" onSubmit={handleSubmit(handleUpdateButton)} noValidate>
 				<Form.Group className="mb-3">
 					<Form.Control
-						style={{ fontSize: "10px" }}
+						className="fs-5"
 						maxLength={100000}
 						rows={5}
 						type="text"
@@ -57,29 +57,30 @@ export const EditComment = ({ userComment, setIsEditComment, commentId, setIsCom
 						})}
 					/>
 				</Form.Group>
-
-				<Stack direction="horizontal" gap={1}>
-					<Button
-						style={{ fontSize: "10px", maxHeight: "30px", minWidth: "40px" }}
-						className="ms-2"
-						variant="dark"
-						size="sm"
-						type="submit"
-						onClick={() => setIsEditComment(false)}
-					>
-						Cancel
-					</Button>
-					<Button
-						style={{ fontSize: "10px", maxHeight: "30px", minWidth: "40px" }}
-						className="ms-2"
-						variant="dark"
-						size="sm"
-						type="submit"
-					>
-						Update
-					</Button>
-				</Stack>
-				<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>{errors.editcomment?.message}</p>
+				<Row>
+					<Col className="d-flex justify-content-end">
+						<Stack direction="horizontal" gap={1}>
+							<Button
+								className="fs-6 text-light fw-bold"
+								variant="secondary"
+								size="sm"
+								type="submit"
+								onClick={() => setIsEditComment(false)}
+							>
+								Cancel
+							</Button>
+							<Button
+								className="ms-2 fs-6 text-light fw-bold"
+								variant="primary"
+								size="sm"
+								type="submit"
+							>
+								Update
+							</Button>
+						</Stack>
+					</Col>
+				</Row>
+				<p className="mt-2 fs-6 d-flex justify-content-end">{errors.editcomment?.message}</p>
 			</Form>
 
 		</>
