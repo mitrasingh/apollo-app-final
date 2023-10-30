@@ -60,7 +60,7 @@ export const Shoutboard = () => {
 				<Container className={styles.customContainer}>
 					<p className="fs-2 fw-bold d-flex justify-content-center text-light">Shout Board</p>
 					<Button
-						className={`fs-6 fw-bold text-light ms-3 mb-2 ${styles.customBtn}`}
+						className={`d-flex align-items-center justify-content-center fs-6 fw-bold text-light ms-3 mb-2 ${styles.customBtn}`}
 						variant="primary"
 						onClick={handleCreateTopic}
 					>
