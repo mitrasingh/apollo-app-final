@@ -24,8 +24,8 @@ export const Navigation = () => {
 
     return (
         <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.customNav}`}>
-            <Container>
-                <Navbar.Brand className="fw-bold fs-4">
+            <Container className={styles.customContainer}>
+                <Navbar.Brand className="fw-bold fs-3">
                     <Image
                         className="pr-2"
                         as={Link}
@@ -48,7 +48,6 @@ export const Navigation = () => {
                                 roundedCircle
                             />
                         </Link>
-                        <p className={`ms-2 mt-3 ${styles.customGreeting}`}>Hi, {user.firstName}</p>
                     </Stack>
                 </Form>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
