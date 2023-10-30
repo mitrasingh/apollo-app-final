@@ -1,3 +1,4 @@
-.customContainer {
+body .customContainer {
 	margin-top: 6.5rem;
+	max-width: 750px;
 }
