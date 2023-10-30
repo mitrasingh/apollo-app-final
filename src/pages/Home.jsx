@@ -96,17 +96,16 @@ export const Home = () => {
 	};
 
 	return (
-		<>
+		<Container className={styles.customContainer}>
 			{isLoading ?
 				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
 				:
-				<Container className={styles.customContainer}>
+				<>
 					<SearchBar
 						userInputSearchBar={userInputSearchBar}
 						filterSearchHandle={filterSearchHandle}
 					/>
-					{/* <Row>
-						<Col> */}
+
 					<Stack direction="horizontal" gap={3} className="ms-3 mt-4">
 						<Filter
 							filterNewestHandle={filterNewestHandle}
@@ -120,8 +119,6 @@ export const Home = () => {
 							isClearFilterDisplayed={isClearFilterDisplayed}
 						/>
 					</Stack>
-					{/* </Col>
-					</Row> */}
 
 					{taskArrayFilter.length === 0 && (
 						<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
@@ -136,8 +133,8 @@ export const Home = () => {
 							/>
 						);
 					})}
-				</Container>
+				</>
 			}
-		</>
+		</Container>
 	);
 };
