@@ -93,7 +93,7 @@ export const TopicCard = (props) => {
 							posted {dateRelativeTime}
 						</Col>
 
-						<Col className="mt-2 d-flex justify-content-center">
+						<Col className="d-flex justify-content-center">
 							<Stack direction="horizontal" gap={2}>
 								<Image
 									className="mb-3"
