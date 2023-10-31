@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SyncLoader } from 'react-spinners';
+import styles from "./TopicDetails.module.css";
 
 export const TopicDetails = () => {
 
@@ -101,7 +102,7 @@ export const TopicDetails = () => {
 			} finally {
 				setTimeout(() => {
 					setIsLoading(false);
-				}, 1000)
+				}, 500)
 			}
 		};
 		fetchTopicData();
@@ -194,46 +195,40 @@ export const TopicDetails = () => {
 	return (
 		<>
 			{isLoading ?
-				<SyncLoader size={10} cssOverride={spinnerStyle} />
+				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
 				:
-				<Container className="mt-4">
-					<Card>
-						<Card.Header style={{ fontSize: "9px", height: "45px" }}>
+				<Container className={`p-4 ${styles.customContainer}`}>
+					<Card className="text-light">
+						<Card.Header className="fs-6">
 							<Row>
 								<Col xs lg="10">
 									<Stack direction="horizontal" gap={2}>
 										<Image
-											style={{
-												height: "25px",
-												width: "25px",
-												objectFit: "cover",
-												borderRadius: "50%",
-											}}
+											className={styles.customImage}
+											height="30px"
+											width="30px"
 											src={userPhoto}
 											roundedCircle
 										/>
-										<p>
+										<p className="mt-3 ms-1">
 											Posted by: {topic.firstName} {topic.lastName}
 										</p>
 									</Stack>
 								</Col>
-								<Col>
-									<Stack direction="horizontal" gap={4}>
+								<Col xs lg="2" className="d-flex justify-content-end">
+									<Stack direction="horizontal" gap={3}>
 										{topic.userId === currentUser.userId ? (
 											<>
 												<Dropdown>
 													<Dropdown.Toggle
-														style={{ maxHeight: "20px" }}
-														className="d-flex align-items-center"
+														className="d-flex align-items-center text-light"
 														split
-														variant="dark"
+														variant="primary"
 														id="dropdown-split-basic"
 													></Dropdown.Toggle>
 
-													<Dropdown.Menu style={{ fontSize: "10px" }}>
-														<Dropdown.Item
-															onClick={() => setIsEditTopicDisplayed(true)}
-														>
+													<Dropdown.Menu>
+														<Dropdown.Item onClick={() => setIsEditTopicDisplayed(true)}>
 															Edit
 														</Dropdown.Item>
 														<Dropdown.Item onClick={handleShow}>
@@ -258,8 +253,8 @@ export const TopicDetails = () => {
 						</Card.Header>
 
 						<Card.Body>
-							<h5>{topic.title}</h5>
-							<p style={{ fontSize: "9px" }}>
+							<h5 className="fs-3 fw-bold">{topic.title}</h5>
+							<p className="fs-6">
 								{isTopicEdited ? `Updated post` : `Posted`} {displayTimeStamp}  |  {numOfComments}
 								{numOfComments === 1 ? " Reply" : " Replies"}
 							</p>
@@ -273,7 +268,7 @@ export const TopicDetails = () => {
 									setIsTopicEdited={setIsTopicEdited}
 								/>
 							) : (
-								<p style={{ fontSize: "12px" }} className="mt-4">
+								<p className="mt-4 fs-5">
 									{topic.description}
 								</p>
 							)}
@@ -282,17 +277,17 @@ export const TopicDetails = () => {
 					</Card>
 
 					<Form
-						className="mt-4"
+						className="mt-3 text-light"
 						onSubmit={handleSubmit(handlePostCommentButton)}
 						noValidate
 					>
-						<Form.Group className="mb-3">
-							<Form.Label style={{ fontSize: "9px" }}>
+						<Form.Group>
+							<Form.Label className="fs-6">
 								comment as {currentUser.firstName} {currentUser.lastName}
 							</Form.Label>
 							<Form.Control
-								style={{ fontSize: "10px" }}
-								maxLength={100000}
+								className="fs-5"
+								maxLength={2000}
 								rows={5}
 								type="text"
 								as="textarea"
@@ -304,24 +299,20 @@ export const TopicDetails = () => {
 									},
 								})}
 							/>
-							<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-								{errors.postcomment?.message}
-							</p>
+							<p className="mt-2 fs-6">{errors.postcomment?.message}</p>
 						</Form.Group>
-
-						<Button
-							style={{
-								fontSize: "10px",
-								maxHeight: "30px",
-								MozColumnWidth: "40px",
-							}}
-							className="ms-2"
-							variant="primary"
-							size="sm"
-							type="submit"
-						>
-							Post
-						</Button>
+						<Row>
+							<Col className="d-flex justify-content-end">
+								<Button
+									className={`d-flex align-items-center fs-6 fw-bold text-light ${styles.customBtn}`}
+									variant="primary"
+									size="sm"
+									type="submit"
+								>
+									Post
+								</Button>
+							</Col>
+						</Row>
 					</Form>
 					{sortComments.map((sortedComment) => {
 						return (
@@ -330,7 +321,7 @@ export const TopicDetails = () => {
 							</TopicIdContext.Provider>
 						);
 					})}
-				</Container>
+				</Container >
 			}
 		</>
 	);
