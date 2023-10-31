@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ViewTaskModal } from "./ViewTaskModal";
 import { EditTaskModal } from "./EditTaskModal";
-import { Button, Card, Col, Container, Row, Image } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
@@ -78,19 +78,30 @@ export const TaskCard = (props) => {
 				<Card>
 					<Card.Header className="fs-6 text-light">
 						<Row>
-							<Col>Task ID: {task.taskId}</Col>
-							{task.userId === currentUser.userId ? (
-								<Col className="d-flex justify-content-end fw-bold">
-									<Image
-										onClick={handleShow}
-										className={styles.cursorPointer}
-										src="public/img/trash-fill.svg"
-										width="15"
-										height="15"
-										alt="trash icon"
-									/>
-								</Col>
-							) : null}
+							<Col>
+								<Stack direction="horizontal" gap={2}>
+									<div className="fs-4 fw-bold">
+										{task.taskName.length > 25
+											? `${task.taskName.substring(0, 25)}...`
+											: task.taskName
+										}
+									</div>
+								</Stack>
+							</Col>
+							<Col>
+								{task.userId === currentUser.userId ? (
+									<Col className="d-flex justify-content-end fw-bold">
+										<Image
+											onClick={handleShow}
+											className={styles.cursorPointer}
+											src="public/img/trash-fill.svg"
+											width="15"
+											height="15"
+											alt="trash icon"
+										/>
+									</Col>
+								) : null}
+							</Col>
 							{/* DELETE MODAL AND PROPS USED IN COMMENTCARD.JSX, AVOID ANY NAME CHANGES */}
 							{isVisible ? (
 								<DeleteModal
@@ -104,9 +115,6 @@ export const TaskCard = (props) => {
 					</Card.Header>
 					<Card.Body>
 						<Row className="fw-bold fs-6">
-							<Col xs md lg={4}>
-								Name
-							</Col>
 							<Col>
 								Status
 							</Col>
@@ -118,12 +126,6 @@ export const TaskCard = (props) => {
 							</Col>
 						</Row>
 						<Row className="fs-5 mb-1">
-							<Col xs md lg={4}>
-								{task.taskName.length > 15
-									? `${task.taskName.substring(0, 15)}...`
-									: task.taskName
-								}
-							</Col>
 							<Col>
 								{task.statusProject}
 							</Col>
