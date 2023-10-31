@@ -90,7 +90,7 @@ export const TaskCard = (props) => {
 							</Col>
 							<Col>
 								{task.userId === currentUser.userId ? (
-									<Col className="d-flex justify-content-end fw-bold">
+									<Col className="d-flex justify-content-end fw-bold mt-1">
 										<Image
 											onClick={handleShow}
 											className={styles.cursorPointer}
