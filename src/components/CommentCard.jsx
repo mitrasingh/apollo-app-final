@@ -6,10 +6,11 @@ import { useContext, useState } from "react";
 import { TopicIdContext } from "../utils/TopicIdContext";
 import { EditComment } from "../components/EditComment";
 import { Like } from "../components/Like";
-import { Container, Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
+import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
 import { DeleteModal } from "../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import styles from "./CommentCard.module.css";
 
 export const CommentCard = (props) => {
 	// Props from parent TopicDetails.jsx
@@ -47,41 +48,40 @@ export const CommentCard = (props) => {
 	const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
-		<Container className="mt-4">
-			<Card style={{ padding: "10px" }}>
-				<Row>
-					<Col>
-						<Stack direction="horizontal" gap={2}>
-							<Image
-								style={{
-									height: "25px",
-									width: "25px",
-									objectFit: "cover",
-									borderRadius: "50%",
-								}}
-								src={comment.userPhoto}
-								roundedCircle
-							/>
-							<p style={{ fontSize: "9px", marginTop: "12px" }}>{comment.firstName} {comment.lastName}</p>
-							<p style={{ fontSize: "8px", marginTop: "12px" }}>
-								{isCommentUpdated
-									? `post edited `
-									: `posted `}{dateRelativeTime}
-							</p>
-
+		<>
+			<Card className="mt-4 p-1 text-light">
+				<Card.Header>
+					<Row>
+						<Col className="d-flex align-items-center">
+							<Stack direction="horizontal" gap={2}>
+								<Image
+									className={styles.customImage}
+									height="25px"
+									width="25px"
+									src={comment.userPhoto}
+									roundedCircle
+								/>
+								<Card.Text className="fs-6">
+									{comment.firstName} {comment.lastName} {" |"}
+									{isCommentUpdated
+										? ` post edited `
+										: ` posted `}{dateRelativeTime}
+								</Card.Text>
+							</Stack>
+						</Col>
+						<Col className="d-flex justify-content-end">
 							{/* Code below is a ternary operator nested into another ternary operator */}
 							{comment.userId === currentUser.userId
 								? (
-									<Dropdown>
+									<Dropdown className="fs-6 mt-1">
 										<Dropdown.Toggle
-											style={{ maxHeight: "20px" }}
-											className="d-flex align-items-center"
+											className="d-flex align-items-center text-light"
 											split
-											variant="dark"
+											variant="primary"
 											id="dropdown-split-basic"
 										></Dropdown.Toggle>
 
-										<Dropdown.Menu style={{ fontSize: "10px" }}>
+										<Dropdown.Menu>
 											<Dropdown.Item onClick={() => setIsEditComment(true)}>
 												Edit
 											</Dropdown.Item>
@@ -98,30 +98,30 @@ export const CommentCard = (props) => {
 									</Dropdown>
 								)
 								: null}
-						</Stack>
+						</Col>
+					</Row>
+				</Card.Header>
 
-						{isEditComment
-							?
-							<EditComment
-								userComment={comment.userComment}
-								setIsEditComment={setIsEditComment}
-								commentId={comment.commentId}
-								setIsCommentUpdated={setIsCommentUpdated}
-							/>
-							:
-							<Stack className="mt-2">
-								<Row>
-									<Col>
-										<p style={{ fontSize: "11px" }}>{comment.userComment}</p>
-									</Col>
-								</Row>
-							</Stack>
-						}
-						<Like docId={comment.commentId} />
-					</Col>
-				</Row>
+				<Card.Body>
+					{isEditComment
+						?
+						<EditComment
+							userComment={comment.userComment}
+							setIsEditComment={setIsEditComment}
+							commentId={comment.commentId}
+							setIsCommentUpdated={setIsCommentUpdated}
+						/>
+						:
+						<Row>
+							<Col>
+								<p className="fs-5">{comment.userComment}</p>
+							</Col>
+						</Row>
+					}
+					<Like docId={comment.commentId} />
+				</Card.Body>
 			</Card>
-		</Container>
+		</>
 	);
 };
 
