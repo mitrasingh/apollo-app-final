@@ -50,7 +50,7 @@ export const CreateTask = () => {
 		<Container className={`text-light fs-6 px-4 ${styles.formContainer}`}>
 			<Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
 				<Form.Label className="fs-2 fw-bold d-flex justify-content-center">Create A Task</Form.Label>
-				<Form.Group>
+				<Form.Group className="mb-4">
 					<Form.Label className="fw-bold mt-3">Task name</Form.Label>
 					<Form.Control
 						className="fs-6 shadow-none"
@@ -67,7 +67,7 @@ export const CreateTask = () => {
 					<p className="mt-2">{errors.taskname?.message}</p>
 				</Form.Group>
 
-				<Form.Group className="mb-3">
+				<Form.Group className="mb-4">
 					<Form.Label className="fw-bold">
 						Description of task
 					</Form.Label>
@@ -88,7 +88,7 @@ export const CreateTask = () => {
 					<p className="mt-2">{errors.taskdescription?.message}</p>
 				</Form.Group>
 
-				<Form.Group className="mb-3">
+				<Form.Group className="mb-4">
 					<Form.Label className="fw-bold">
 						What is the status of this project?
 					</Form.Label>
@@ -111,7 +111,7 @@ export const CreateTask = () => {
 					<p className="mt-2">{errors.taskstatus?.message}</p>
 				</Form.Group>
 
-				<Form.Group className="mb-3">
+				<Form.Group className="mb-4">
 					<Form.Label className="fw-bold">
 						What is the priority level of this project?
 					</Form.Label>
