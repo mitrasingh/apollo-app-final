@@ -1,29 +1,33 @@
 import { Outlet, useLocation, Navigate } from "react-router-dom";
 import { auth, db } from "../utils/firebase-config";
 import { Navigation } from "../components/Navigation";
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { useDispatch } from 'react-redux';
 import { doc, getDoc } from 'firebase/firestore';
-import { loginUser } from "../features/user/userSlice";
+import { loginUser, logoutUser } from "../features/user/userSlice";
 
 export const ProtectedRoute = () => {
 
   const location = useLocation();
 
-  const dispatch = useDispatch()
-  const storage = getStorage()
-  const storageRef = ref(storage)
+  const dispatch = useDispatch();
+  const storage = getStorage();
+  const storageRef = ref(storage);
 
-  // Loads user information to Redux user state
+  const [isLoggedIn, setIsLoggedIn] = useState(auth);
+
   useEffect(() => {
     getAuth().onAuthStateChanged(async (user) => {
       if (!user) {
         signOut(auth);
+        dispatch(logoutUser());
+        setIsLoggedIn(false);
       }
       try {
         if (user) {
+          setIsLoggedIn(auth);
           const userCustomPhotoRef = `user-photo/${user.uid}`;
           const photoRefCondition = userCustomPhotoRef ? userCustomPhotoRef : "user-photo/temporaryphoto.jpeg";
           const userPhotoURL = await getDownloadURL(ref(storageRef, photoRefCondition));
@@ -42,11 +46,10 @@ export const ProtectedRoute = () => {
       } catch (error) {
         console.log(error)
       }
-    }
-    )
+    });
   }, [])
 
-  return auth.currentUser ? (
+  return isLoggedIn ? (
     <>
       <Navigation />
       <Outlet />
