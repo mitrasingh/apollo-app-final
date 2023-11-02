@@ -3,11 +3,6 @@ body .customContainer {
 	margin-top: 100px;
 }
 
-.customImage {
-	object-fit: "cover";
-	border-radius: "50%";
-}
-
 .customBtn {
 	max-height: 25px;
 }
