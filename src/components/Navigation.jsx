@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar, Image, Stack, Form } from 'react-bootstrap';
+import { Container, Nav, Navbar, Image, Form } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -35,27 +35,25 @@ export const Navigation = () => {
             <Container className={styles.customContainer}>
                 <Navbar.Brand className="fw-bold fs-3">
                     <Image
-                        className="pr-2"
                         as={Link}
                         to="/"
                         src="public/img/rocket_white.svg"
-                        width="40"
-                        height="40"
+                        width="30"
+                        height="30"
                         alt="apollo logo"
                     />{" "}
                     Apollo
                 </Navbar.Brand>
                 <Form className="order-lg-last">
-                    <Stack direction="horizontal">
-                        <Link to="/profile">
-                            <Image
-                                height="35px"
-                                width="35px"
-                                src={userImage}
-                                roundedCircle
-                            />
-                        </Link>
-                    </Stack>
+                    <Link to="/profile">
+                        <Image
+                            className=""
+                            height="35px"
+                            width="35px"
+                            src={userImage}
+                            roundedCircle
+                        />
+                    </Link>
                 </Form>
                 <LogoutModal
                     handleLogout={handleLogout}
