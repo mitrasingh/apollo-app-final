@@ -69,7 +69,6 @@ export const TopicCard = (props) => {
 					<Row>
 						<Col xs={1}>
 							<Image
-								className={styles.customImage}
 								height="35px"
 								width="35px"
 								src={creatorPhoto}
