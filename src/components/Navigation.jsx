@@ -1,9 +1,13 @@
 import { Container, Nav, Navbar, Image, Stack, Form } from 'react-bootstrap';
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase-config";
 import { logoutUser } from "../features/user/userSlice";
 import { signOut } from "firebase/auth";
+import { LogoutModal } from "./LogoutModal";
 import styles from "./Navigation.module.css";
 
 export const Navigation = () => {
@@ -21,6 +25,10 @@ export const Navigation = () => {
         signOut(auth);
         navigate("/signin");
     };
+
+    // Details modal functionality
+    const [isLogoutModalVisible, setLogOutModalVisible] = useState(false);
+    const handleVisible = () => setLogOutModalVisible(true);
 
     return (
         <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.customNav}`}>
@@ -50,13 +58,18 @@ export const Navigation = () => {
                         </Link>
                     </Stack>
                 </Form>
+                <LogoutModal
+                    handleLogout={handleLogout}
+                    setLogOutModalVisible={setLogOutModalVisible}
+                    isLogoutModalVisible={isLogoutModalVisible}
+                />
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="text-center">
                     <Nav className="mx-auto">
                         <Nav.Link eventKey="1" as={Link} to="/" className="me-1">Home</Nav.Link>
                         <Nav.Link eventKey="2" as={Link} to="/createtask">Create Task</Nav.Link>
                         <Nav.Link eventKey="3" as={Link} to="/shoutboard" >Shout Board</Nav.Link>
-                        <Nav.Link eventKey="4" onClick={handleLogout}>Logout</Nav.Link>
+                        <Nav.Link eventKey="4" onClick={handleVisible}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
