@@ -49,7 +49,6 @@ export const Navigation = () => {
                     <Stack direction="horizontal">
                         <Link to="/profile">
                             <Image
-                                className={styles.customImage}
                                 height="35px"
                                 width="35px"
                                 src={userImage}

@@ -6,11 +6,6 @@ body .customContainer {
 	max-width: 700px;
 }
 
-.customImage {
-	object-fit: "cover";
-	border-radius: "50%";
-}
-
 .customOrder {
 	display: flex;
 	flex-direction: row-reverse;
