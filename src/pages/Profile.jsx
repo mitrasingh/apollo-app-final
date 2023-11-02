@@ -3,13 +3,14 @@ import { Button, Col, Container, Form, Row, Stack, Image } from 'react-bootstrap
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { editUser } from "../features/user/userSlice"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { getAuth, updateProfile, updateEmail } from "firebase/auth"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../utils/firebase-config"
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useForm } from "react-hook-form";
 import { SyncLoader } from 'react-spinners';
+import styles from "./Profile.module.css";
 
 export const Profile = () => {
 
@@ -65,7 +66,7 @@ export const Profile = () => {
             } finally {
                 setTimeout(() => {
                     setIsLoading(false);
-                }, 1000)
+                }, 500)
             }
         };
         fetchUserRedux();
@@ -123,66 +124,66 @@ export const Profile = () => {
         }
     };
 
+    // Goes to previous page
+    const handleCancel = () => {
+        navigate(-1);
+    }
+
     return (
         <>
             {isLoading ? (
-                <SyncLoader size={10} cssOverride={spinnerStyle} />
+                <SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
             ) : (
-                <Container className="mt-4">
+                <Container className={`text-light px-4 ${styles.customContainer}`}>
+                    <p className="fs-2 fw-bold d-flex justify-content-center text-light">Edit Profile</p>
                     <Form onSubmit={handleSubmit(handleUpdate)} noValidate>
                         <Row className="mb-4">
-                            <Col xs lg="2">
-                                <Stack direction="vertical">
-                                    <Image
-                                        style={{
-                                            height: "180px",
-                                            width: "180px",
-                                            objectFit: "cover",
-                                            borderRadius: "50%",
-                                        }}
-                                        src={photoURL}
-                                        roundedCircle
-                                    />
-
-                                    <Form.Group>
-                                        <Form.Control
-                                            type="file"
-                                            size="sm"
-                                            onChange={(event) =>
-                                                setUserUpdatedPhoto(event.target.files[0])
-                                            }
-                                        />
-                                    </Form.Group>
-
-                                    <Button
-                                        style={{
-                                            fontSize: "8px",
-                                            maxHeight: "30px",
-                                            maxWidth: "75px",
-                                        }}
-                                        className="ms-5 mt-2"
-                                        variant="secondary"
-                                        size="sm"
-                                        type="file"
-                                        onClick={setPhotoHandle}
-                                    >
-                                        Update Photo
-                                    </Button>
-                                </Stack>
+                            <Col className="d-flex justify-content-center">
+                                <Image
+                                    className={styles.customImage}
+                                    height="105px"
+                                    width="105px"
+                                    src={photoURL}
+                                    roundedCircle
+                                />
                             </Col>
                         </Row>
 
                         <Row>
-                            <Stack>
-                                <p
-                                    className="fw-bold"
-                                    style={{ fontSize: "10px", margin: "0px" }}
-                                >
-                                    First Name
-                                </p>
-                                <Form.Group className="mb-3">
+                            <Col className="d-flex justify-content-center">
+                                <Form.Group>
                                     <Form.Control
-                                        style={{ fontSize: "10px" }}
+                                        className="fs-6"
+                                        type="file"
+                                        size="sm"
+                                        onChange={(event) =>
+                                            setUserUpdatedPhoto(event.target.files[0])
+                                        }
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row >
+
+                        <Row>
+                            <Col className="mt-3 d-flex justify-content-center">
+                                <Button
+                                    className={`fs-6 text-light fw-bold ${styles.customBtn}`}
+                                    variant="primary"
+                                    size="sm"
+                                    type="file"
+                                    onClick={setPhotoHandle}
+                                >
+                                    Update Photo
+                                </Button>
+                            </Col>
+                        </Row>
+
+                        <Row className="mt-4">
+                            <Stack>
+                                <p className="fs-6 fw-bold mb-1">First Name</p>
+                                <Form.Group>
+                                    <Form.Control
+                                        className="fs-6"
                                         type="text"
                                         id="firstname"
                                         {...register("firstname", {
@@ -192,26 +193,13 @@ export const Profile = () => {
                                             },
                                         })}
                                     />
-                                    <p
-                                        style={{
-                                            marginTop: "5px",
-                                            fontSize: "10px",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {errors.firstname?.message}
-                                    </p>
+                                    <p className="mt-2">{errors.firstname?.message}</p>
                                 </Form.Group>
 
-                                <p
-                                    className="fw-bold"
-                                    style={{ fontSize: "10px", margin: "0px" }}
-                                >
-                                    Last Name
-                                </p>
-                                <Form.Group className="mb-3">
+                                <p className="fs-6 fw-bold mb-1 mt-2">Last Name</p>
+                                <Form.Group>
                                     <Form.Control
-                                        style={{ fontSize: "10px" }}
+                                        className="fs-6"
                                         type="text"
                                         id="lastname"
                                         {...register("lastname", {
@@ -221,26 +209,13 @@ export const Profile = () => {
                                             },
                                         })}
                                     />
-                                    <p
-                                        style={{
-                                            marginTop: "5px",
-                                            fontSize: "10px",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {errors.lastname?.message}
-                                    </p>
+                                    <p className="mt-2">{errors.lastname?.message}</p>
                                 </Form.Group>
 
-                                <p
-                                    className="fw-bold"
-                                    style={{ fontSize: "10px", margin: "0px" }}
-                                >
-                                    Title
-                                </p>
-                                <Form.Group className="mb-3">
+                                <p className="fs-6 fw-bold mb-1 mt-2">Title</p>
+                                <Form.Group>
                                     <Form.Control
-                                        style={{ fontSize: "10px" }}
+                                        className="fs-6"
                                         type="text"
                                         id="title"
                                         {...register("title", {
@@ -250,26 +225,13 @@ export const Profile = () => {
                                             },
                                         })}
                                     />
-                                    <p
-                                        style={{
-                                            marginTop: "5px",
-                                            fontSize: "10px",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {errors.title?.message}
-                                    </p>
+                                    <p className="mt-2">{errors.title?.message}</p>
                                 </Form.Group>
 
-                                <p
-                                    className="fw-bold"
-                                    style={{ fontSize: "10px", margin: "0px" }}
-                                >
-                                    E-mail
-                                </p>
-                                <Form.Group className="mb-3">
+                                <p className="fs-6 fw-bold mb-1 mt-2">E-mail</p>
+                                <Form.Group>
                                     <Form.Control
-                                        style={{ fontSize: "10px" }}
+                                        className="fs-6"
                                         type="text"
                                         id="email"
                                         {...register("email", {
@@ -283,40 +245,34 @@ export const Profile = () => {
                                             },
                                         })}
                                     />
-                                    <p
-                                        style={{
-                                            marginTop: "5px",
-                                            fontSize: "10px",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {errors.email?.message}
-                                    </p>
+                                    <p className="mt-2">{errors.email?.message}</p>
                                 </Form.Group>
                             </Stack>
                         </Row>
 
-                        <Button
-                            style={{ fontSize: "10px", maxHeight: "30px" }}
-                            variant="secondary"
-                            size="sm"
-                            as={Link}
-                            to="/"
-                        >
-                            Cancel
-                        </Button>
+                        <Row>
+                            <Col className="d-flex justify-content-end">
+                                <Button
+                                    className={`fs-6 text-light fw-bold ${styles.customBtn}`}
+                                    variant="secondary"
+                                    size="sm"
+                                    onClick={handleCancel}
+                                >
+                                    Cancel
+                                </Button>
 
-                        <Button
-                            style={{ fontSize: "10px", maxHeight: "30px" }}
-                            className="ms-2"
-                            variant="primary"
-                            size="sm"
-                            type="submit"
-                        >
-                            Save Updates
-                        </Button>
-                    </Form>
-                </Container>
+                                <Button
+                                    className={`ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+                                    variant="primary"
+                                    size="sm"
+                                    type="submit"
+                                >
+                                    Save
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form >
+                </Container >
             )}
         </>
     );
