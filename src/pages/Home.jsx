@@ -106,7 +106,7 @@ export const Home = () => {
 						filterSearchHandle={filterSearchHandle}
 					/>
 
-					<Stack direction="horizontal" gap={3} className="ms-3 mt-4">
+					<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
 						<Filter
 							filterNewestHandle={filterNewestHandle}
 							filterOldestHandle={filterOldestHandle}
