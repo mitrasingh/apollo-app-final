@@ -47,7 +47,7 @@ export const CreateTask = () => {
 	}
 
 	return (
-		<Container className={`text-light fs-6 p-4 ${styles.formContainer}`}>
+		<Container className={`text-light fs-6 px-4 ${styles.formContainer}`}>
 			<Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
 				<Form.Label className="fs-2 fw-bold d-flex justify-content-center">Create A Task</Form.Label>
 				<Form.Group>
