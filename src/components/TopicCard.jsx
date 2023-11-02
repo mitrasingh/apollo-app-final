@@ -65,43 +65,50 @@ export const TopicCard = (props) => {
 	return (
 		<Container className="mt-3">
 			<Card className={styles.customCard}>
+				<Card.Header>
+					<Row>
+						<Col>
+							<Link to={topic.topicId.toString()} className="fw-bold fs-5">
+								{topic.title.length > 20
+									? `${topic.title.substring(0, 20)}...`
+									: topic.title
+								}
+							</Link>
+						</Col>
+					</Row>
+				</Card.Header>
+
 				<Card.Body className="fs-6">
 					<Row>
-						<Col xs={1}>
-							<Image
-								height="35px"
-								width="35px"
-								src={creatorPhoto}
-								roundedCircle
-							/>
-						</Col>
-
-						<Col className="ms-1" xs={4}>
-							<Stack direction="vertical">
-								<Link to={topic.topicId.toString()} className="fw-bold fs-5">
-									{topic.title.length > 20
-										? `${topic.title.substring(0, 20)}...`
-										: topic.title
-									}
-								</Link>
-								<p>by {topic.firstName} {topic.lastName}</p>
+						<Col xs={5}>
+							<Stack direction="horizontal" gap={2}>
+								<Image
+									height="35px"
+									width="35px"
+									src={creatorPhoto}
+									roundedCircle
+								/>
+								<Stack direction="vertical">
+									<Card.Text className="my-0">by:</Card.Text>
+									<Card.Text className="my-0 fw-bold">{topic.firstName} {topic.lastName}</Card.Text>
+								</Stack>
 							</Stack>
 						</Col>
 
-						<Col className="mt-2">
-							posted {dateRelativeTime}
+						<Col>
+							<Card.Text className="my-0">posted</Card.Text>
+							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
 						</Col>
 
-						<Col className="d-flex justify-content-center">
-							<Stack direction="horizontal" gap={2}>
+						<Col>
+							<Stack direction="horizontal" gap={2} className="mt-1">
 								<Image
-									className="mb-3"
 									src="public/img/comments.svg"
 									width="18"
 									height="18"
 									alt="comments icon"
 								/>
-								<p>{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}</p>
+								<Card.Text>{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}</Card.Text>
 							</Stack>
 						</Col>
 					</Row>
