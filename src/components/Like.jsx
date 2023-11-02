@@ -68,7 +68,7 @@ export const Like = ({ docId }) => { // Prop from CommentCard.jsx
     const hasUserLiked = likes.find((like) => like.userId === currentUser.userId);
 
     return (
-        <Stack direction="horizontal" gap={2}>
+        <Stack direction="horizontal" gap={1}>
             <Image
                 src={
                     hasUserLiked
