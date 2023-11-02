@@ -138,18 +138,28 @@ export const TaskCard = (props) => {
 						</Row>
 						<Row className={styles.customFooter}>
 							<hr className="mt-2"></hr>
-							<Col className="d-flex">
-								<Image
-									className={styles.customImage}
-									height="35px"
-									width="35px"
-									src={creatorPhoto}
-									roundedCircle
-								/>
-								<p className="mt-2 fs-6 ms-2">
-									Created by: {creatorName}
-								</p>
+							<Col xs={6}>
+								<Stack direction="horizontal">
+									<Image
+										className={styles.customImage}
+										height="35px"
+										width="35px"
+										src={creatorPhoto}
+										roundedCircle
+									/>
+									<Stack direction="vertical" className="ms-2 mt-1">
+										<p className="fs-6 my-0">Created by:</p>
+										<p className="fs-6 fw-bold my-0">
+											{/* {creatorName} */}
+											{creatorName.length > 12
+												? `${creatorName.substring(0, 12)}...`
+												: creatorName
+											}
+										</p>
+									</Stack>
+								</Stack>
 							</Col>
+
 							<Col className="d-flex justify-content-end mt-1">
 								{/* IF EDIT BUTTON IS CLICKED AND MATCHES LOGGED IN USER - MODAL IS SHOWN */}
 								{currentUser.userId !== task.userId ? null : (
@@ -185,7 +195,7 @@ export const TaskCard = (props) => {
 								<Button
 									variant="primary"
 									size="sm"
-									className={`px-3 ms-3 fs-6 text-light fw-bold ${styles.customBtn}`}
+									className={`px-3 ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
 									onClick={() => setIsViewModal(true)}
 								>
 									Details
