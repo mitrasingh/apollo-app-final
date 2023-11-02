@@ -10,7 +10,6 @@ import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
 import { DeleteModal } from "../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import styles from "./CommentCard.module.css";
 
 export const CommentCard = (props) => {
 	// Props from parent TopicDetails.jsx
@@ -55,7 +54,6 @@ export const CommentCard = (props) => {
 						<Col className="d-flex align-items-center">
 							<Stack direction="horizontal" gap={2}>
 								<Image
-									className={styles.customImage}
 									height="25px"
 									width="25px"
 									src={comment.userPhoto}
