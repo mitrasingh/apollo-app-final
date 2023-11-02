@@ -201,7 +201,7 @@ export const TopicDetails = () => {
 					<Card className="text-light">
 						<Card.Header className="fs-6">
 							<Row>
-								<Col xs lg="10">
+								<Col xs={10}>
 									<Stack direction="horizontal" gap={2}>
 										<Image
 											height="30px"
@@ -209,13 +209,14 @@ export const TopicDetails = () => {
 											src={userPhoto}
 											roundedCircle
 										/>
-										<p className="mt-3 ms-1">
-											Posted by: {topic.firstName} {topic.lastName}
-										</p>
+										<Stack direction="vertical">
+											<Card.Text className="my-0">Posted by:</Card.Text>
+											<Card.Text>{topic.firstName} {topic.lastName}</Card.Text>
+										</Stack>
 									</Stack>
 								</Col>
-								<Col xs lg="2" className="d-flex justify-content-end">
-									<Stack direction="horizontal" gap={3}>
+								<Col xs={2} className="d-flex justify-content-end">
+									<Stack direction="horizontal" gap={2}>
 										{topic.userId === currentUser.userId ? (
 											<>
 												<Dropdown>
@@ -271,6 +272,8 @@ export const TopicDetails = () => {
 									{topic.description}
 								</p>
 							)}
+						</Card.Body>
+						<Card.Body className="py-0">
 							<Like docId={id} />
 						</Card.Body>
 					</Card>
