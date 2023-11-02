@@ -1,0 +1,5 @@
+body .customContainer {
+	max-width: 375px;
+	max-height: 100vh;
+	margin-top: 100px;
+}
