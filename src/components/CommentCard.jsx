@@ -60,10 +60,7 @@ export const CommentCard = (props) => {
 									roundedCircle
 								/>
 								<Card.Text className="fs-6">
-									{comment.firstName} {comment.lastName} {" |"}
-									{isCommentUpdated
-										? ` post edited `
-										: ` posted `}{dateRelativeTime}
+									{comment.firstName} {comment.lastName}
 								</Card.Text>
 							</Stack>
 						</Col>
@@ -116,7 +113,20 @@ export const CommentCard = (props) => {
 							</Col>
 						</Row>
 					}
-					<Like docId={comment.commentId} />
+				</Card.Body>
+				<Card.Body className="py-0">
+					<Row>
+						<Col>
+							<Stack direction="horizontal" gap={3}>
+								<Like docId={comment.commentId} />
+								<Card.Text className="fs-6 py-0">
+									{isCommentUpdated
+										? ` ...post edited `
+										: ` ...posted `}{dateRelativeTime}
+								</Card.Text>
+							</Stack>
+						</Col>
+					</Row>
 				</Card.Body>
 			</Card>
 		</>
