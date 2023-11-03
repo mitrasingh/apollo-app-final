@@ -1,4 +1,4 @@
-import { Form, Stack, Button } from "react-bootstrap";
+import { Form, Stack, Button, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { db } from "../utils/firebase-config";
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
@@ -45,7 +45,7 @@ export const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopic
 			>
 				<Form.Group className="mb-3">
 					<Form.Control
-						style={{ fontSize: "10px" }}
+						className="fs-5"
 						maxLength={100000}
 						rows={5}
 						type="text"
@@ -57,31 +57,30 @@ export const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopic
 							},
 						})}
 					/>
-					<p style={{ marginTop: "5px", fontSize: "10px", color: "red" }}>
-						{errors.newdescription?.message}
-					</p>
+					<p className="mt-2 fs-6">{errors.newdescription?.message}</p>
 				</Form.Group>
-
-				<Stack direction="horizontal" gap={1}>
-					<Button
-						style={{ fontSize: "10px", maxHeight: "30px", minWidth: "40px" }}
-						className="ms-2"
-						variant="dark"
-						size="sm"
-						onClick={() => setIsEditTopicDisplayed(false)}
-					>
-						Cancel
-					</Button>
-					<Button
-						style={{ fontSize: "10px", maxHeight: "30px", minWidth: "40px" }}
-						className="ms-2"
-						variant="dark"
-						size="sm"
-						type="submit"
-					>
-						Update
-					</Button>
-				</Stack>
+				<Row>
+					<Col className="d-flex justify-content-end">
+						<Stack direction="horizontal" gap={1}>
+							<Button
+								className="fs-6 text-light fw-bold"
+								variant="secondary"
+								size="sm"
+								onClick={() => setIsEditTopicDisplayed(false)}
+							>
+								Cancel
+							</Button>
+							<Button
+								className="text-light fw-bold fs-6 ms-2"
+								variant="primary"
+								size="sm"
+								type="submit"
+							>
+								Update
+							</Button>
+						</Stack>
+					</Col>
+				</Row>
 			</Form>
 		</>
 	);
