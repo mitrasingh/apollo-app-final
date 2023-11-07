@@ -46,6 +46,29 @@ export const SignIn = () => {
         }
     };
 
+    const handleGuestLogin = async () => {
+        try {
+            await signInWithEmailAndPassword(auth, "guest@apollo.com", "guest123");
+            const docRef = doc(db, "users", auth.currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            const userData = docSnap.data();
+            // Assigns default values to Redux user state
+            dispatch(
+                loginUser({
+                    userId: auth.currentUser.uid,
+                    firstName: auth.currentUser.displayName,
+                    lastName: userData.lastname,
+                    title: userData.title,
+                    email: auth.currentUser.email,
+                })
+            );
+            navigate("/");
+        } catch (error) {
+            setAlert(true);
+            setAlertMessage(error.code);
+        }
+    };
+
     return (
         <>
             {alert ? (
@@ -132,9 +155,14 @@ export const SignIn = () => {
                         >
                             Forgot password?
                         </Link>
-
                     </Card>
                 </Form>
+                <p className="text-center mt-4">
+                    Sign In as {" "}
+                    <Link className="fw-bold" onClick={handleGuestLogin}>
+                        Guest
+                    </Link>
+                </p>
             </Container >
         </>
     );
