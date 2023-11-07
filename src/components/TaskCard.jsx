@@ -95,7 +95,7 @@ export const TaskCard = (props) => {
 											key="bottom"
 											placement="bottom"
 											overlay={
-												<Tooltip className="fs-6" id={`tooltip-bottom`}>
+												<Tooltip className="fs-6">
 													Delete task
 												</Tooltip>
 											}

@@ -49,7 +49,7 @@ export const Navigation = () => {
                         key="bottom"
                         placement="bottom"
                         overlay={
-                            <Tooltip className="fs-6" id={`tooltip-bottom`}>
+                            <Tooltip className="fs-6">
                                 Edit your profile
                             </Tooltip>
                         }
