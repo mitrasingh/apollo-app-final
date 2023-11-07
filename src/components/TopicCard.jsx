@@ -69,8 +69,8 @@ export const TopicCard = (props) => {
 					<Row>
 						<Col>
 							<Link to={topic.topicId.toString()} className="fw-bold fs-5">
-								{topic.title.length > 20
-									? `${topic.title.substring(0, 20)}...`
+								{topic.title.length > 30
+									? `${topic.title.substring(0, 30)}...`
 									: topic.title
 								}
 							</Link>
