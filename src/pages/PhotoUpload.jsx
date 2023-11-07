@@ -107,6 +107,9 @@ export const PhotoUpload = () => {
 							<h4 className="fw-bold text-center">
 								User Photo Upload
 							</h4>
+							<h4 className="fs-6 text-center">
+								Photo is required
+							</h4>
 						</Row>
 
 						<Row>
