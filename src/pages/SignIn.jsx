@@ -20,6 +20,7 @@ export const SignIn = () => {
     const { errors } = formState;
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+    // Login functionality that uses form data from user fields entered
     const auth = getAuth();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,6 +47,7 @@ export const SignIn = () => {
         }
     };
 
+    // Login functionality with set parameters for guest
     const handleGuestLogin = async () => {
         try {
             await signInWithEmailAndPassword(auth, "guest@apollo.com", "guest123");
