@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar, Image, Form } from 'react-bootstrap';
+import { Container, Nav, Navbar, Image, Form, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -45,15 +45,25 @@ export const Navigation = () => {
                     Apollo
                 </Navbar.Brand>
                 <Form className="order-lg-last">
-                    <Link to="/profile">
-                        <Image
-                            className=""
-                            height="35px"
-                            width="35px"
-                            src={userImage}
-                            roundedCircle
-                        />
-                    </Link>
+                    <OverlayTrigger
+                        key="bottom"
+                        placement="bottom"
+                        overlay={
+                            <Tooltip className="fs-6" id={`tooltip-bottom`}>
+                                Edit your profile
+                            </Tooltip>
+                        }
+                    >
+                        <Link to="/profile">
+                            <Image
+                                className=""
+                                height="35px"
+                                width="35px"
+                                src={userImage}
+                                roundedCircle
+                            />
+                        </Link>
+                    </OverlayTrigger>
                 </Form>
                 <LogoutModal
                     handleLogout={handleLogout}
