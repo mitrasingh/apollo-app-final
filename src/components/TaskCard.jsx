@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ViewTaskModal } from "./ViewTaskModal";
 import { EditTaskModal } from "./EditTaskModal";
-import { Button, Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
@@ -91,14 +91,24 @@ export const TaskCard = (props) => {
 							<Col>
 								{task.userId === currentUser.userId ? (
 									<Col className="d-flex justify-content-end fw-bold mt-1">
-										<Image
-											onClick={handleShow}
-											className={styles.cursorPointer}
-											src="public/img/trash-fill.svg"
-											width="15"
-											height="15"
-											alt="trash icon"
-										/>
+										<OverlayTrigger
+											key="bottom"
+											placement="bottom"
+											overlay={
+												<Tooltip className="fs-6" id={`tooltip-bottom`}>
+													Delete task
+												</Tooltip>
+											}
+										>
+											<Image
+												onClick={handleShow}
+												className={styles.cursorPointer}
+												src="public/img/trash-fill.svg"
+												width="15"
+												height="15"
+												alt="trash icon"
+											/>
+										</OverlayTrigger>
 									</Col>
 								) : null}
 							</Col>
