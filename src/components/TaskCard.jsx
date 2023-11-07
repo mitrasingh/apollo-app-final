@@ -81,8 +81,8 @@ export const TaskCard = (props) => {
 							<Col>
 								<Stack direction="horizontal" gap={2}>
 									<div className="fs-4 fw-bold">
-										{task.taskName.length > 25
-											? `${task.taskName.substring(0, 25)}...`
+										{task.taskName.length > 30
+											? `${task.taskName.substring(0, 30)}...`
 											: task.taskName
 										}
 									</div>
