@@ -18,6 +18,7 @@ export const Home = () => {
 	// User input for SearchBar
 	const [userInput, setUserInput] = useState("");
 
+	// Functionality for displaying loader upon initiation of page
 	const [isLoading, setIsLoading] = useState(false);
 	const spinnerStyle = {
 		height: "90vh",
@@ -54,7 +55,7 @@ export const Home = () => {
 
 	// Refresh task state by fetching data, clears filters, clears user search value
 	const refreshTasksHandle = () => {
-		fetchTasks();
+		setTaskArrayFilter(taskArray);
 		setIsClearFilterDisplayed(false);
 	};
 
@@ -104,6 +105,7 @@ export const Home = () => {
 					<SearchBar
 						userInputSearchBar={userInputSearchBar}
 						filterSearchHandle={filterSearchHandle}
+						refreshTasksHandle={refreshTasksHandle}
 					/>
 
 					<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
