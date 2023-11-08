@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
@@ -12,6 +12,8 @@ import styles from "./PhotoUpload.module.css";
 export const PhotoUpload = () => {
 	const [userPhoto, setUserPhoto] = useState(null); // Users' chosen file to upload
 	const [photoURL, setPhotoURL] = useState(""); // Allows user to see how photo is displayed before upload
+
+	// Invokes error message if functionality fails
 	const [isAlert, isSetAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
 
@@ -84,9 +86,12 @@ export const PhotoUpload = () => {
 	return (
 		<>
 			{isAlert ? (
-				<Alert variant="danger" onClose={() => isSetAlert(false)} dismissible>
-					<Alert.Heading>There is an error!</Alert.Heading>
+				<Alert variant="primary" className="text-center" data-bs-theme="dark">
+					<Alert.Heading className="fw-bold">There is an error!</Alert.Heading>
 					<p>Reason: {alertMessage}</p>
+					<Link className="fs-5 fw-bold text-light" onClick={() => isSetAlert(false)}>
+						Close
+					</Link>
 				</Alert>
 			) : null}
 
