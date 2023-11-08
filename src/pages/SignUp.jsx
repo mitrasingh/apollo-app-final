@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile, getAuth } from "firebase/auth"
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { db } from "../utils/firebase-config"
-import { Container, Form, Card, Button, Stack, Image } from "react-bootstrap"
+import { Container, Form, Card, Button, Stack, Image, Alert } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { loginUser } from "../features/user/userSlice"
 import { Link, useNavigate } from "react-router-dom"
@@ -10,6 +11,9 @@ import { useForm } from "react-hook-form";
 import styles from "./SignUp.module.css";
 
 export const SignUp = () => {
+    // Invokes error message if functionality fails
+    const [isAlert, isSetAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
 
     // React Hook Form
     const form = useForm({ mode: "onChange" });
@@ -59,13 +63,25 @@ export const SignUp = () => {
             }
             navigate("/photoupload");
         } catch (error) {
-            console.log(error.message)
+            console.log(error);
+            isSetAlert(true);
+            setAlertMessage(error.code);
         }
     };
 
 
     return (
         <>
+            {isAlert ? (
+                <Alert variant="primary" className="text-center" data-bs-theme="dark">
+                    <Alert.Heading className="fw-bold">There is an error!</Alert.Heading>
+                    <p>Reason: {alertMessage}</p>
+                    <Link className="fs-5 fw-bold text-light" onClick={() => isSetAlert(false)}>
+                        Close
+                    </Link>
+                </Alert>
+            ) : null}
+
             <Container className={`fs-6 ${styles.formContainer}`}>
                 <h6 className="text-center text-light">Welcome to</h6>
                 <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">

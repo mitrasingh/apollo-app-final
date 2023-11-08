@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import styles from "./SignIn.module.css";
 
 export const SignIn = () => {
-    // Invokes error message if login fails
-    const [alert, setAlert] = useState(false);
+    // Invokes error message if functionality fails
+    const [isAlert, isSetAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
 
     // React Hook Form
@@ -42,7 +42,8 @@ export const SignIn = () => {
             );
             navigate("/");
         } catch (error) {
-            setAlert(true);
+            console.log(error);
+            isSetAlert(true);
             setAlertMessage(error.code);
         }
     };
@@ -66,17 +67,21 @@ export const SignIn = () => {
             );
             navigate("/");
         } catch (error) {
-            setAlert(true);
+            console.log(error);
+            isSetAlert(true);
             setAlertMessage(error.code);
         }
     };
 
     return (
         <>
-            {alert ? (
-                <Alert variant="danger" onClose={() => setAlert(false)} dismissible>
-                    <Alert.Heading>There is an error!</Alert.Heading>
+            {isAlert ? (
+                <Alert variant="primary" className="text-center" data-bs-theme="dark">
+                    <Alert.Heading className="fw-bold">There is an error!</Alert.Heading>
                     <p>Reason: {alertMessage}</p>
+                    <Link className="fs-5 fw-bold text-light" onClick={() => isSetAlert(false)}>
+                        Close
+                    </Link>
                 </Alert>
             ) : null}
 

@@ -8,7 +8,6 @@ import styles from "./ForgotPassword.module.css";
 
 
 export const ForgotPassword = () => {
-
     // React Hook Form
     const form = useForm();
     const { register, handleSubmit, formState } = form;
