@@ -9,7 +9,7 @@ import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../utils/firebase-config"
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useForm } from "react-hook-form";
-import SyncLoader from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import styles from "./Profile.module.css";
 
 export const Profile = () => {
