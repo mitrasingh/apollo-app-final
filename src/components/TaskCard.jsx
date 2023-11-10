@@ -4,10 +4,10 @@ import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import { ViewTaskModal } from "./ViewTaskModal";
+import { EditTaskModal } from "./EditTaskModal";
+import { DeleteModal } from "./DeleteModal";
 import PropTypes from "prop-types";
-import ViewTaskModal from "./ViewTaskModal";
-import EditTaskModal from "./EditTaskModal";
-import DeleteModal from "./DeleteModal";
 import styles from "./TaskCard.module.css";
 
 export const TaskCard = (props) => {

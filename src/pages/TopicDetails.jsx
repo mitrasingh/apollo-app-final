@@ -8,11 +8,11 @@ import { Container, Card, Row, Col, Image, Stack, Form, Button, Dropdown, CloseB
 import { useNavigate } from "react-router-dom";
 import { TopicIdContext } from ".././utils/TopicIdContext";
 import { useForm } from "react-hook-form";
-import EditTopic from "../components/EditTopic";
-import Like from "../components/Like";
-import CommentCard from "../components/CommentCard";
-import DeleteModal from "../components/DeleteModal";
-import SyncLoader from 'react-spinners';
+import { EditTopic } from "../components/EditTopic";
+import { Like } from "../components/Like";
+import { CommentCard } from "../components/CommentCard";
+import { DeleteModal } from "../components/DeleteModal";
+import { SyncLoader } from 'react-spinners';
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicDetails.module.css";

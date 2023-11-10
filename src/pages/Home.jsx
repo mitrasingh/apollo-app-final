@@ -3,10 +3,10 @@ import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { Container, Stack } from "react-bootstrap";
 import { SyncLoader } from 'react-spinners';
-import TaskCard from "../components/TaskCard";
-import SearchBar from "../components/SearchBar";
-import Filter from "../components/Filter";
-import RefreshButton from "../components/RefreshButton";
+import { TaskCard } from "../components/TaskCard";
+import { SearchBar } from "../components/SearchBar";
+import { Filter } from "../components/Filter";
+import { RefreshButton } from "../components/RefreshButton";
 import styles from "./Home.module.css";
 
 export const Home = () => {
