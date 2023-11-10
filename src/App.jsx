@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router";
-import { Home } from "./pages/Home";
-import { CreateTask } from "./pages/CreateTask";
-import { Profile } from "./pages/Profile";
-import { Shoutboard } from "./pages/Shoutboard";
-import { SignIn } from "./pages/SignIn";
-import { SignUp } from "./pages/SignUp";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { PhotoUpload } from "./pages/PhotoUpload";
-import { TopicDetails } from "./pages/TopicDetails";
-import { ForgotPassword } from "./pages/ForgotPassword";
-import { NotFound } from "./pages/NotFound";
+import Home from "./pages/Home";
+import CreateTask from "./pages/CreateTask";
+import Profile from "./pages/Profile";
+import Shoutboard from "./pages/Shoutboard";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PhotoUpload from "./pages/PhotoUpload";
+import TopicDetails from "./pages/TopicDetails";
+import ForgotPassword from "./pages/ForgotPassword";
+import NotFound from "./pages/NotFound";
 
 
 function App() {

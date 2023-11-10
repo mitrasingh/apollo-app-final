@@ -1,12 +1,12 @@
 import { Outlet, useLocation, Navigate } from "react-router-dom";
 import { auth, db } from "../utils/firebase-config";
-import { Navigation } from "../components/Navigation";
 import { useState, useEffect } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { useDispatch } from 'react-redux';
 import { doc, getDoc } from 'firebase/firestore';
 import { loginUser, logoutUser } from "../features/user/userSlice";
+import Navigation from "../components/Navigation";
 
 export const ProtectedRoute = () => {
 

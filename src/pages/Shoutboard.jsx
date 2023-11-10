@@ -1,11 +1,11 @@
-import { TopicCard } from "../components/TopicCard";
 import { Container } from "react-bootstrap";
-import { CreateTopicForm } from "../components/CreateTopicForm";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { SyncLoader } from 'react-spinners';
+import TopicCard from "../components/TopicCard";
+import CreateTopicForm from "../components/CreateTopicForm";
+import SyncLoader from 'react-spinners';
 import styles from "./Shoutboard.module.css";
 
 export const Shoutboard = () => {

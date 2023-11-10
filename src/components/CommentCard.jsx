@@ -4,10 +4,10 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { useContext, useState } from "react";
 import { TopicIdContext } from "../utils/TopicIdContext";
-import { EditComment } from "../components/EditComment";
-import { Like } from "../components/Like";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
-import { DeleteModal } from "../components/DeleteModal";
+import EditComment from "../components/EditComment";
+import Like from "../components/Like";
+import DeleteModal from "../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 

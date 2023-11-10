@@ -1,10 +1,10 @@
 import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { Link } from "react-router-dom";
 import { db } from "../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
+import PropTypes from "prop-types";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicCard.module.css";

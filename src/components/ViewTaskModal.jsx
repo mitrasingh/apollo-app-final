@@ -1,9 +1,8 @@
+import { useState, useEffect } from "react";
 import { Button, Modal, Stack, Image } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { db } from "../utils/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect } from "react";
-import { useState } from "react";
+import PropTypes from "prop-types";
 import styles from "./ViewTaskModal.module.css";
 
 export const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creatorName }) => {

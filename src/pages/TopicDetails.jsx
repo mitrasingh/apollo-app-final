@@ -4,18 +4,17 @@ import { doc, getDoc, collection, addDoc, query, Timestamp, getCountFromServer, 
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
 import { useSelector } from "react-redux";
-import { Container, Card, Row, Col, Image, Stack, Form, Button, Dropdown } from "react-bootstrap";
-import CloseButton from "react-bootstrap/CloseButton";
-import { CommentCard } from "../components/CommentCard";
+import { Container, Card, Row, Col, Image, Stack, Form, Button, Dropdown, CloseButton } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { TopicIdContext } from ".././utils/TopicIdContext";
-import { EditTopic } from "../components/EditTopic";
-import { Like } from "../components/Like";
-import { DeleteModal } from "../components/DeleteModal";
 import { useForm } from "react-hook-form";
+import EditTopic from "../components/EditTopic";
+import Like from "../components/Like";
+import CommentCard from "../components/CommentCard";
+import DeleteModal from "../components/DeleteModal";
+import SyncLoader from 'react-spinners';
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { SyncLoader } from 'react-spinners';
 import styles from "./TopicDetails.module.css";
 
 export const TopicDetails = () => {

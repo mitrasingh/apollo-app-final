@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { ViewTaskModal } from "./ViewTaskModal";
-import { EditTaskModal } from "./EditTaskModal";
 import { Button, Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import { DeleteModal } from "./DeleteModal";
+import PropTypes from "prop-types";
+import ViewTaskModal from "./ViewTaskModal";
+import EditTaskModal from "./EditTaskModal";
+import DeleteModal from "./DeleteModal";
 import styles from "./TaskCard.module.css";
 
 export const TaskCard = (props) => {
