@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { Container, Stack } from "react-bootstrap";
-import { SyncLoader } from 'react-spinners';
+import Spinner from 'react-bootstrap/Spinner';
 import { TaskCard } from "../components/TaskCard";
 import { SearchBar } from "../components/SearchBar";
 import { Filter } from "../components/Filter";
@@ -18,20 +18,12 @@ export const Home = () => {
 	// User input for SearchBar
 	const [userInput, setUserInput] = useState("");
 
-	// Functionality for displaying loader upon initiation of page
-	const [isLoading, setIsLoading] = useState(false);
-	const spinnerStyle = {
-		height: "90vh",
-		width: "100%",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	}
+	// State for displaying loader component
+	const [isLoading, setIsLoading] = useState(true);
 
 	// Fetch data and map each task into state variables
 	const fetchTasks = async () => {
 		try {
-			setIsLoading(true);
 			const dbRef = collection(db, "tasks");
 			const fetchTasks = await getDocs(query(dbRef));
 			const tasksMap = fetchTasks.docs.map((doc) => ({
@@ -45,7 +37,7 @@ export const Home = () => {
 		} finally {
 			setTimeout(() => {
 				setIsLoading(false);
-			}, 500)
+			}, 100)
 		}
 	};
 
@@ -99,7 +91,9 @@ export const Home = () => {
 	return (
 		<Container className={styles.customContainer}>
 			{isLoading ?
-				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
+				<div className="d-flex justify-content-center align-items-center vh-100">
+					<Spinner animation="border" variant="warning" />
+				</div>
 				:
 				<>
 					<SearchBar
@@ -140,3 +134,4 @@ export const Home = () => {
 		</Container>
 	);
 };
+

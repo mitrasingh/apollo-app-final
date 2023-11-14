@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { SyncLoader } from 'react-spinners';
+import Spinner from 'react-bootstrap/Spinner';
 import { TopicCard } from "../components/TopicCard";
 import { CreateTopicForm } from "../components/CreateTopicForm";
 import styles from "./Shoutboard.module.css";
@@ -18,20 +18,13 @@ export const Shoutboard = () => {
 	// Triggers refresh topic list when user posts a new topic via CreateTopicForm.jsx
 	const [isTopicsRefreshed, setIsTopicsRefreshed] = useState(false);
 
-	const [isLoading, setIsLoading] = useState(false);
-	const spinnerStyle = {
-		height: "90vh",
-		width: "100%",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	}
+	// State for displaying loader component
+	const [isLoading, setIsLoading] = useState(true);
 
 	// Function that fetches data from database by querying "topics" collection
 	useEffect(() => {
 		const fetchTopics = async () => {
 			try {
-				setIsLoading(true);
 				const dbRef = collection(db, "topics")
 				const topicsData = await getDocs(query(dbRef))
 				const topicsMap = topicsData.docs.map((doc) => ({ ...doc.data(), topicId: doc.id }))
@@ -41,7 +34,7 @@ export const Shoutboard = () => {
 			} finally {
 				setTimeout(() => {
 					setIsLoading(false);
-				}, 500)
+				}, 100)
 			}
 		};
 		fetchTopics();
@@ -53,11 +46,13 @@ export const Shoutboard = () => {
 	};
 
 	return (
-		<>
+		<Container className={styles.customContainer}>
 			{isLoading ?
-				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
+				<div className="d-flex justify-content-center align-items-center vh-100">
+					<Spinner animation="border" variant="warning" />
+				</div>
 				:
-				<Container className={styles.customContainer}>
+				<>
 					<p className="fs-2 fw-bold d-flex justify-content-center text-light">Shout Board</p>
 					<Button
 						className={`d-flex align-items-center justify-content-center fs-6 fw-bold text-light ms-3 mb-2 ${styles.customBtn}`}
@@ -77,8 +72,8 @@ export const Shoutboard = () => {
 					{topicArray.map((topic) => {
 						return <TopicCard topic={topic} key={topic.topicId} />;
 					})}
-				</Container>
+				</>
 			}
-		</>
+		</Container>
 	);
 };

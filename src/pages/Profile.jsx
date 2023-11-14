@@ -9,7 +9,7 @@ import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../utils/firebase-config"
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useForm } from "react-hook-form";
-import { SyncLoader } from 'react-spinners';
+import Spinner from 'react-bootstrap/Spinner';
 import styles from "./Profile.module.css";
 
 export const Profile = () => {
@@ -32,19 +32,12 @@ export const Profile = () => {
     const { errors } = formState;
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-
     const [userUpdatedPhoto, setUserUpdatedPhoto] = useState(""); // Displays photo before final upload
     const [photoURL, setPhotoURL] = useState(""); // Photo URL for HTML display
     const [checkPhoto, setCheckPhoto] = useState(false); // If a new photo exists from previous photo
 
-    const [isLoading, setIsLoading] = useState(false);
-    const spinnerStyle = {
-        height: "90vh",
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    }
+    // State for displaying loader component
+    const [isLoading, setIsLoading] = useState(true);
 
     const storage = getStorage();
     const storageRef = ref(storage);
@@ -66,7 +59,7 @@ export const Profile = () => {
             } finally {
                 setTimeout(() => {
                     setIsLoading(false);
-                }, 500)
+                }, 100)
             }
         };
         fetchUserRedux();
@@ -132,7 +125,9 @@ export const Profile = () => {
     return (
         <>
             {isLoading ? (
-                <SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <Spinner animation="border" variant="warning" />
+                </div>
             ) : (
                 <Container className={`text-light px-4 ${styles.customContainer}`}>
                     <p className="fs-2 fw-bold d-flex justify-content-center text-light">Edit Profile</p>

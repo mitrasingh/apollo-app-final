@@ -12,13 +12,12 @@ import { EditTopic } from "../components/EditTopic";
 import { Like } from "../components/Like";
 import { CommentCard } from "../components/CommentCard";
 import { DeleteModal } from "../components/DeleteModal";
-import { SyncLoader } from 'react-spinners';
+import Spinner from 'react-bootstrap/Spinner';
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicDetails.module.css";
 
 export const TopicDetails = () => {
-
 	// useParams, creates a dynamic page using the topicId property from its fetched document within the "topics" collection in database
 	// This shared id also specifies the specific document to query within the "topics" collection of the database
 	const { id } = useParams();
@@ -58,14 +57,7 @@ export const TopicDetails = () => {
 	// Redux state properties of current user (sets default properties when posting a comment)
 	const currentUser = useSelector((state) => state.user);
 
-	const [isLoading, setIsLoading] = useState(false);
-	const spinnerStyle = {
-		height: "90vh",
-		width: "100%",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	}
+	const [isLoading, setIsLoading] = useState(true);
 
 	const navigate = useNavigate();
 
@@ -78,7 +70,6 @@ export const TopicDetails = () => {
 	useEffect(() => {
 		const fetchTopicData = async () => {
 			try {
-				setIsLoading(true);
 				const docRef = doc(db, "topics", id);
 				const docSnap = await getDoc(docRef);
 
@@ -89,19 +80,21 @@ export const TopicDetails = () => {
 					);
 					setUserPhoto(userPhotoURL);
 					setTopic(data);
-
 					// Conversion of firestore timestamp to dayjs fromNow method
 					dayjs.extend(relativeTime);
 					const convertTimeStamp = data.datePosted.toDate();
 					const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 					setDisplayTimeStamp(dateRelativeTime);
+					console.log("topic exists")
+				} else {
+					console.log("topic doesn't exist")
 				}
 			} catch (error) {
 				console.log(error);
 			} finally {
 				setTimeout(() => {
 					setIsLoading(false);
-				}, 500)
+				}, 100)
 			}
 		};
 		fetchTopicData();
@@ -192,11 +185,13 @@ export const TopicDetails = () => {
 	};
 
 	return (
-		<>
+		<Container className={`p-4 ${styles.customContainer}`}>
 			{isLoading ?
-				<SyncLoader size={10} color="#ffa500" cssOverride={spinnerStyle} />
+				<div className="d-flex justify-content-center align-items-center vh-100">
+					<Spinner animation="border" variant="warning" />
+				</div>
 				:
-				<Container className={`p-4 ${styles.customContainer}`}>
+				<>
 					<Card className="text-light">
 						<Card.Header className="fs-6">
 							<Row>
@@ -322,8 +317,8 @@ export const TopicDetails = () => {
 							</TopicIdContext.Provider>
 						);
 					})}
-				</Container >
+				</>
 			}
-		</>
+		</Container >
 	);
 };
