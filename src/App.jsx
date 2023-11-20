@@ -5,9 +5,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { CreateTask } from "./pages/CreateTask";
+import CreateTaskPage from "./pages/CreateTaskPage";
+import TopicBoard from "./pages/TopicBoard"
 import { Profile } from "./pages/Profile";
-import { Shoutboard } from "./pages/Shoutboard";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -21,10 +21,10 @@ const router = createBrowserRouter(
     <Route path="/">
       <Route element={<ProtectedRoute />}>
         <Route index element={<Home />} />
-        <Route path="createtask" element={<CreateTask />} />
-        <Route path="shoutboard" element={<Shoutboard />} />
+        <Route path="createtask" element={<CreateTaskPage />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="shoutboard/:id" element={<TopicDetails />} />
+        <Route path="topicboard" element={<TopicBoard />} />
+        <Route path="topicboard/:id" element={<TopicDetails />} />
       </Route>
 
       <Route path="signin" element={<SignIn />} />
