@@ -1,15 +1,15 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import styles from "./ErrorFallback.module.css";
+import styles from "./ErrorFallbackTopics.module.css";
 
-export const ErrorFallback = ({ resetErrorBoundary }) => {
+export const ErrorFallbackTopics = ({ resetErrorBoundary }) => {
 
     return (
         <Container className={styles.customContainer}>
             <Row>
                 <Col className="d-flex justify-content-center mt-4">
-                    <div className="text-light fs-3 fw-bold">Oops, something is wrong!</div>
+                    <div className="text-light fs-4 fw-bold text-center">Ground control, topics not loading!</div>
                 </Col>
             </Row>
             <Row>
@@ -28,7 +28,7 @@ export const ErrorFallback = ({ resetErrorBoundary }) => {
             <Row>
                 <Col className="d-flex justify-content-center mt-4 fs-6">
                     <p className="text-center text-light">
-                        Head back to&nbsp;
+                        Head to&nbsp;
                         <Link
                             className="fw-bold"
                             to="/"
@@ -42,8 +42,8 @@ export const ErrorFallback = ({ resetErrorBoundary }) => {
     )
 }
 
-ErrorFallback.propTypes = {
+ErrorFallbackTopics.propTypes = {
     resetErrorBoundary: PropTypes.func.isRequired,
 };
 
-export default ErrorFallback;
+export default ErrorFallbackTopics;
