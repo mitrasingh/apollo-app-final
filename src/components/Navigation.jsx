@@ -75,7 +75,7 @@ export const Navigation = () => {
                     <Nav className="mx-auto">
                         <Nav.Link eventKey="1" as={Link} to="/" className="me-1">Home</Nav.Link>
                         <Nav.Link eventKey="2" as={Link} to="/createtask">Create Task</Nav.Link>
-                        <Nav.Link eventKey="3" as={Link} to="/shoutboard" >Shout Board</Nav.Link>
+                        <Nav.Link eventKey="3" as={Link} to="/topicboard" >Topic Board</Nav.Link>
                         <Nav.Link eventKey="4" onClick={handleVisible}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
