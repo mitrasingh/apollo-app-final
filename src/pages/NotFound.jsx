@@ -19,7 +19,7 @@ export const NotFound = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-4">
-                    <div className="text-light fs-3 fw-bold">Oops, page is not found!</div>
+                    <div className="text-light fs-3 fw-bold">Page not found!</div>
                 </Col>
             </Row>
             <Row>
