@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, addDoc, query, Timestamp, getCountFromServer, deleteDoc, where, getDocs, orderBy } from "firebase/firestore";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
 import { useSelector } from "react-redux";
 import { Container, Card, Row, Col, Image, Stack, Form, Button, Dropdown, CloseButton } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { TopicIdContext } from ".././utils/TopicIdContext";
 import { useForm } from "react-hook-form";
 import { EditTopic } from "../components/EditTopic";
@@ -73,7 +72,12 @@ export const TopicDetails = () => {
 				const docRef = doc(db, "topics", id);
 				const docSnap = await getDoc(docRef);
 
+				if (!docSnap.exists()) {
+					navigate("/error");
+				}
+
 				if (docSnap.exists()) {
+					console.log("trtying..")
 					const data = docSnap.data();
 					const userPhotoURL = await getDownloadURL(
 						ref(storageRef, `user-photo/${data.userId}`)
@@ -85,9 +89,6 @@ export const TopicDetails = () => {
 					const convertTimeStamp = data.datePosted.toDate();
 					const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 					setDisplayTimeStamp(dateRelativeTime);
-					console.log("topic exists")
-				} else {
-					console.log("topic doesn't exist")
 				}
 			} catch (error) {
 				console.log(error);
@@ -172,7 +173,7 @@ export const TopicDetails = () => {
 		const documentRef = doc(db, "topics", id);
 		try {
 			await deleteDoc(documentRef);
-			navigate("/shoutboard");
+			navigate("/topicboard");
 			setIsVisible(false);
 		} catch (error) {
 			console.log(error);
