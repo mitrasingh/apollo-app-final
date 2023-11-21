@@ -12,7 +12,7 @@ import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PhotoUpload } from "./pages/PhotoUpload";
-import { TopicDetails } from "./pages/TopicDetails";
+import TopicDetailsPage from "./pages/TopicDetailsPage";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { NotFound } from "./pages/NotFound";
 
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
         <Route path="createtask" element={<CreateTaskPage />} />
         <Route path="profile" element={<Profile />} />
         <Route path="topicboard" element={<TopicBoard />} />
-        <Route path="topicboard/:id" element={<TopicDetails />} />
+        <Route path="topicboard/:id" element={<TopicDetailsPage />} />
       </Route>
 
       <Route path="signin" element={<SignIn />} />
