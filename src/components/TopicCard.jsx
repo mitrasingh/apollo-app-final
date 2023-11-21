@@ -1,29 +1,33 @@
-import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { Link } from "react-router-dom";
 import { db } from "../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
+import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicCard.module.css";
 
 export const TopicCard = (props) => {
-	// receiving prop data from Shoutboard.jsx
+	// Receiving prop data from TopicCards.jsx
 	const { topic } = props;
 
-	// retrieving photo url of user and saving it in a state
+	// Catches error and returns to error boundary component (error component invoked in TopicBoard.jsx)
+	const { showBoundary } = useErrorBoundary();
+
+	// Retrieving photo url of user and saving it in a state
 	const [creatorPhoto, setCreatorPhoto] = useState("");
 
-	// displays numbers of comments (how many documents within "comments" collection)
+	// Displays numbers of comments (how many documents within "comments" collection)
 	const [numOfComments, setNumOfComments] = useState("");
 
-	// firebase storage method and reference (used for fetching user photo url based off of userId prop)
+	// Firebase storage method and reference (used for fetching user photo url based off of userId prop)
 	const storage = getStorage();
 	const storageRef = ref(storage);
 
-	// function fetches users (userId) photo url address
+	// Function fetches users (userId) photo url address
 	useEffect(() => {
 		const fetchUserPhoto = async () => {
 			try {
@@ -34,12 +38,13 @@ export const TopicCard = (props) => {
 					setCreatorPhoto(creatorPhotoURL);
 				}
 			} catch (error) {
-				console.log(error);
+				showBoundary(error);
 			}
 		};
 		fetchUserPhoto();
 	}, []);
 
+	// Function fetches number of comments for specific topic
 	useEffect(() => {
 		const getNumOfComments = async () => {
 			try {
@@ -51,7 +56,7 @@ export const TopicCard = (props) => {
 				const snapshot = await getCountFromServer(commentsToQuery);
 				setNumOfComments(snapshot.data().count);
 			} catch (error) {
-				console.log(error);
+				showBoundary(error);
 			}
 		};
 		getNumOfComments();
@@ -129,5 +134,7 @@ TopicCard.propTypes = {
 		datePosted: PropTypes.object.isRequired
 	})
 };
+
+export default TopicCard;
 
 
