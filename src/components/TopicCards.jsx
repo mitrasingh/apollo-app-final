@@ -37,7 +37,7 @@ export const TopicCards = ({ isTopicsRefreshed }) => {
     return (
         <>
             {isLoading ?
-                <div className="d-flex justify-content-center mt-4">
+                <div className="d-flex justify-content-center align-items-center vh-100">
                     <Spinner animation="border" variant="warning" />
                 </div>
                 :
