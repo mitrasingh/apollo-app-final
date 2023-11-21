@@ -2,11 +2,12 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import PropTypes from "prop-types";
 import styles from "./CreateTopicForm.module.css";
 
-// Props are from Shoutboard.jsx
+// Props are from TopicBoard.jsx
 export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 
 	// React Hook Form
@@ -14,8 +15,10 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
 
+	// Access Redux state of user slice
 	const user = useSelector((state) => state.user);
 
+	// Function adds topic to database, refreshes topic list, closes create topic form (if success), shows success/error message
 	const handleCreateTopic = async (data) => {
 		const myDate = new Date(); // Javascript date object
 		const postTimeStamp = Timestamp.fromDate(myDate); // Converts date object into a firestore timestamp
@@ -32,9 +35,29 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 			if (addTopic) {
 				setIsTopicsRefreshed((current) => !current);
 				setIsCreateTopic(false);
+				toast.success('Topic has been created!', {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "dark",
+				});
 			}
 		} catch (error) {
 			console.log(error);
+			toast.error('Could not create topic!', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
 		}
 	};
 
@@ -106,3 +129,5 @@ CreateTopicForm.propTypes = {
 	setIsCreateTopic: PropTypes.func.isRequired,
 	setIsTopicsRefreshed: PropTypes.func.isRequired,
 };
+
+export default CreateTopicForm;
