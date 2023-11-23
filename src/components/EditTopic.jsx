@@ -93,3 +93,5 @@ EditTopic.propTypes = {
 	setIsTopicRefreshed: PropTypes.func.isRequired,
 	setIsTopicEdited: PropTypes.func.isRequired
 };
+
+export default EditTopic;

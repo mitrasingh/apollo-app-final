@@ -33,3 +33,5 @@ DeleteModal.propTypes = {
 	type: PropTypes.string.isRequired,
 	handleDelete: PropTypes.func.isRequired,
 };
+
+export default DeleteModal;

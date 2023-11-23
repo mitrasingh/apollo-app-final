@@ -91,3 +91,5 @@ export const Like = ({ docId }) => { // Prop from CommentCard.jsx
 Like.propTypes = {
     docId: PropTypes.string.isRequired,
 };
+
+export default Like;
