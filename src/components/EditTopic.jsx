@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
 // Props from TopicDetails.jsx
-export const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefreshed, setIsTopicEdited }) => {
+const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefreshed, setIsTopicEdited }) => {
 
 	// React Hook Form
 	const form = useForm({
