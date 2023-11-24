@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { db } from "../utils/firebase-config";
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
 
 // Props from TopicDetails.jsx
 export const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefreshed, setIsTopicEdited }) => {
@@ -30,9 +31,29 @@ export const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopic
 				setIsEditTopicDisplayed(false); // Hides display of edit component
 				setIsTopicRefreshed((current) => !current); // Refreshes topic for immediate update
 				setIsTopicEdited((current) => !current); // Updates timestamp
+				toast.success('Topic has been updated!', {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "dark",
+				});
 			}
 		} catch (error) {
 			console.log(error);
+			toast.error('Could not edit topic!', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
 		}
 	};
 
