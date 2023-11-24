@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
+import { toast } from 'react-toastify';
 import PropTypes from "prop-types";
 
 const CommentPostForm = ({ setIsCommentsRefreshed }) => {
@@ -35,8 +36,28 @@ const CommentPostForm = ({ setIsCommentsRefreshed }) => {
                 topicId: id,
             });
             setIsCommentsRefreshed((current) => !current);
+            toast.success('Comment has been posted!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         } catch (error) {
             console.log(error);
+            toast.success('Sorry, could not post comment!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
     };
 
