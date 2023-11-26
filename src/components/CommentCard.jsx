@@ -12,20 +12,17 @@ import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 export const CommentCard = (props) => {
-	// Props from parent TopicDetails.jsx
+	// Props from parent Comments.jsx
 	const { comment } = props;
 
 	// Data of currently logged in user from Redux state
 	const currentUser = useSelector((state) => state.user);
 
-	// Data from useContext from TopicDetails.jsx
+	// Data from useContext from Comments.jsx
 	const { setIsCommentsRefreshed } = useContext(TopicIdContext); // TopicIdContext consists of id and setIsCommentsRefreshed
 
 	// Display edit field for the comment when set to true
 	const [isEditComment, setIsEditComment] = useState(false);
-
-	// Confirms user submitted change to comment when set to true
-	const [isCommentUpdated, setIsCommentUpdated] = useState(false);
 
 	// Delete comment functionality
 	const [isVisible, setIsVisible] = useState(false); // Modal display state to confirm delete
@@ -104,7 +101,6 @@ export const CommentCard = (props) => {
 							userComment={comment.userComment}
 							setIsEditComment={setIsEditComment}
 							commentId={comment.commentId}
-							setIsCommentUpdated={setIsCommentUpdated}
 						/>
 						:
 						<Row>
@@ -117,14 +113,14 @@ export const CommentCard = (props) => {
 				<Card.Body className="py-0">
 					<Row>
 						<Col>
-							<Stack direction="horizontal" gap={3}>
-								<Like docId={comment.commentId} />
-								<Card.Text className="fs-6 py-0">
-									{isCommentUpdated
-										? ` ...post edited `
-										: ` ...posted `}{dateRelativeTime}
-								</Card.Text>
-							</Stack>
+							<Like docId={comment.commentId} />
+						</Col>
+						<Col>
+							<Card.Text className="fs-6 py-0 pt-3 d-flex justify-content-end">
+								{comment.isDocEdited
+									? ` post edited `
+									: ` posted `}{dateRelativeTime}
+							</Card.Text>
 						</Col>
 					</Row>
 				</Card.Body>
@@ -142,6 +138,7 @@ CommentCard.propTypes = {
 		userComment: PropTypes.string.isRequired,
 		datePosted: PropTypes.object.isRequired,
 		topicId: PropTypes.string.isRequired,
-		commentId: PropTypes.string.isRequired
+		commentId: PropTypes.string.isRequired,
+		isDocEdited: PropTypes.bool.isRequired
 	})
 };
