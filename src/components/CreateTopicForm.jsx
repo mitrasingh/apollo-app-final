@@ -39,7 +39,7 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 				toast.success('Topic has been created!');
 			}
 		} catch (error) {
-			console.log(error);
+			console.log(`Error: ${error.message}`);
 			toast.error('Could not create topic!');
 		}
 	};
