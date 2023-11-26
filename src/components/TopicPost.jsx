@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { db } from "../utils/firebase-config";
 import { toast } from 'react-toastify';
+import { useErrorBoundary } from "react-error-boundary";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
@@ -33,11 +34,14 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
     // Stores user photo URL fetched from firebase storage via fetchTopicData function
     const [userPhoto, setUserPhoto] = useState("");
 
-    // Confirms user submitted change to topic when set to true
+    // Confirms database document has property of isDocEdited as true
     const [isTopicEdited, setIsTopicEdited] = useState(false)
 
     // Display edit fields for the topic description when set to true
     const [isEditTopicDisplayed, setIsEditTopicDisplayed] = useState(false);
+
+    // Catches error and returns to error boundary component (error component in parent (TopicDetailsPage component)
+    const { showBoundary } = useErrorBoundary();
 
     // Firebase storage method and reference (used for fetching user photo url based off of userId prop)
     const storage = getStorage();
@@ -62,6 +66,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
                     const userPhotoURL = await getDownloadURL(
                         ref(storageRef, `user-photo/${data.userId}`)
                     );
+                    data.isDocEdited ? setIsTopicEdited(true) : setIsTopicEdited(false);
                     setUserPhoto(userPhotoURL);
                     setTopic(data);
                     // Conversion of firestore timestamp to dayjs fromNow method
@@ -70,6 +75,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
                     const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
                     setDisplayTimeStamp(dateRelativeTime);
                 }
+
                 // Returns the total number of documents within the "comments" subcollection
                 const commentsToQuery = query(
                     collection(db, "comments"),
@@ -78,7 +84,8 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
                 const snapshot = await getCountFromServer(commentsToQuery);
                 setNumOfComments(snapshot.data().count);
             } catch (error) {
-                console.log(error);
+                console.log(`Error: ${error.message}`);
+                showBoundary(error);
             }
         };
         fetchTopicData();
@@ -93,28 +100,10 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
             await deleteDoc(documentRef);
             navigate("/topicboard");
             setIsVisible(false);
-            toast.success('Topic has been deleted!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.success('Topic has been deleted!');
         } catch (error) {
-            console.log(error);
-            toast.error('Could not delete topic!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            console.log(`Error: ${error.message}`);
+            toast.error('Could not delete topic!');
         }
     };
 
@@ -181,7 +170,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
             <Card.Body>
                 <h5 className="fs-3 fw-bold">{topic.title}</h5>
                 <p className="fs-6">
-                    {isTopicEdited ? `Updated post` : `Posted`} {displayTimeStamp}  |  {numOfComments}
+                    {isTopicEdited ? `Post edited` : `Posted`} {displayTimeStamp}  |  {numOfComments}
                     {numOfComments === 1 ? " Reply" : " Replies"}
                 </p>
 

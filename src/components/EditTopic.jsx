@@ -5,8 +5,8 @@ import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
-// Props from TopicDetails.jsx
-const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefreshed, setIsTopicEdited }) => {
+// Props from TopicPost.jsx
+const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefreshed }) => {
 
 	// React Hook Form
 	const form = useForm({
@@ -25,35 +25,16 @@ const EditTopic = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefresh
 			const docRef = doc(db, "topics", id);
 			await updateDoc(docRef, {
 				description: data.newdescription,
-				datePosted: postTimeStamp
+				datePosted: postTimeStamp,
+				isDocEdited: true
 			});
 			if (updateDoc) {
 				setIsEditTopicDisplayed(false); // Hides display of edit component
 				setIsTopicRefreshed((current) => !current); // Refreshes topic for immediate update
-				setIsTopicEdited((current) => !current); // Updates timestamp
-				toast.success('Topic has been updated!', {
-					position: "top-right",
-					autoClose: 5000,
-					hideProgressBar: true,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
 			}
 		} catch (error) {
-			console.log(error);
-			toast.error('Could not edit topic!', {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: true,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "dark",
-			});
+			console.log(`Error: ${error.message}`);
+			toast.error('Could not edit topic!');
 		}
 	};
 
@@ -112,7 +93,6 @@ EditTopic.propTypes = {
 	id: PropTypes.string.isRequired,
 	setIsEditTopicDisplayed: PropTypes.func.isRequired,
 	setIsTopicRefreshed: PropTypes.func.isRequired,
-	setIsTopicEdited: PropTypes.func.isRequired
 };
 
 export default EditTopic;
