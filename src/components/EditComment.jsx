@@ -5,10 +5,11 @@ import { db } from "../utils/firebase-config";
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { TopicIdContext } from "../utils/TopicIdContext";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
 
-export const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentUpdated }) => { // Props from CommentCard.jsx
+export const EditComment = ({ userComment, setIsEditComment, commentId }) => { // Props from CommentCard.jsx
 
-	// Data from useContext from TopicDetails.jsx
+	// Data from useContext from Comments.jsx
 	const { setIsCommentsRefreshed } = useContext(TopicIdContext); // TopicIdContext also has a prop of id
 
 	// React Hook Form
@@ -28,13 +29,14 @@ export const EditComment = ({ userComment, setIsEditComment, commentId, setIsCom
 			const docRef = doc(db, "comments", commentId);
 			await updateDoc(docRef, {
 				userComment: data.editcomment,
-				datePosted: postTimeStamp
+				datePosted: postTimeStamp,
+				isDocEdited: true
 			});
 			setIsEditComment(false); // Hides display of edit component
 			setIsCommentsRefreshed((current) => !current); // Refreshes topic for immediate update
-			setIsCommentUpdated((current) => !current); // Updates timestamp
 		} catch (error) {
-			console.log(error);
+			console.log(`Error: ${error.message}`);
+			toast.error('Sorry, could not edit your comment!');
 		}
 	};
 
@@ -91,5 +93,4 @@ EditComment.propTypes = {
 	userComment: PropTypes.string.isRequired,
 	commentId: PropTypes.string.isRequired,
 	setIsEditComment: PropTypes.func.isRequired,
-	setIsCommentUpdated: PropTypes.func.isRequired,
 };
