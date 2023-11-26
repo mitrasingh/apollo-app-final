@@ -38,6 +38,7 @@ export const TopicCard = (props) => {
 					setCreatorPhoto(creatorPhotoURL);
 				}
 			} catch (error) {
+				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
 		};
@@ -55,6 +56,7 @@ export const TopicCard = (props) => {
 				const snapshot = await getCountFromServer(commentsToQuery);
 				setNumOfComments(snapshot.data().count);
 			} catch (error) {
+				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
 		};

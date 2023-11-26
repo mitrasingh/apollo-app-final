@@ -26,6 +26,7 @@ export const TopicCards = ({ isTopicsRefreshed }) => {
                 const topicsMap = topicsData.docs.map((doc) => ({ ...doc.data(), topicId: doc.id }))
                 setTopicArray(topicsMap);
             } catch (error) {
+                console.log(`Error: ${error.message}`);
                 showBoundary(error);
             } finally {
                 setIsLoading(false);
