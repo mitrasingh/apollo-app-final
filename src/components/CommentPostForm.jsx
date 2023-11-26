@@ -34,30 +34,12 @@ const CommentPostForm = ({ setIsCommentsRefreshed }) => {
                 userComment: data.postcomment,
                 datePosted: postTimeStamp,
                 topicId: id,
+                isDocEdited: false // Must be false on initial creation of comment
             });
             setIsCommentsRefreshed((current) => !current);
-            toast.success('Comment has been posted!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
         } catch (error) {
-            console.log(error);
-            toast.success('Sorry, could not post comment!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            console.log(`Error: ${error.message}`);
+            toast.error('Sorry, could not post comment!');
         }
     };
 
