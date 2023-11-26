@@ -8,13 +8,13 @@ import CreateTopicForm from "../components/CreateTopicForm";
 import styles from "./TopicBoard.module.css";
 
 export const TopicBoard = () => {
-	// Invokes the display of CreateTopicForm.jsx component
+	// Boolean state of displaying CreateTopicForm.jsx component
 	const [isCreateTopic, setIsCreateTopic] = useState(false);
 
 	// Refreshes topic list when user posts a new topic via CreateTopicForm.jsx
 	const [isTopicsRefreshed, setIsTopicsRefreshed] = useState(false);
 
-	// Displays component CreateTopicForm.jsx w
+	// Function sets the state of whether CreateTopicForm component will be displayed
 	const handleCreateTopic = () => {
 		!isCreateTopic ? setIsCreateTopic(true) : setIsCreateTopic(false);
 	};
