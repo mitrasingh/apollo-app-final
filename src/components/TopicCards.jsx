@@ -10,7 +10,7 @@ export const TopicCards = ({ isTopicsRefreshed }) => {
     // Current state of data fetched from fetchTopics function
     const [topicArray, setTopicArray] = useState([]);
 
-    // Catches error and returns to error boundary component (error component invoked in TopicBoard.jsx)
+    // Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
     const { showBoundary } = useErrorBoundary();
 
     // State for displaying loader component
