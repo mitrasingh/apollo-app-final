@@ -4,6 +4,7 @@ import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { TopicIdContext } from "../utils/TopicIdContext";
 import { CommentCard } from "../components/CommentCard";
+import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
 
 const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
@@ -13,7 +14,10 @@ const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
 
     // Stores fetched data from database "comments" sub-collection of document id via fetchComments function
     const [commentsArray, setCommentsArray] = useState([]);
-    const sortComments = commentsArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sortComments = commentsArray.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sorts comments newest to oldest
+
+    // Catches error and returns to error boundary component (error component in parent (TopicDetailsPage component)
+    const { showBoundary } = useErrorBoundary();
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -28,7 +32,8 @@ const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                     data.docs.map((doc) => ({ ...doc.data(), commentId: doc.id }))
                 );
             } catch (error) {
-                console.log(error);
+                console.log(`Error: ${error.message}`);
+                showBoundary(error);
             }
         };
         fetchComments();
