@@ -34,7 +34,7 @@ export const CommentCard = (props) => {
 			setIsCommentsRefreshed((current) => !current);
 			setIsVisible(false);
 		} catch (error) {
-			console.log(error);
+			console.log(`Error: ${error.message}`);
 		}
 	};
 
