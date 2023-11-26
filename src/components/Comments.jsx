@@ -6,6 +6,7 @@ import { TopicIdContext } from "../utils/TopicIdContext";
 import { CommentCard } from "../components/CommentCard";
 import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
+import Spinner from 'react-bootstrap/Spinner';
 
 const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
     // useParams, creates a dynamic page using the topicId property from its fetched document within the "topics" collection in database
@@ -18,6 +19,9 @@ const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
 
     // Catches error and returns to error boundary component (error component in parent (TopicDetailsPage component)
     const { showBoundary } = useErrorBoundary();
+
+    // State for displaying loader component
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -34,6 +38,8 @@ const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
             } catch (error) {
                 console.log(`Error: ${error.message}`);
                 showBoundary(error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchComments();
@@ -41,13 +47,23 @@ const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
 
     return (
         <>
-            {sortComments.map((sortedComment) => {
-                return (
-                    <TopicIdContext.Provider value={{ id, setIsCommentsRefreshed }} key={sortedComment.commentId}>
-                        <CommentCard comment={sortedComment} />
-                    </TopicIdContext.Provider>
-                );
-            })}
+            {isLoading ?
+                <div className="d-flex justify-content-center align-items-center pt-4">
+                    <Spinner animation="border" variant="warning" />
+                </div>
+                :
+                <>
+                    {
+                        sortComments.map((sortedComment) => {
+                            return (
+                                <TopicIdContext.Provider value={{ id, setIsCommentsRefreshed }} key={sortedComment.commentId}>
+                                    <CommentCard comment={sortedComment} />
+                                </TopicIdContext.Provider>
+                            );
+                        })
+                    }
+                </>
+            }
         </>
     )
 }

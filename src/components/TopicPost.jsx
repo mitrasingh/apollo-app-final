@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import EditTopic from "./EditTopic";
 import DeleteModal from "./DeleteModal";
 import Like from "./Like";
+import Spinner from 'react-bootstrap/Spinner';
 
 const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed }) => {
     // useParams, creates a dynamic page using the topicId property from its fetched document within the "topics" collection in database
@@ -50,6 +51,9 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
     // Redux state properties of current user (sets default properties when posting a comment)
     const currentUser = useSelector((state) => state.user);
 
+    // State for displaying loader component
+    const [isLoading, setIsLoading] = useState(true);
+
     // Fetch data of specific document id (via useParams()) from "topics" collection in firestore database
     useEffect(() => {
         const fetchTopicData = async () => {
@@ -86,6 +90,8 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
             } catch (error) {
                 console.log(`Error: ${error.message}`);
                 showBoundary(error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchTopicData();
@@ -113,85 +119,93 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
     };
 
     return (
-        <Card className="text-light">
-            <Card.Header className="fs-6">
-                <Row>
-                    <Col xs={10}>
-                        <Stack direction="horizontal" gap={2}>
-                            <Image
-                                height="30px"
-                                width="30px"
-                                src={userPhoto}
-                                roundedCircle
+        <>
+            {isLoading ?
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <Spinner animation="border" variant="warning" />
+                </div>
+                :
+                <Card className="text-light">
+                    <Card.Header className="fs-6">
+                        <Row>
+                            <Col xs={10}>
+                                <Stack direction="horizontal" gap={2}>
+                                    <Image
+                                        height="30px"
+                                        width="30px"
+                                        src={userPhoto}
+                                        roundedCircle
+                                    />
+                                    <Stack direction="vertical">
+                                        <Card.Text className="my-0">Posted by:</Card.Text>
+                                        <Card.Text>{topic.firstName} {topic.lastName}</Card.Text>
+                                    </Stack>
+                                </Stack>
+                            </Col>
+                            <Col xs={2} className="d-flex justify-content-end">
+                                <Stack direction="horizontal" gap={2}>
+                                    {topic.userId === currentUser.userId ? (
+                                        <>
+                                            <Dropdown>
+                                                <Dropdown.Toggle
+                                                    className="d-flex align-items-center text-light"
+                                                    split
+                                                    variant="primary"
+                                                    id="dropdown-split-basic"
+                                                ></Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item onClick={() => setIsEditTopicDisplayed(true)}>
+                                                        Edit
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item onClick={handleShow}>
+                                                        Delete
+                                                    </Dropdown.Item>
+                                                    {isVisible ? (
+                                                        <DeleteModal
+                                                            handleDelete={handleDeleteTopic}
+                                                            setIsVisible={setIsVisible}
+                                                            isVisible={isVisible}
+                                                            type={"topic"}
+                                                        />
+                                                    ) : null}
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </>
+                                    ) : null}
+                                    <CloseButton onClick={handleCloseTopic} />
+                                </Stack>
+                            </Col>
+                        </Row>
+                    </Card.Header>
+
+                    <Card.Body>
+                        <h5 className="fs-3 fw-bold">{topic.title}</h5>
+                        <p className="fs-6">
+                            {isTopicEdited ? `Post edited` : `Posted`} {displayTimeStamp}  |  {numOfComments}
+                            {numOfComments === 1 ? " Reply" : " Replies"}
+                        </p>
+
+                        {isEditTopicDisplayed ? (
+                            <EditTopic
+                                setIsEditTopicDisplayed={setIsEditTopicDisplayed}
+                                description={topic.description}
+                                id={id}
+                                setIsTopicRefreshed={setIsTopicRefreshed}
+                                setIsTopicEdited={setIsTopicEdited}
                             />
-                            <Stack direction="vertical">
-                                <Card.Text className="my-0">Posted by:</Card.Text>
-                                <Card.Text>{topic.firstName} {topic.lastName}</Card.Text>
-                            </Stack>
-                        </Stack>
-                    </Col>
-                    <Col xs={2} className="d-flex justify-content-end">
-                        <Stack direction="horizontal" gap={2}>
-                            {topic.userId === currentUser.userId ? (
-                                <>
-                                    <Dropdown>
-                                        <Dropdown.Toggle
-                                            className="d-flex align-items-center text-light"
-                                            split
-                                            variant="primary"
-                                            id="dropdown-split-basic"
-                                        ></Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => setIsEditTopicDisplayed(true)}>
-                                                Edit
-                                            </Dropdown.Item>
-                                            <Dropdown.Item onClick={handleShow}>
-                                                Delete
-                                            </Dropdown.Item>
-                                            {isVisible ? (
-                                                <DeleteModal
-                                                    handleDelete={handleDeleteTopic}
-                                                    setIsVisible={setIsVisible}
-                                                    isVisible={isVisible}
-                                                    type={"topic"}
-                                                />
-                                            ) : null}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </>
-                            ) : null}
-                            <CloseButton onClick={handleCloseTopic} />
-                        </Stack>
-                    </Col>
-                </Row>
-            </Card.Header>
-
-            <Card.Body>
-                <h5 className="fs-3 fw-bold">{topic.title}</h5>
-                <p className="fs-6">
-                    {isTopicEdited ? `Post edited` : `Posted`} {displayTimeStamp}  |  {numOfComments}
-                    {numOfComments === 1 ? " Reply" : " Replies"}
-                </p>
-
-                {isEditTopicDisplayed ? (
-                    <EditTopic
-                        setIsEditTopicDisplayed={setIsEditTopicDisplayed}
-                        description={topic.description}
-                        id={id}
-                        setIsTopicRefreshed={setIsTopicRefreshed}
-                        setIsTopicEdited={setIsTopicEdited}
-                    />
-                ) : (
-                    <p className="mt-4 fs-5">
-                        {topic.description}
-                    </p>
-                )}
-            </Card.Body>
-            <Card.Body className="py-0">
-                <Like docId={id} />
-            </Card.Body>
-        </Card>
+                        ) : (
+                            <p className="mt-4 fs-5">
+                                {topic.description}
+                            </p>
+                        )}
+                    </Card.Body>
+                    <Card.Body className="py-0">
+                        <Like docId={id} />
+                    </Card.Body>
+                </Card>
+            }
+        </>
     )
 }
 
