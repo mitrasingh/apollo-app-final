@@ -48,7 +48,6 @@ export const TopicCard = (props) => {
 	useEffect(() => {
 		const getNumOfComments = async () => {
 			try {
-				// const coll = collection(db,"comments")
 				const commentsToQuery = query(
 					collection(db, "comments"),
 					where("topicId", "==", topic.topicId)
@@ -101,7 +100,7 @@ export const TopicCard = (props) => {
 						</Col>
 
 						<Col>
-							<Card.Text className="my-0">posted</Card.Text>
+							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
 							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
 						</Col>
 
@@ -131,7 +130,8 @@ TopicCard.propTypes = {
 		lastName: PropTypes.string.isRequired,
 		userId: PropTypes.string.isRequired,
 		topicId: PropTypes.string.isRequired,
-		datePosted: PropTypes.object.isRequired
+		datePosted: PropTypes.object.isRequired,
+		isDocEdited: PropTypes.bool.isRequired
 	})
 };
 
