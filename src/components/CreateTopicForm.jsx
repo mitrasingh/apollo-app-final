@@ -31,33 +31,16 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 				firstName: user.firstName,
 				lastName: user.lastName,
 				datePosted: postTimeStamp,
+				isDocEdited: false // Must be false on initial creation of topic
 			});
 			if (addTopic) {
 				setIsTopicsRefreshed((current) => !current);
 				setIsCreateTopic(false);
-				toast.success('Topic has been created!', {
-					position: "top-right",
-					autoClose: 5000,
-					hideProgressBar: true,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
+				toast.success('Topic has been created!');
 			}
 		} catch (error) {
 			console.log(error);
-			toast.error('Could not create topic!', {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: true,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "dark",
-			});
+			toast.error('Could not create topic!');
 		}
 	};
 
