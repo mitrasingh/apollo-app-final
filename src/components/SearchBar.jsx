@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { Col, Container, Form, FormControl, InputGroup, Row, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
-export const SearchBar = ({ userInputSearchBar, filterSearchHandle, refreshTasksHandle }) => { // Prop from Home.jsx
+const SearchBar = ({ userInputSearchBar, filterSearchHandle, refreshTasksHandle }) => { // Prop from Home.jsx
 
     // Value state of user input in form field
     const [userInput, setUserInput] = useState("")
@@ -48,10 +48,12 @@ export const SearchBar = ({ userInputSearchBar, filterSearchHandle, refreshTasks
             </Row>
         </Container>
     )
-}
+};
 
 SearchBar.propTypes = {
     userInputSearchBar: PropTypes.func.isRequired,
     filterSearchHandle: PropTypes.func.isRequired,
     refreshTasksHandle: PropTypes.func.isRequired
-}
+};
+
+export default SearchBar;
