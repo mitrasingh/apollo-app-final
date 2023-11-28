@@ -1,14 +1,13 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
-import styles from "./Filter.module.css";
 
 // Props from Home.jsx
-export const Filter = ({ filterNewestHandle, filterOldestHandle, filterPriorityHandle, filterStatusHandle }) => {
+const Filter = ({ filterNewestHandle, filterOldestHandle, filterPriorityHandle, filterStatusHandle }) => {
   return (
     <>
       <Dropdown as={ButtonGroup}>
         <Dropdown.Toggle
-          className={`d-flex align-items-center text-light fs-6 fw-bold ${styles.customBtn}`}
+          className="d-flex align-items-center text-light fs-6 fw-bold"
           variant="primary"
           id="dropdown-split-basic"
         >
@@ -40,3 +39,5 @@ Filter.propTypes = {
   filterPriorityHandle: PropTypes.func.isRequired,
   filterStatusHandle: PropTypes.func.isRequired,
 };
+
+export default Filter;

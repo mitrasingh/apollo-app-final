@@ -1,14 +1,13 @@
 import { Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import styles from "./RefreshButton.module.css";
 
 // Props from Home.jsx
-export const RefreshButton = ({ refreshTasksHandle, isClearFilterDisplayed }) => {
+const RefreshButton = ({ refreshTasksHandle, isClearFilterDisplayed }) => {
 
   return (
     <>
       <Button
-        className={`d-flex align-items-center text-light fs-6 fw-bold ${styles.customBtn}`}
+        className="d-flex align-items-center text-light fs-6 fw-bold"
         variant="primary"
         onClick={refreshTasksHandle}
       >
@@ -21,4 +20,6 @@ export const RefreshButton = ({ refreshTasksHandle, isClearFilterDisplayed }) =>
 RefreshButton.propTypes = {
   refreshTasksHandle: PropTypes.func.isRequired,
   isClearFilterDisplayed: PropTypes.bool.isRequired
-}
+};
+
+export default RefreshButton;
