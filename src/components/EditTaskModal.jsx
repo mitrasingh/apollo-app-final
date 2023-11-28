@@ -9,7 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import styles from "./EditTaskModal.module.css";
 
 // Props are from TaskCard.jsx
-export const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto, creatorName, refreshTasksHandle, }) => {
+const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto, creatorName, refreshTasksHandle, }) => {
 
 	// React Hook Form
 	const form = useForm();
@@ -219,3 +219,5 @@ EditTaskModal.propTypes = {
 	taskId: PropTypes.string.isRequired,
 	refreshTasksHandle: PropTypes.func.isRequired,
 };
+
+export default EditTaskModal;

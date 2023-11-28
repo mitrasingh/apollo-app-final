@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import PropTypes from "prop-types";
 import styles from "./ViewTaskModal.module.css";
 
-export const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creatorName }) => {
+const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creatorName }) => {
 
 	const [taskName, setTaskName] = useState("");
 	const [descriptionTask, setDescriptionTask] = useState("");
@@ -91,3 +91,5 @@ ViewTaskModal.propTypes = {
 	creatorPhoto: PropTypes.string.isRequired,
 	creatorName: PropTypes.string.isRequired,
 };
+
+export default ViewTaskModal;

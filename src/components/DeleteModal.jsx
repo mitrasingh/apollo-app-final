@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-export const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
+const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
 
 	const handleClose = () => setIsVisible(false); // Closes modal component
 
