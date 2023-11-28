@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "../utils/firebase-config";
+import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
-import Spinner from 'react-bootstrap/Spinner';
-import { TaskCard } from "../components/TaskCard";
-import { SearchBar } from "../components/SearchBar";
-import { Filter } from "../components/Filter";
-import { RefreshButton } from "../components/RefreshButton";
+import SearchBar from "../components/SearchBar";
+import Filter from "../components/Filter";
+import RefreshButton from "../components/RefreshButton";
+import TaskCards from "../components/TaskCards";
 import styles from "./Home.module.css";
 
 export const Home = () => {
@@ -17,33 +14,6 @@ export const Home = () => {
 
 	// User input for SearchBar
 	const [userInput, setUserInput] = useState("");
-
-	// State for displaying loader component
-	const [isLoading, setIsLoading] = useState(true);
-
-	// Fetch data and map each task into state variables
-	const fetchTasks = async () => {
-		try {
-			const dbRef = collection(db, "tasks");
-			const fetchTasks = await getDocs(query(dbRef));
-			const tasksMap = fetchTasks.docs.map((doc) => ({
-				...doc.data(),
-				taskId: doc.id,
-			}));
-			setTaskArray(tasksMap);
-			setTaskArrayFilter(tasksMap);
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setTimeout(() => {
-				setIsLoading(false);
-			}, 100)
-		}
-	};
-
-	useEffect(() => {
-		fetchTasks();
-	}, []);
 
 	// Refresh task state by fetching data, clears filters, clears user search value
 	const refreshTasksHandle = () => {
@@ -90,47 +60,36 @@ export const Home = () => {
 
 	return (
 		<Container className={styles.customContainer}>
-			{isLoading ?
-				<div className="d-flex justify-content-center align-items-center vh-100">
-					<Spinner animation="border" variant="warning" />
-				</div>
-				:
-				<>
-					<SearchBar
-						userInputSearchBar={userInputSearchBar}
-						filterSearchHandle={filterSearchHandle}
-						refreshTasksHandle={refreshTasksHandle}
-					/>
+			<SearchBar
+				userInputSearchBar={userInputSearchBar}
+				filterSearchHandle={filterSearchHandle}
+				refreshTasksHandle={refreshTasksHandle}
+			/>
 
-					<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
-						<Filter
-							filterNewestHandle={filterNewestHandle}
-							filterOldestHandle={filterOldestHandle}
-							filterPriorityHandle={filterPriorityHandle}
-							filterStatusHandle={filterStatusHandle}
-						/>
-						<RefreshButton
-							refreshTasksHandle={refreshTasksHandle}
-							filterSearchHandle={filterSearchHandle}
-							isClearFilterDisplayed={isClearFilterDisplayed}
-						/>
-					</Stack>
+			<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
+				<Filter
+					filterNewestHandle={filterNewestHandle}
+					filterOldestHandle={filterOldestHandle}
+					filterPriorityHandle={filterPriorityHandle}
+					filterStatusHandle={filterStatusHandle}
+				/>
+				<RefreshButton
+					refreshTasksHandle={refreshTasksHandle}
+					filterSearchHandle={filterSearchHandle}
+					isClearFilterDisplayed={isClearFilterDisplayed}
+				/>
+			</Stack>
 
-					{taskArrayFilter.length === 0 && (
-						<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
-					)}
+			{taskArrayFilter.length === 0 && (
+				<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
+			)}
 
-					{taskArrayFilter.map((task) => {
-						return (
-							<TaskCard
-								refreshTasksHandle={refreshTasksHandle}
-								task={task}
-								key={task.taskId}
-							/>
-						);
-					})}
-				</>
-			}
+			<TaskCards
+				setTaskArray={setTaskArray}
+				setTaskArrayFilter={setTaskArrayFilter}
+				taskArrayFilter={taskArrayFilter}
+				refreshTasksHandle={refreshTasksHandle}
+			/>
 		</Container>
 	);
 };
