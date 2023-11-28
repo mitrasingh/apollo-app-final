@@ -7,7 +7,7 @@ import { TopicIdContext } from "../utils/TopicIdContext";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
 import { EditComment } from "../components/EditComment";
 import { Like } from "../components/Like";
-import { DeleteModal } from "../components/DeleteModal";
+import DeleteModal from "../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
