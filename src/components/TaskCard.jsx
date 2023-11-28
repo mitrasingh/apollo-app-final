@@ -4,26 +4,23 @@ import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import { ViewTaskModal } from "./ViewTaskModal";
-import { EditTaskModal } from "./EditTaskModal";
-import { DeleteModal } from "./DeleteModal";
+import ViewTaskModal from "./ViewTaskModal";
+import EditTaskModal from "./EditTaskModal";
+import DeleteModal from "./DeleteModal";
 import PropTypes from "prop-types";
 import styles from "./TaskCard.module.css";
 
 const TaskCard = (props) => {
 
-	// Props from Home.jsx
-	// const { taskName, statusProject, priorityLevel, dueDate, userId, taskId } = props.task;
-	// const { taskName, statusProject, priorityLevel, dueDate, userId, taskId, refreshTasksHandle } = props;
+	// Props from TaskCards.jsx
 	const { task, refreshTasksHandle } = props;
 
 	const currentUser = useSelector((state) => state.user); // Redux user state data
 
-	const [creatorPhoto, setCreatorPhoto] = useState("");
-	const [creatorName, setCreatorName] = useState("");
+	const [creatorPhoto, setCreatorPhoto] = useState(""); // State holds user creator photo
+	const [creatorName, setCreatorName] = useState(""); // State holds user creator name
 
-	// Delete task functionality
-	// DELETE MODAL AND PROPS ARE ALSO USED IN COMMENTCARD.JSX AVOID MAKING ANY EDITS
+	// Delete task modal functionality
 	const [isVisible, setIsVisible] = useState(false);
 	const handleShow = () => setIsVisible(true);
 
