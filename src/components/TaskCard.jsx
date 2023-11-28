@@ -10,7 +10,7 @@ import { DeleteModal } from "./DeleteModal";
 import PropTypes from "prop-types";
 import styles from "./TaskCard.module.css";
 
-export const TaskCard = (props) => {
+const TaskCard = (props) => {
 
 	// Props from Home.jsx
 	// const { taskName, statusProject, priorityLevel, dueDate, userId, taskId } = props.task;
@@ -230,3 +230,5 @@ TaskCard.propTypes = {
 		taskId: PropTypes.string.isRequired
 	})
 };
+
+export default TaskCard;
