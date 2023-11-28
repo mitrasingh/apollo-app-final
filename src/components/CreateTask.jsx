@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
 import * as dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 
@@ -34,9 +35,11 @@ const CreateTask = () => {
                 userId: user.userId,
             };
             await addDoc(dbRef, taskData);
+            toast.success('Your task has been added!')
             navigate("/");
         } catch (error) {
-            console.log(error);
+            console.log(`Error: ${error.message}`);
+            toast.error('Sorry, could not create task!');
         }
     };
 
