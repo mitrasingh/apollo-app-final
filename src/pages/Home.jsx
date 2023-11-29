@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
+import { ErrorBoundary } from "react-error-boundary"
+import ErrorFallbackTasks from "../components/ErrorFallbackTasks";
 import SearchBar from "../components/SearchBar";
 import Filter from "../components/Filter";
 import RefreshButton from "../components/RefreshButton";
@@ -9,13 +11,17 @@ import styles from "./Home.module.css";
 export const Home = () => {
 	// Initial state for task data from database
 	const [taskArray, setTaskArray] = useState([]);
+
+	// Current task array depending on what filter is applied
 	const [taskArrayFilter, setTaskArrayFilter] = useState([]);
+
+	// Boolean state decides whether refresh tasks button changes display text to "clear filter"
 	const [isClearFilterDisplayed, setIsClearFilterDisplayed] = useState(false);
 
 	// User input for SearchBar
 	const [userInput, setUserInput] = useState("");
 
-	// Refresh task state by fetching data, clears filters, clears user search value
+	// Refresh task state (used for refresh tasks button) - resets data and clears filters
 	const refreshTasksHandle = () => {
 		setTaskArrayFilter(taskArray);
 		setIsClearFilterDisplayed(false);
@@ -80,16 +86,17 @@ export const Home = () => {
 				/>
 			</Stack>
 
-			{taskArrayFilter.length === 0 && (
-				<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
-			)}
-
-			<TaskCards
-				setTaskArray={setTaskArray}
-				setTaskArrayFilter={setTaskArrayFilter}
-				taskArrayFilter={taskArrayFilter}
-				refreshTasksHandle={refreshTasksHandle}
-			/>
+			<ErrorBoundary FallbackComponent={ErrorFallbackTasks}>
+				<TaskCards
+					setTaskArray={setTaskArray}
+					setTaskArrayFilter={setTaskArrayFilter}
+					taskArrayFilter={taskArrayFilter}
+					refreshTasksHandle={refreshTasksHandle}
+				/>
+				{taskArrayFilter.length === 0 && (
+					<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
+				)}
+			</ErrorBoundary>
 		</Container>
 	);
 };
