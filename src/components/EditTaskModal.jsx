@@ -4,19 +4,21 @@ import { useEffect } from "react";
 import { db } from "../utils/firebase-config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form"
+import { toast } from 'react-toastify';
 import * as dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import styles from "./EditTaskModal.module.css";
 
 // Props are from TaskCard.jsx
-const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto, creatorName, refreshTasksHandle, }) => {
+const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto, creatorName, fetchTasks }) => {
 
 	// React Hook Form
 	const form = useForm();
 	const { register, handleSubmit, reset, formState } = form;
 	const { errors } = formState;
 
-	dayjs.extend(utc); // Converts date to UTC ensuring dates match from user input to display via database
+	// Converts date to UTC ensuring dates match from user input to display via database
+	dayjs.extend(utc);
 
 	// Fetch task content from database and assign values to the related form fields 
 	useEffect(() => {
@@ -37,7 +39,8 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 					reset({ ...defaultValues });
 				}
 			} catch (error) {
-				console.log(error);
+				console.log(`Error: ${error.message}`);
+				toast.error('Could not load task!');
 			}
 		};
 		if (isEditModal) {
@@ -58,10 +61,12 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 			});
 			if (updateDoc) {
 				handleEditModalClose();
-				refreshTasksHandle();
+				toast.success('Task has been updated!');
+				fetchTasks();
 			}
 		} catch (error) {
-			console.log(error);
+			console.log(`Error: ${error.message}`);
+			toast.error('Could not update task!');
 		}
 	};
 
@@ -217,7 +222,7 @@ EditTaskModal.propTypes = {
 	creatorPhoto: PropTypes.string.isRequired,
 	creatorName: PropTypes.string.isRequired,
 	taskId: PropTypes.string.isRequired,
-	refreshTasksHandle: PropTypes.func.isRequired,
+	fetchTasks: PropTypes.func.isRequired
 };
 
 export default EditTaskModal;
