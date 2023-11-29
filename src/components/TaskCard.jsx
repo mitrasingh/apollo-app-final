@@ -4,6 +4,8 @@ import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../utils/firebase-config";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import { useErrorBoundary } from "react-error-boundary";
+import { toast } from 'react-toastify';
 import ViewTaskModal from "./ViewTaskModal";
 import EditTaskModal from "./EditTaskModal";
 import DeleteModal from "./DeleteModal";
@@ -13,28 +15,35 @@ import styles from "./TaskCard.module.css";
 const TaskCard = (props) => {
 
 	// Props from TaskCards.jsx
-	const { task, refreshTasksHandle } = props;
+	const { task, fetchTasks } = props;
 
-	const currentUser = useSelector((state) => state.user); // Redux user state data
+	// Redux user state data
+	const currentUser = useSelector((state) => state.user);
 
-	const [creatorPhoto, setCreatorPhoto] = useState(""); // State holds user creator photo
-	const [creatorName, setCreatorName] = useState(""); // State holds user creator name
+	// State holds user creator photo
+	const [creatorPhoto, setCreatorPhoto] = useState("");
+
+	// State holds user creator name
+	const [creatorName, setCreatorName] = useState("");
 
 	// Delete task modal functionality
 	const [isVisible, setIsVisible] = useState(false);
 	const handleShow = () => setIsVisible(true);
 
-	// Edit modal functionality
+	// Edit task modal functionality
 	const [isEditModal, setIsEditModal] = useState(false);
 	const handleEditModalClose = () => setIsEditModal(false);
 
-	// Details modal functionality
+	// Details task modal functionality
 	const [isViewModal, setIsViewModal] = useState(false);
 	const handleClose = () => setIsViewModal(false);
 
 	// Reference for firebase database
 	const storage = getStorage();
 	const storageRef = ref(storage);
+
+	// Catches error and returns to error boundary component (error component in parent (Home.jsx)
+	const { showBoundary } = useErrorBoundary();
 
 	// Retrieving users information from database
 	useEffect(() => {
@@ -53,19 +62,24 @@ const TaskCard = (props) => {
 					setCreatorName(`${data.firstname} ${data.lastname}`);
 				}
 			} catch (error) {
-				console.log(error);
+				console.log(`Error: ${error.message}`);
+				showBoundary(error);
 			}
 		};
 		fetchCreatorInfo();
 	}, []);
 
+	// Deletes task card from database
 	const handleDeleteTaskCard = async () => {
 		try {
 			const documentRef = doc(db, "tasks", task.taskId);
 			await deleteDoc(documentRef);
-			refreshTasksHandle();
+			fetchTasks();
+			setIsVisible(false);
+			toast.success('Task has been deleted!');
 		} catch (error) {
-			console.log(error);
+			console.log(`Error: ${error.message}`);
+			toast.error('Could not delete task!');
 		}
 	};
 
@@ -177,7 +191,7 @@ const TaskCard = (props) => {
 											taskId={task.taskId}
 											creatorPhoto={creatorPhoto}
 											creatorName={creatorName}
-											refreshTasksHandle={refreshTasksHandle}
+											fetchTasks={fetchTasks}
 										/>
 
 										<Button
@@ -217,7 +231,7 @@ const TaskCard = (props) => {
 };
 
 TaskCard.propTypes = {
-	refreshTasksHandle: PropTypes.func.isRequired,
+	fetchTasks: PropTypes.func.isRequired,
 	task: PropTypes.shape({
 		taskName: PropTypes.string.isRequired,
 		statusProject: PropTypes.string.isRequired,
