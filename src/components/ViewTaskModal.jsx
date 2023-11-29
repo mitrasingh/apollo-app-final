@@ -5,14 +5,17 @@ import { doc, getDoc } from "firebase/firestore";
 import PropTypes from "prop-types";
 import styles from "./ViewTaskModal.module.css";
 
+// Props are from TaskCard.jsx
 const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creatorName }) => {
 
+	// State to store fetched data for task
 	const [taskName, setTaskName] = useState("");
 	const [descriptionTask, setDescriptionTask] = useState("");
 	const [statusProject, setStatusProject] = useState("");
 	const [priorityLevel, setPriorityLevel] = useState("");
 	const [dueDate, setDueDate] = useState("");
 
+	// Data fetched for task
 	useEffect(() => {
 		const taskContent = async () => {
 			try {
@@ -27,7 +30,7 @@ const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creator
 					setDueDate(data.dueDate);
 				}
 			} catch (error) {
-				console.log(error);
+				console.log(`Error: ${error.message}`);
 			}
 		};
 		if (isViewModal) {
