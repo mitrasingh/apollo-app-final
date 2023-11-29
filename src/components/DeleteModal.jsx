@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
 
-	const handleClose = () => setIsVisible(false); // Closes modal component
+	// Closes modal component
+	const handleClose = () => setIsVisible(false);
 
 	return (
 		<>
@@ -18,7 +19,10 @@ const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
 					<Button className="fs-6 text-light fw-bold" variant="secondary" onClick={handleClose}>
 						Cancel
 					</Button>
-					<Button className="fs-6 text-light fw-bold" variant="primary" onClick={handleDelete}>
+					<Button
+						className="fs-6 text-light fw-bold"
+						variant="primary"
+						onClick={handleDelete}>
 						Delete
 					</Button>
 				</Modal.Footer>
