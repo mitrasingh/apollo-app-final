@@ -2,7 +2,7 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 // Props from Home.jsx
-const Filter = ({ filterNewestHandle, filterOldestHandle, filterPriorityHandle, filterStatusHandle }) => {
+const Filter = ({ filterLaterHandle, filterSoonHandle, filterPriorityHandle, filterStatusHandle }) => {
   return (
     <>
       <Dropdown as={ButtonGroup}>
@@ -15,8 +15,8 @@ const Filter = ({ filterNewestHandle, filterOldestHandle, filterPriorityHandle, 
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item onClick={filterNewestHandle}>by Newest</Dropdown.Item>
-          <Dropdown.Item onClick={filterOldestHandle}>by Oldest</Dropdown.Item>
+          <Dropdown.Item onClick={filterSoonHandle}>Due Soon</Dropdown.Item>
+          <Dropdown.Item onClick={filterLaterHandle}>Due Later</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={() => filterPriorityHandle("Urgent")}>Urgent</Dropdown.Item>
           <Dropdown.Item onClick={() => filterPriorityHandle("High")}>High</Dropdown.Item>
@@ -34,8 +34,8 @@ const Filter = ({ filterNewestHandle, filterOldestHandle, filterPriorityHandle, 
 };
 
 Filter.propTypes = {
-  filterNewestHandle: PropTypes.func.isRequired,
-  filterOldestHandle: PropTypes.func.isRequired,
+  filterLaterHandle: PropTypes.func.isRequired,
+  filterSoonHandle: PropTypes.func.isRequired,
   filterPriorityHandle: PropTypes.func.isRequired,
   filterStatusHandle: PropTypes.func.isRequired,
 };
