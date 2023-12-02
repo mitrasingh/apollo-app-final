@@ -29,15 +29,15 @@ export const Home = () => {
 	};
 
 	// Options for filter fuctionality 
-	const filterNewestHandle = () => {
-		const sortNew = [...taskArray].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
-		setTaskArrayFilter(sortNew);
+	const filterLaterHandle = () => {
+		const sortLater = [...taskArray].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+		setTaskArrayFilter(sortLater);
 		setIsClearFilterDisplayed(true);
 	};
 
-	const filterOldestHandle = () => {
-		const sortOld = [...taskArray].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-		setTaskArrayFilter(sortOld);
+	const filterSoonHandle = () => {
+		const sortSoon = [...taskArray].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+		setTaskArrayFilter(sortSoon);
 		setIsClearFilterDisplayed(true);
 	};
 
@@ -71,8 +71,8 @@ export const Home = () => {
 
 			<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
 				<Filter
-					filterNewestHandle={filterNewestHandle}
-					filterOldestHandle={filterOldestHandle}
+					filterLaterHandle={filterLaterHandle}
+					filterSoonHandle={filterSoonHandle}
 					filterPriorityHandle={filterPriorityHandle}
 					filterStatusHandle={filterStatusHandle}
 				/>
