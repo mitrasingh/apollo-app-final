@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import { Col, Container, Form, FormControl, InputGroup, Row, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 
-const SearchBar = ({ userInputSearchBar, filterSearchHandle, refreshTasksHandle }) => { // Prop from Home.jsx
+const SearchBar = ({ userInput, setUserInput, filterSearchHandle, refreshTasksHandle }) => { // Prop from Home.jsx
 
-    // Value state of user input in form field
-    const [userInput, setUserInput] = useState("")
-
-    // Sends user input value to parent component (Home.jsx)
+    // Function sets value from user input within form field 
     const handleUserInput = (e) => {
         setUserInput(e.target.value)
-        userInputSearchBar(userInput)
     }
 
+    // Function resets tasks when user backspaces/deletes all values from form field
     const handleKeyDownReset = (e) => {
         if (e.keyCode === 8 && userInput.length === 1) return refreshTasksHandle();
         if (e.keyCode === 46 && userInput.length === 1) return refreshTasksHandle();
@@ -51,9 +47,10 @@ const SearchBar = ({ userInputSearchBar, filterSearchHandle, refreshTasksHandle 
 };
 
 SearchBar.propTypes = {
-    userInputSearchBar: PropTypes.func.isRequired,
+    setUserInput: PropTypes.func.isRequired,
+    userInput: PropTypes.string.isRequired,
     filterSearchHandle: PropTypes.func.isRequired,
-    refreshTasksHandle: PropTypes.func.isRequired
+    refreshTasksHandle: PropTypes.func.isRequired,
 };
 
 export default SearchBar;
