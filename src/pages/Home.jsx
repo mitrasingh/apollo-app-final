@@ -18,18 +18,14 @@ export const Home = () => {
 	// Boolean state decides whether refresh tasks button changes display text to "clear filter"
 	const [isClearFilterDisplayed, setIsClearFilterDisplayed] = useState(false);
 
-	// User input for SearchBar
+	// User input state for SearchBar
 	const [userInput, setUserInput] = useState("");
 
 	// Refresh task state (used for refresh tasks button) - resets data and clears filters
 	const refreshTasksHandle = () => {
 		setTaskArrayFilter(taskArray);
 		setIsClearFilterDisplayed(false);
-	};
-
-	// Receive user input from SearchBar component
-	const userInputSearchBar = (formInput) => {
-		setUserInput(formInput);
+		setUserInput("");
 	};
 
 	// Options for filter fuctionality 
@@ -67,7 +63,8 @@ export const Home = () => {
 	return (
 		<Container className={styles.customContainer}>
 			<SearchBar
-				userInputSearchBar={userInputSearchBar}
+				userInput={userInput}
+				setUserInput={setUserInput}
 				filterSearchHandle={filterSearchHandle}
 				refreshTasksHandle={refreshTasksHandle}
 			/>
