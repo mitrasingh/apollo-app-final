@@ -54,7 +54,7 @@ export const Navigation = () => {
                             </Tooltip>
                         }
                     >
-                        <Link to="/profile">
+                        <Link to="/editprofile">
                             <Image
                                 className=""
                                 height="35px"
