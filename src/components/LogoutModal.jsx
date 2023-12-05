@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-export const LogoutModal = ({ handleLogout, setLogOutModalVisible, isLogoutModalVisible }) => {
+const LogoutModal = ({ handleLogout, setLogOutModalVisible, isLogoutModalVisible }) => {
 
     const handleClose = () => setLogOutModalVisible(false); // Closes modal component
 
@@ -38,3 +38,5 @@ LogoutModal.propTypes = {
     isLogoutModalVisible: PropTypes.bool.isRequired,
     handleLogout: PropTypes.func.isRequired,
 };
+
+export default LogoutModal;
