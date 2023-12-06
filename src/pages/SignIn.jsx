@@ -42,8 +42,7 @@ export const SignIn = () => {
         } catch (error) {
             if (error.message.includes("user-not-found")) {
                 toast.error("User not found!")
-            }
-            else if (error.message.includes("wrong-password")) {
+            } else if (error.message.includes("wrong-password")) {
                 toast.error("Password is incorrect!")
             } else {
                 toast.error("Sorry, we are having some technical issues!")
