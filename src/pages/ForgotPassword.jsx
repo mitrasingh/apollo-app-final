@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import styles from "./ForgotPassword.module.css";
 
-
 export const ForgotPassword = () => {
     // React Hook Form
     const form = useForm();
@@ -15,22 +14,28 @@ export const ForgotPassword = () => {
     const emailRegex =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    // State variable for alert message displayed
     const [modalAlertMessage, setModalAlertMessage] = useState("Once submitted, an email will be sent.");
 
+    // Function resets users passsword by sending a link to the provided email (if email is registered)
     const handleForgotPassword = async (data) => {
-        const auth = getAuth();
+        const auth = getAuth(); // Authentication from firebase
         try {
             const inputEmailData = data.email;
             await sendPasswordResetEmail(auth, inputEmailData);
             setModalAlertMessage("Email has been sent!");
         } catch (error) {
-            setModalAlertMessage(error.message);
-            console.log(error);
+            if (error.message === "Firebase: Error (auth/user-not-found).") {
+                setModalAlertMessage("Email not found.");
+            }
+            console.log(`Error: ${error.message}`);
         }
     };
 
+    // React router function allows user to navigate to specified route
     const navigate = useNavigate();
 
+    // Function that navigates user to previous route 
     const handleCancel = () => {
         navigate(-1);
     }
