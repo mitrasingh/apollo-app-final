@@ -9,8 +9,3 @@ body .formContainer {
 body .customCard {
 	color: #ffffff;
 }
-
-.customImage {
-	object-fit: "cover";
-	border-radius: "50%";
-}
