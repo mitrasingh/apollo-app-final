@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase-config";
 import { logoutUser } from "../features/user/userSlice";
 import { signOut } from "firebase/auth";
+import { toast } from 'react-toastify';
 import LogoutModal from "./LogoutModal";
 import styles from "./Navigation.module.css";
 
@@ -20,10 +21,15 @@ export const Navigation = () => {
     // Logs user out and redirects to sign in page
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleLogout = () => {
-        dispatch(logoutUser());
-        signOut(auth);
-        navigate("/signin");
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            dispatch(logoutUser());
+            navigate("/signin");
+            toast.info('You have been logged out!')
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+        }
     };
 
     // Details modal functionality
