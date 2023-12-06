@@ -2,29 +2,38 @@ import { useEffect, useState } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/userSlice";
-import { Container, Form, Card, Button, Alert, Row, Col, Stack, Image } from "react-bootstrap";
+import { Container, Form, Card, Button, Row, Col, Stack, Image } from "react-bootstrap";
+import { toast } from 'react-toastify';
 import styles from "./PhotoUpload.module.css";
 
 export const PhotoUpload = () => {
-	const [userPhoto, setUserPhoto] = useState(null); // Users' chosen file to upload
-	const [photoURL, setPhotoURL] = useState(""); // Allows user to see how photo is displayed before upload
 
-	// Invokes error message if functionality fails
-	const [isAlert, isSetAlert] = useState(false);
-	const [alertMessage, setAlertMessage] = useState("");
+	// The state of users chosen file
+	const [userPhoto, setUserPhoto] = useState(null);
 
+	// The state of the chosen files URL 
+	// (after being uploaded as a temporary image to database) allowing user to preview image 
+	const [photoURL, setPhotoURL] = useState("");
+
+	// Authentication from firebase
 	const auth = getAuth();
-	const userState = useSelector((state) => state.user);
-	const dispatch = useDispatch();
+
+	// Redux management 
+	const userState = useSelector((state) => state.user); // Access to Redux initial user state properties
+	const dispatch = useDispatch(); // Redux function which dispatches actions to Redux store
+
+	// React router function allows user to navigate to specified route
 	const navigate = useNavigate();
 
+	// Firebase storage for access
 	const storage = getStorage();
 	const storageRef = ref(storage);
 
+	// Loads temporary (generic) image
 	useEffect(() => {
 		const loadUserImage = async () => {
 			const userTempPhotoURL = await getDownloadURL(ref(storageRef, "user-photo/temporaryphoto.jpeg"));
@@ -36,15 +45,17 @@ export const PhotoUpload = () => {
 	// Upload temporary image and set photo state for display preview
 	const handlePreviewPhoto = async (e) => {
 		e.preventDefault();
+		if (!userPhoto) { // If user triggers this function before selecting an image in form control
+			return toast.error("Please choose a photo first!");
+		}
 		try {
 			const imageRef = ref(storageRef, "user-photo/temp.jpeg");
 			await uploadBytes(imageRef, userPhoto);
 			const getURL = await getDownloadURL(imageRef);
 			setPhotoURL(getURL);
 		} catch (error) {
-			isSetAlert(true);
-			setAlertMessage(error.code);
-			console.log(error.code);
+			console.log(`Error: ${error.message}`);
+			toast.error("Please try another photo!");
 		}
 	};
 
@@ -52,9 +63,8 @@ export const PhotoUpload = () => {
 	const handleAcceptPhoto = async (event) => {
 		event.preventDefault();
 		try {
-			if (!userPhoto) {
-				setAlertMessage("Photo upload is required.");
-				isSetAlert((current) => !current);
+			if (!userPhoto) { // If user triggers this function and has selected/previewed their image
+				toast.error("Photo is required!")
 			} else {
 				const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
 				await uploadBytes(imageRef, userPhoto);
@@ -74,95 +84,84 @@ export const PhotoUpload = () => {
 						})
 					);
 				}
+				toast.success(`Welcome ${auth.currentUser.displayName} to Apollo!`)
 				navigate("/");
 			}
 		} catch (error) {
-			isSetAlert((current) => !current);
-			setAlertMessage(error.code);
-			console.log(error.code);
+			console.log(`Error: ${error.message}`);
+			toast.error("Sorry, we are having some technical issues!")
 		}
 	};
 
 	return (
-		<>
-			{isAlert ? (
-				<Alert variant="primary" className="text-center" data-bs-theme="dark">
-					<Alert.Heading className="fw-bold">There is an error!</Alert.Heading>
-					<p>Reason: {alertMessage}</p>
-					<Link className="fs-5 fw-bold text-light" onClick={() => isSetAlert(false)}>
-						Close
-					</Link>
-				</Alert>
-			) : null}
+		<Container className={styles.formContainer}>
+			<h6 className="text-center">Welcome to</h6>
+			<Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+				<Image
+					src="public/img/rocket_white.svg"
+					width="50"
+					height="50"
+					alt="apollo logo"
+				/>
+				<h1 className="fw-bold">Apollo</h1>
+			</Stack>
+			<Form>
+				<Card className={`mt-4 p-4 ${styles.customCard}`}>
+					<Row>
+						<h4 className="fw-bold text-center">
+							User Photo Upload
+						</h4>
+						<h4 className="fs-6 text-center">
+							Photo is required
+						</h4>
+					</Row>
 
-			<Container className={styles.formContainer}>
-				<h6 className="text-center">Welcome to</h6>
-				<Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
-					<Image
-						src="public/img/rocket_white.svg"
-						width="50"
-						height="50"
-						alt="apollo logo"
-					/>
-					<h1 className="fw-bold">Apollo</h1>
-				</Stack>
-				<Form>
-					<Card className={`mt-4 p-4 ${styles.customCard}`}>
-						<Row>
-							<h4 className="fw-bold text-center">
-								User Photo Upload
-							</h4>
-							<h4 className="fs-6 text-center">
-								Photo is required
-							</h4>
-						</Row>
+					<Row>
+						<Col className="mt-3 d-flex justify-content-center">
+							<Image
+								className="object-fit-cover"
+								width="80px"
+								height="80px"
+								src={photoURL}
+								roundedCircle
+							/>
+						</Col>
+					</Row>
 
-						<Row>
-							<Col className="mt-3 d-flex justify-content-center">
-								<Image
-									className="object-fit-cover"
-									width="80px"
-									height="80px"
-									src={photoURL}
-									roundedCircle
-								/>
-							</Col>
-						</Row>
+					<Row className="mt-1 text-center">
+						<Form.Group>
+							<Form.Label className="mt-1 mb-3">
+								Current photo for {userState.firstName} {userState.lastName}
+							</Form.Label>
+							<Form.Control
+								className="fs-5"
+								type="file"
+								size="sm"
+								onChange={(event) => setUserPhoto(event.target.files[0])}
+							/>
+						</Form.Group>
+					</Row>
 
-						<Row className="mt-1 text-center">
-							<Form.Group>
-								<Form.Label className="mt-1 mb-3">
-									Current photo for {userState.firstName} {userState.lastName}
-								</Form.Label>
-								<Form.Control
-									type="file"
-									size="sm"
-									onChange={(event) => setUserPhoto(event.target.files[0])}
-								/>
-							</Form.Group>
-						</Row>
+					<Button
+						className="fw-bold mt-4 text-light fs-5"
+						variant="secondary"
+						size="sm"
+						type="submit"
+						onClick={handlePreviewPhoto}
+					>
+						Preview Photo
+					</Button>
 
-						<Button
-							className="fw-bold mt-4 text-light"
-							variant="secondary"
-							size="sm"
-							type="submit"
-							onClick={handlePreviewPhoto}
-						>
-							Preview Photo
-						</Button>
-
-						<Button
-							className="fw-bold mt-3 text-light"
-							variant="primary"
-							size="sm"
-							onClick={handleAcceptPhoto}
-						>
-							Accept and Continue
-						</Button>
-					</Card>
-				</Form>
-			</Container>
-		</>
+					<Button
+						className="fw-bold mt-3 text-light fs-5"
+						variant="primary"
+						size="sm"
+						onClick={handleAcceptPhoto}
+					>
+						Accept and Continue
+					</Button>
+				</Card>
+			</Form>
+		</Container>
 	);
 };
