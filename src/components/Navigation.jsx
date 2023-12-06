@@ -62,7 +62,7 @@ export const Navigation = () => {
                     >
                         <Link to="/editprofile">
                             <Image
-                                className=""
+                                className="object-fit-cover"
                                 height="35px"
                                 width="35px"
                                 src={userImage}

@@ -51,6 +51,7 @@ export const CommentCard = (props) => {
 						<Col className="d-flex align-items-center">
 							<Stack direction="horizontal" gap={2}>
 								<Image
+									className="object-fit-cover"
 									height="25px"
 									width="25px"
 									src={comment.userPhoto}

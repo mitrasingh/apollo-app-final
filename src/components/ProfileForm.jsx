@@ -151,6 +151,7 @@ const ProfileForm = () => {
                         <Row className="mb-4">
                             <Col className="d-flex justify-content-center">
                                 <Image
+                                    className="object-fit-cover"
                                     height="105px"
                                     width="105px"
                                     src={photoURL}

@@ -89,6 +89,7 @@ export const TopicCard = (props) => {
 						<Col xs={5}>
 							<Stack direction="horizontal" gap={2}>
 								<Image
+									className="object-fit-cover"
 									height="35px"
 									width="35px"
 									src={creatorPhoto}

@@ -120,7 +120,7 @@ export const PhotoUpload = () => {
 						<Row>
 							<Col className="mt-3 d-flex justify-content-center">
 								<Image
-									className={styles.customImage}
+									className="object-fit-cover"
 									width="80px"
 									height="80px"
 									src={photoURL}

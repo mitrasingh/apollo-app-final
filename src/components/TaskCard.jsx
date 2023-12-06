@@ -162,7 +162,7 @@ const TaskCard = (props) => {
 							<Col xs={6}>
 								<Stack direction="horizontal">
 									<Image
-										className={styles.customImage}
+										className="object-fit-cover"
 										height="35px"
 										width="35px"
 										src={creatorPhoto}
