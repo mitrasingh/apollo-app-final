@@ -40,9 +40,9 @@ const ProfileForm = () => {
     const { errors } = formState;
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    const [userUpdatedPhoto, setUserUpdatedPhoto] = useState(""); // Previews photo before final upload
-    const [photoURL, setPhotoURL] = useState(""); // Photo URL for HTML display
-    const [isPhotoUploaded, setIsPhotoUploaded] = useState(false); // Checks if user has uploaded a new photo
+    const [userPhoto, setUserPhoto] = useState(user.userPhoto); // State of current photo
+    const [userChosenFile, setUserChosenFile] = useState(""); // State variable for the chosen the data of chosen file
+    const [isFilePreviewed, setIsFilePreviewed] = useState(false); // Checks if user has previewed their file
 
     // State for displaying loader component
     const [isLoading, setIsLoading] = useState(true);
@@ -65,7 +65,6 @@ const ProfileForm = () => {
                 defaultValues.title = user.title;
                 defaultValues.email = user.email;
                 reset({ ...defaultValues });
-                setPhotoURL(user.userPhoto);
             } catch (error) {
                 console.log(`Error: ${error.message}`);
                 showBoundary(error);
@@ -80,11 +79,11 @@ const ProfileForm = () => {
     const setPreviewPhotoHandle = async (e) => {
         e.preventDefault();
         try {
-            setIsPhotoUploaded(true);
+            setIsFilePreviewed(true);
             const imageRef = ref(storageRef, "user-photo/temp");
-            await uploadBytes(imageRef, userUpdatedPhoto);
+            await uploadBytes(imageRef, userChosenFile);
             const getURL = await getDownloadURL(imageRef);
-            setPhotoURL(getURL);
+            setUserPhoto(getURL);
         } catch (error) {
             console.log(`Error: ${error.message}`);
             toast.error('Sorry, having issues displaying photo!');
@@ -104,20 +103,20 @@ const ProfileForm = () => {
                 title: data.title,
             });
 
-            if (isPhotoUploaded) {
+            if (isFilePreviewed) {
                 const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
-                await uploadBytes(imageRef, userUpdatedPhoto);
+                await uploadBytes(imageRef, userChosenFile);
                 await getDownloadURL(imageRef);
             }
 
             await updateEmail(auth.currentUser, data.email);
 
-            if (updateProfile || isPhotoUploaded || updateEmail || updateDoc) {
+            if (updateProfile || isFilePreviewed || updateEmail || updateDoc) {
                 // Assigns updated values to Redux user state
                 dispatch(
                     editUser({
                         userId: user.userId,
-                        userPhoto: isPhotoUploaded ? photoURL : user.userPhoto,
+                        userPhoto: isFilePreviewed ? userPhoto : user.userPhoto,
                         firstName: data.firstname,
                         lastName: data.lastname,
                         title: data.title,
@@ -154,7 +153,7 @@ const ProfileForm = () => {
                                     className="object-fit-cover"
                                     height="105px"
                                     width="105px"
-                                    src={photoURL}
+                                    src={userPhoto}
                                     roundedCircle
                                 />
                             </Col>
@@ -168,7 +167,7 @@ const ProfileForm = () => {
                                         type="file"
                                         size="sm"
                                         onChange={(event) =>
-                                            setUserUpdatedPhoto(event.target.files[0])
+                                            setUserChosenFile(event.target.files[0])
                                         }
                                     />
                                 </Form.Group>
@@ -178,7 +177,7 @@ const ProfileForm = () => {
                         <Row>
                             <Col className="mt-3 d-flex justify-content-center">
                                 <Button
-                                    className="fs-6 text-light fw-bold"
+                                    className={`fs-6 text-light fw-bold ${userChosenFile == 0 ? "disabled" : ""}`}
                                     variant="primary"
                                     size="sm"
                                     type="file"
