@@ -12,12 +12,12 @@ import styles from "./PhotoUpload.module.css";
 
 export const PhotoUpload = () => {
 
-	// The state of users chosen file
-	const [userPhoto, setUserPhoto] = useState(null);
+	// State variable for users local data of chosen file
+	const [userChosenFile, setUserChosenFile] = useState("");
 
 	// The state of the chosen files URL 
 	// (after being uploaded as a temporary image to database) allowing user to preview image 
-	const [photoURL, setPhotoURL] = useState("");
+	const [userPhoto, setUserPhoto] = useState("");
 
 	// Authentication from firebase
 	const auth = getAuth();
@@ -33,11 +33,11 @@ export const PhotoUpload = () => {
 	const storage = getStorage();
 	const storageRef = ref(storage);
 
-	// Loads temporary (generic) image
+	// Loads temporary (generic) image from database storage
 	useEffect(() => {
 		const loadUserImage = async () => {
 			const userTempPhotoURL = await getDownloadURL(ref(storageRef, "user-photo/temporaryphoto.jpeg"));
-			setPhotoURL(userTempPhotoURL);
+			setUserPhoto(userTempPhotoURL);
 		};
 		loadUserImage();
 	}, []);
@@ -45,14 +45,11 @@ export const PhotoUpload = () => {
 	// Upload temporary image and set photo state for display preview
 	const handlePreviewPhoto = async (e) => {
 		e.preventDefault();
-		if (!userPhoto) { // If user triggers this function before selecting an image in form control
-			return toast.error("Please choose a photo first!");
-		}
 		try {
 			const imageRef = ref(storageRef, "user-photo/temp.jpeg");
-			await uploadBytes(imageRef, userPhoto);
+			await uploadBytes(imageRef, userChosenFile);
 			const getURL = await getDownloadURL(imageRef);
-			setPhotoURL(getURL);
+			setUserPhoto(getURL);
 		} catch (error) {
 			console.log(`Error: ${error.message}`);
 			toast.error("Please try another photo!");
@@ -63,11 +60,11 @@ export const PhotoUpload = () => {
 	const handleAcceptPhoto = async (event) => {
 		event.preventDefault();
 		try {
-			if (!userPhoto) { // If user triggers this function and has selected/previewed their image
+			if (!userChosenFile) { // If user triggers this function and has selected/previewed their image
 				toast.error("Photo is required!")
 			} else {
 				const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
-				await uploadBytes(imageRef, userPhoto);
+				await uploadBytes(imageRef, userChosenFile);
 				const userPhotoURL = await getDownloadURL(ref(storageRef, `user-photo/${auth.currentUser.uid}`));
 				const docRef = doc(db, "users", auth.currentUser.uid);
 				const docSnap = await getDoc(docRef);
@@ -122,7 +119,7 @@ export const PhotoUpload = () => {
 								className="object-fit-cover"
 								width="80px"
 								height="80px"
-								src={photoURL}
+								src={userPhoto}
 								roundedCircle
 							/>
 						</Col>
@@ -137,13 +134,13 @@ export const PhotoUpload = () => {
 								className="fs-5"
 								type="file"
 								size="sm"
-								onChange={(event) => setUserPhoto(event.target.files[0])}
+								onChange={(event) => setUserChosenFile(event.target.files[0])}
 							/>
 						</Form.Group>
 					</Row>
 
 					<Button
-						className="fw-bold mt-4 text-light fs-5"
+						className={`fw-bold mt-4 text-light fs-5 ${userChosenFile == 0 ? "disabled" : ""}`}
 						variant="secondary"
 						size="sm"
 						type="submit"
