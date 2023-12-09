@@ -41,7 +41,7 @@ const ProfileForm = () => {
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     const [userPhoto, setUserPhoto] = useState(user.userPhoto); // State of current photo
-    const [userChosenFile, setUserChosenFile] = useState(""); // State variable for the chosen the data of chosen file
+    const [userChosenFile, setUserChosenFile] = useState(""); // State variable for users local data of chosen file
     const [isFilePreviewed, setIsFilePreviewed] = useState(false); // Checks if user has previewed their file
 
     // State for displaying loader component
