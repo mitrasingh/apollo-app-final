@@ -10,14 +10,22 @@ import { Navigation } from "../components/Navigation";
 
 export const ProtectedRoute = () => {
 
+  // Hook from the react-router-dom to get the current location of a route 
   const location = useLocation();
 
-  const dispatch = useDispatch();
+  // Redux management 
+  const dispatch = useDispatch(); // Redux function which dispatches actions to Redux store
+
+
+  // Reference to firebase storage
   const storage = getStorage();
   const storageRef = ref(storage);
 
+  // State variable which verifies the authentication of a user through firebase
   const [isLoggedIn, setIsLoggedIn] = useState(auth);
 
+
+  // Listens for changes in authentication associated with the user
   useEffect(() => {
     getAuth().onAuthStateChanged(async (user) => {
       if (!user) {
@@ -44,18 +52,19 @@ export const ProtectedRoute = () => {
           }))
         }
       } catch (error) {
-        console.log(error)
+        console.log(`Error: ${error.message}`);
       }
     });
   }, [])
 
+  // Components shown if user is authenticated/not authenticated
   return isLoggedIn ? (
     <>
       <Navigation />
       <Outlet />
     </>
   ) : (
-    // Keep the previous navigation stack
-    <Navigate to="/signin" state={{ from: location }} replace />
+    <Navigate to="/signin" state={{ from: location }} replace />  // Redirects user to signin page from current location 
+
   );
 };
