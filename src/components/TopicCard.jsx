@@ -14,13 +14,13 @@ export const TopicCard = (props) => {
 	// Receiving prop data from TopicCards.jsx
 	const { topic } = props;
 
-	// Catches error and returns to error boundary component (error component invoked in TopicBoard.jsx)
+	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
 
 	// Retrieving photo url of user and saving it in a state
 	const [creatorPhoto, setCreatorPhoto] = useState("");
 
-	// Displays numbers of comments (how many documents within "comments" collection)
+	// Displays numbers of comments (how many documents within "comments" collection in database)
 	const [numOfComments, setNumOfComments] = useState("");
 
 	// Firebase storage method and reference (used for fetching user photo url based off of userId prop)
