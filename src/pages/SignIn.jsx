@@ -17,10 +17,16 @@ export const SignIn = () => {
     const { errors } = formState;
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    // Login functionality that uses form data from user fields entered
+    // Instance created from firebase authentication
     const auth = getAuth();
+
+    // Redux function which will dispatch actions needed for user state changes
     const dispatch = useDispatch();
+
+    // React router function allows user to navigate to specified route
     const navigate = useNavigate();
+
+    // Function handles login process, and displays message of success/failsure (toast)
     const handleLogin = async (data) => {
         try {
             await signInWithEmailAndPassword(auth, data.email, data.password);
