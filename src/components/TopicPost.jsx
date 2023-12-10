@@ -20,7 +20,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
     // This shared id also specifies the specific document to query within the "topics" collection of the database
     const { id } = useParams();
 
-    // Function allows user to navigate elsewhere
+    // React router function allows user to navigate to specified route
     const navigate = useNavigate();
 
     // Stores document data fetched from database via fetchTopicData function
@@ -61,7 +61,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
                 const docRef = doc(db, "topics", id);
                 const docSnap = await getDoc(docRef);
 
-                if (!docSnap.exists()) {
+                if (!docSnap.exists()) { // If user randomly types in a different URL extension, directs user to error component
                     navigate("/error");
                 }
 
