@@ -66,7 +66,7 @@ export const ForgotPassword = () => {
                             {...register("email", {
                                 required: {
                                     value: true,
-                                    message: "Email is required to reset your password!",
+                                    message: "Email is required!",
                                 },
                                 pattern: {
                                     value: emailRegex,
@@ -74,7 +74,7 @@ export const ForgotPassword = () => {
                                 },
                             })}
                         />
-                        <p className="mt-2"> {errors.email?.message} </p>
+                        <p className="mt-2 fs-6 text-light"> {errors.email?.message} </p>
                     </Form.Group>
 
                     <Modal.Footer>
