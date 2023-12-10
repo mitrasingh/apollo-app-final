@@ -42,7 +42,7 @@ const TaskCard = (props) => {
 	const storage = getStorage();
 	const storageRef = ref(storage);
 
-	// Catches error and returns to error boundary component (error component in parent (Home.jsx)
+	// Catches error and returns error boundary component (error component in parent (Home.jsx)
 	const { showBoundary } = useErrorBoundary();
 
 	// Retrieving users information from database
@@ -171,7 +171,6 @@ const TaskCard = (props) => {
 									<Stack direction="vertical" className="ms-2 mt-1">
 										<p className="fs-6 my-0">Created by:</p>
 										<p className="fs-6 fw-bold my-0">
-											{/* {creatorName} */}
 											{creatorName.length > 12
 												? `${creatorName.substring(0, 12)}...`
 												: creatorName
