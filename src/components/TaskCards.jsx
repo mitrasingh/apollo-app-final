@@ -11,7 +11,7 @@ const TaskCards = ({ setTaskArray, setTaskArrayFilter, taskArrayFilter }) => {
     // State for displaying loader component
     const [isLoading, setIsLoading] = useState(true);
 
-    // Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
+    // Catches error and returns error boundary component (error component in parent (TopicBoard.jsx)
     const { showBoundary } = useErrorBoundary();
 
     // Fetch data and map each task into state variables
