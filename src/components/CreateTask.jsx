@@ -14,8 +14,10 @@ const CreateTask = () => {
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
 
-    dayjs.extend(utc); // Converts date to UTC ensuring dates match from user input to display via database
+    // Converts date to UTC ensuring dates match from user input to display via database
+    dayjs.extend(utc);
 
+    // React router function allows user to navigate to specified route
     const navigate = useNavigate();
 
     // Access Redux state of user slice
@@ -43,7 +45,7 @@ const CreateTask = () => {
         }
     };
 
-    // Goes to previous page
+    // Directs user to previous page
     const handleCancel = () => {
         navigate(-1);
     }
