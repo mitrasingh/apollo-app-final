@@ -18,7 +18,7 @@ const CommentPostForm = ({ setIsCommentsRefreshed }) => {
     const { register, handleSubmit, reset, formState } = form;
     const { errors, isSubmitSuccessful } = formState;
 
-    // Redux state properties of current user (sets default properties when posting a comment)
+    // Redux state properties of current user
     const currentUser = useSelector((state) => state.user);
 
     // Adds a document to "comments" subcollection within firestore database ("topics"/specific ID/"comments"/ADDED DOCUMENT)
