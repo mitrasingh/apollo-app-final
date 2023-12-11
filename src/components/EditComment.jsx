@@ -1,16 +1,11 @@
 import { Form, Stack, Button, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { useContext } from "react";
 import { db } from "../utils/firebase-config";
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
-import { TopicIdContext } from "../utils/TopicIdContext";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
-export const EditComment = ({ userComment, setIsEditComment, commentId }) => { // Props from CommentCard.jsx
-
-	// Data from useContext from Comments.jsx
-	const { setIsCommentsRefreshed } = useContext(TopicIdContext); // TopicIdContext also has a prop of id
+export const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }) => { // Props from CommentCard.jsx
 
 	// React Hook Form
 	const form = useForm({
@@ -93,4 +88,5 @@ EditComment.propTypes = {
 	userComment: PropTypes.string.isRequired,
 	commentId: PropTypes.string.isRequired,
 	setIsEditComment: PropTypes.func.isRequired,
+	setIsCommentsRefreshed: PropTypes.func.isRequired,
 };
