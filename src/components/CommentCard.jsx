@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { useContext, useState } from "react";
-import { TopicIdContext } from "../utils/TopicIdContext";
+import { useState } from "react";
+// import { TopicIdContext } from "../utils/TopicIdContext";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
 import { EditComment } from "../components/EditComment";
 import { Like } from "../components/Like";
@@ -11,15 +11,10 @@ import DeleteModal from "../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-export const CommentCard = (props) => {
-	// Props from parent Comments.jsx
-	const { comment } = props;
+export const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from parent Comments.jsx
 
 	// Data of currently logged in user from Redux state
 	const currentUser = useSelector((state) => state.user);
-
-	// Data from useContext from Comments.jsx
-	const { setIsCommentsRefreshed } = useContext(TopicIdContext); // TopicIdContext consists of id and setIsCommentsRefreshed
 
 	// Display edit field for the comment when set to true
 	const [isEditComment, setIsEditComment] = useState(false);
@@ -102,6 +97,7 @@ export const CommentCard = (props) => {
 							userComment={comment.userComment}
 							setIsEditComment={setIsEditComment}
 							commentId={comment.commentId}
+							setIsCommentsRefreshed={setIsCommentsRefreshed}
 						/>
 						:
 						<Row>
@@ -131,6 +127,7 @@ export const CommentCard = (props) => {
 };
 
 CommentCard.propTypes = {
+	setIsCommentsRefreshed: PropTypes.func.isRequired,
 	comment: PropTypes.shape({
 		userId: PropTypes.string.isRequired,
 		userPhoto: PropTypes.string.isRequired,
