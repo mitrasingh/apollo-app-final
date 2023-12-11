@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
-import { TopicIdContext } from "../utils/TopicIdContext";
 import { CommentCard } from "../components/CommentCard";
 import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
@@ -56,9 +55,11 @@ const Comments = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                     {
                         sortComments.map((sortedComment) => {
                             return (
-                                <TopicIdContext.Provider value={{ id, setIsCommentsRefreshed }} key={sortedComment.commentId}>
-                                    <CommentCard comment={sortedComment} />
-                                </TopicIdContext.Provider>
+                                <CommentCard
+                                    key={sortedComment.commentId}
+                                    comment={sortedComment}
+                                    setIsCommentsRefreshed={setIsCommentsRefreshed}
+                                />
                             );
                         })
                     }
