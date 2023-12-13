@@ -11,8 +11,8 @@ import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import EditTopicPost from "../EditTopicPost/EditTopicPost";
-import DeleteModal from "../../../components/DeleteModal";
-import Like from "../../../components/Like";
+import DeleteModal from "../../../components/Modals/DeleteModal";
+import Like from "../../../components/Like/Like";
 import Spinner from 'react-bootstrap/Spinner';
 
 const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed }) => {

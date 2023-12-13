@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
-import ErrorFallbackTopics from "../../components/Error Fallback/ErrorFallbackTopics";
+import ErrorFallbackTopics from "../../components/ErrorFallback/ErrorFallbackTopics";
 import TopicCardList from "./TopicCardList/TopicCardList";
 import CreateTopicForm from "./CreateTopicForm/CreateTopicForm";
 import styles from "./TopicBoard.module.css";

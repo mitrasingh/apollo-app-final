@@ -4,7 +4,7 @@ import { ErrorBoundary } from "react-error-boundary"
 import TopicPost from "./TopicPost/TopicPost";
 import CommentPostForm from "./CommentPostForm/CommentPostForm";
 import CommentCardList from "./CommentCardList/CommentCardList";
-import ErrorFallbackTopicPost from "../../components/ErrorFallbackTopicPost";
+import ErrorFallbackTopicPost from "../../components/ErrorFallback/ErrorFallbackTopicPost";
 import styles from "./TopicDetailsPage.module.css";
 
 const TopicDetailsPage = () => {

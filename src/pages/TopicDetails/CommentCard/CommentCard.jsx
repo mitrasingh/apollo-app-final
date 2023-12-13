@@ -5,8 +5,8 @@ import { db } from "../../../utils/firebase-config";
 import { useState } from "react";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
 import EditComment from "../EditComment/EditComment";
-import Like from "../../../components/Like";
-import DeleteModal from "../../../components/DeleteModal";
+import Like from "../../../components/Like/Like";
+import DeleteModal from "../../../components/Modals/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
