@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../utils/firebase-config";
-import { logoutUser } from "../features/user/userSlice";
+import { auth } from "../../utils/firebase-config";
+import { logoutUser } from "../../features/user/userSlice";
 import { signOut } from "firebase/auth";
 import { toast } from 'react-toastify';
-import LogoutModal from "./LogoutModal";
+import LogoutModal from "../Modals/LogoutModal";
 import styles from "./Navigation.module.css";
 
 export const Navigation = () => {

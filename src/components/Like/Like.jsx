@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Stack, Image } from "react-bootstrap"
 import { doc, collection, addDoc, getDocs, query, deleteDoc, where } from "firebase/firestore"
-import { db } from "../utils/firebase-config"
+import { db } from "../../utils/firebase-config"
 import { useSelector } from "react-redux"
 import PropTypes from 'prop-types';
 
