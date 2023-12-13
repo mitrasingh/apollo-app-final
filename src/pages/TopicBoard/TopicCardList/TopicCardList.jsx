@@ -6,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import TopicCard from "../TopicCard/TopicCard";
 import PropTypes from "prop-types";
 
-export const TopicCards = ({ isTopicsRefreshed }) => {
+export const TopicCardList = ({ isTopicsRefreshed }) => {
     // Current state of data fetched from fetchTopics function
     const [topicArray, setTopicArray] = useState([]);
 
@@ -52,8 +52,8 @@ export const TopicCards = ({ isTopicsRefreshed }) => {
     );
 };
 
-TopicCards.propTypes = {
+TopicCardList.propTypes = {
     isTopicsRefreshed: PropTypes.bool.isRequired
 }
 
-export default TopicCards;
+export default TopicCardList;
