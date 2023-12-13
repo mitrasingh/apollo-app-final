@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import LogoutModal from "../Modals/LogoutModal";
 import styles from "./Navigation.module.css";
 
-export const Navigation = () => {
+const Navigation = () => {
     // Fetching user values from Redux
     const user = useSelector((state) => state.user);
 
@@ -90,3 +90,4 @@ export const Navigation = () => {
     );
 };
 
+export default Navigation;
