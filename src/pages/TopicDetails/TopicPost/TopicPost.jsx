@@ -4,15 +4,15 @@ import { doc, getDoc, collection, query, getCountFromServer, where, deleteDoc } 
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { db } from "../utils/firebase-config";
+import { db } from "../../../utils/firebase-config";
 import { toast } from 'react-toastify';
 import { useErrorBoundary } from "react-error-boundary";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
-import EditTopic from "./EditTopic";
-import DeleteModal from "./DeleteModal";
-import Like from "./Like";
+import EditTopicPost from "../EditTopicPost/EditTopicPost";
+import DeleteModal from "../../../components/DeleteModal";
+import Like from "../../../components/Like";
 import Spinner from 'react-bootstrap/Spinner';
 
 const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed }) => {
@@ -187,7 +187,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
                         </p>
 
                         {isEditTopicDisplayed ? (
-                            <EditTopic
+                            <EditTopicPost
                                 setIsEditTopicDisplayed={setIsEditTopicDisplayed}
                                 description={topic.description}
                                 id={id}

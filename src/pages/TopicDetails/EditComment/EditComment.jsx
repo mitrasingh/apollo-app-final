@@ -1,6 +1,6 @@
 import { Form, Stack, Button, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { db } from "../utils/firebase-config";
+import { db } from "../../../utils/firebase-config";
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';

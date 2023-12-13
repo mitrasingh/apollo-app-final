@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../utils/firebase-config";
+import { db } from "../../../utils/firebase-config";
 import { useState } from "react";
 // import { TopicIdContext } from "../utils/TopicIdContext";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
-import { EditComment } from "../components/EditComment";
-import { Like } from "../components/Like";
-import DeleteModal from "../components/DeleteModal";
+import { EditComment } from "../EditComment/EditComment";
+import { Like } from "../../../components/Like";
+import DeleteModal from "../../../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
