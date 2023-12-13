@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallbackTasks from "../../components/ErrorFallbackTasks";
-import SearchBar from "../../components/SearchBar";
+import SearchTasks from "../../components/SearchTasks";
 import Filter from "../../components/Filter";
 import RefreshButton from "../../components/RefreshButton";
 import TaskCards from "../../components/TaskCards";
@@ -18,7 +18,7 @@ const Home = () => {
 	// Boolean state decides whether refresh tasks button changes display text to "clear filter"
 	const [isClearFilterDisplayed, setIsClearFilterDisplayed] = useState(false);
 
-	// User input state for SearchBar
+	// User input state for SearchTasks
 	const [userInput, setUserInput] = useState("");
 
 	// Refresh task state (used for refresh tasks button) - resets data and clears filters
@@ -62,7 +62,7 @@ const Home = () => {
 
 	return (
 		<Container className={styles.customContainer}>
-			<SearchBar
+			<SearchTasks
 				userInput={userInput}
 				setUserInput={setUserInput}
 				filterSearchHandle={filterSearchHandle}
