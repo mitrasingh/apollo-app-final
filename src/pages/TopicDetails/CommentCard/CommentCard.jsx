@@ -3,15 +3,14 @@ import { useSelector } from "react-redux";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useState } from "react";
-// import { TopicIdContext } from "../utils/TopicIdContext";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
-import { EditComment } from "../EditComment/EditComment";
-import { Like } from "../../../components/Like";
+import EditComment from "../EditComment/EditComment";
+import Like from "../../../components/Like";
 import DeleteModal from "../../../components/DeleteModal";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-export const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from parent Comments.jsx
+const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from parent Comments.jsx
 
 	// Data of currently logged in user from Redux state
 	const currentUser = useSelector((state) => state.user);
@@ -140,3 +139,5 @@ CommentCard.propTypes = {
 		isDocEdited: PropTypes.bool.isRequired
 	})
 };
+
+export default CommentCard;

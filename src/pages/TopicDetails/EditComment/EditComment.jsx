@@ -5,7 +5,7 @@ import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
-export const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }) => { // Props from CommentCard.jsx
+const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }) => { // Props from CommentCard.jsx
 
 	// React Hook Form
 	const form = useForm({
@@ -90,3 +90,5 @@ EditComment.propTypes = {
 	setIsEditComment: PropTypes.func.isRequired,
 	setIsCommentsRefreshed: PropTypes.func.isRequired,
 };
+
+export default EditComment;
