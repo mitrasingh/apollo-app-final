@@ -1,0 +1,9 @@
+body .customContainer {
+	margin-top: 85px;
+	max-width: 750px;
+}
+
+.customBtn {
+	max-height: 25px;
+	min-width: 105px;
+}
