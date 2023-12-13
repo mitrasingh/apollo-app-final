@@ -5,7 +5,7 @@ import { db } from "../utils/firebase-config"
 import { useSelector } from "react-redux"
 import PropTypes from 'prop-types';
 
-export const Like = ({ docId }) => { // Prop from CommentCard.jsx
+const Like = ({ docId }) => { // Prop from CommentCard.jsx
 
     const [likes, setLikes] = useState([]); // Amount of docs in likes collection that match prop docId
     const currentUser = useSelector((state) => state.user); // User state values from Redux
