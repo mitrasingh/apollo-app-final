@@ -5,7 +5,7 @@ import ErrorFallbackTasks from "../../components/ErrorFallbackTasks";
 import SearchTasksForm from "./SearchTasksForm/SearchTasksForm";
 import FilterTasksButton from "./FilterTasksButton/FilterTasksButton";
 import RefreshTasksButton from "./RefreshTasksButton/RefreshTasksButton";
-import TaskCards from "./TaskCards/TaskCards";
+import TaskCardList from "./TaskCardList/TaskCardList";
 import styles from "./Home.module.css";
 
 const Home = () => {
@@ -84,7 +84,7 @@ const Home = () => {
 			</Stack>
 
 			<ErrorBoundary FallbackComponent={ErrorFallbackTasks}>
-				<TaskCards
+				<TaskCardList
 					setTaskArray={setTaskArray}
 					setTaskArrayFilter={setTaskArrayFilter}
 					taskArrayFilter={taskArrayFilter}
