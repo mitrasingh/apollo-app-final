@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallbackTopics from "../../components/ErrorFallbackTopics";
-import TopicCards from "../../components/TopicCards";
-import CreateTopicForm from "../../components/CreateTopicForm";
+import TopicCards from "./TopicCards/TopicCards";
+import CreateTopicForm from "./CreateTopicForm/CreateTopicForm";
 import styles from "./TopicBoard.module.css";
 
 const TopicBoard = () => {
