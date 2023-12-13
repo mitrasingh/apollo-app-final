@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
-import { CommentCard } from "../../../components/CommentCard";
 import { useErrorBoundary } from "react-error-boundary";
+import CommentCard from "../CommentCard/CommentCard";
 import PropTypes from "prop-types";
 import Spinner from 'react-bootstrap/Spinner';
 
