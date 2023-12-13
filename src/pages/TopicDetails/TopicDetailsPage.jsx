@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Container } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
-import TopicPost from "../../components/TopicPost";
-import CommentPostForm from "../../components/CommentPostForm";
-import Comments from "../../components/Comments";
+import TopicPost from "./TopicPost/TopicPost";
+import CommentPostForm from "./CommentPostForm/CommentPostForm";
+import CommentsList from "./CommentsList/CommentsList";
 import ErrorFallbackTopicPost from "../../components/ErrorFallbackTopicPost";
 import styles from "./TopicDetailsPage.module.css";
 
@@ -20,7 +20,7 @@ const TopicDetailsPage = () => {
 			<ErrorBoundary FallbackComponent={ErrorFallbackTopicPost}>
 				<TopicPost isTopicRefreshed={isTopicRefreshed} setIsTopicRefreshed={setIsTopicRefreshed} isCommentsRefreshed={isCommentsRefreshed} />
 				<CommentPostForm setIsCommentsRefreshed={setIsCommentsRefreshed} />
-				<Comments isCommentsRefreshed={isCommentsRefreshed} setIsCommentsRefreshed={setIsCommentsRefreshed} />
+				<CommentsList isCommentsRefreshed={isCommentsRefreshed} setIsCommentsRefreshed={setIsCommentsRefreshed} />
 			</ErrorBoundary>
 		</Container >
 	);
