@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallbackTasks from "../../components/ErrorFallbackTasks";
-import SearchTasks from "../../components/SearchTasks";
-import Filter from "../../components/Filter";
-import RefreshButton from "../../components/RefreshButton";
-import TaskCards from "../../components/TaskCards";
+import SearchTasksForm from "./SearchTasksForm/SearchTasksForm";
+import FilterTasksButton from "./FilterTasksButton/FilterTasksButton";
+import RefreshTasksButton from "./RefreshTasksButton/RefreshTasksButton";
+import TaskCards from "./TaskCards/TaskCards";
 import styles from "./Home.module.css";
 
 const Home = () => {
@@ -62,7 +62,7 @@ const Home = () => {
 
 	return (
 		<Container className={styles.customContainer}>
-			<SearchTasks
+			<SearchTasksForm
 				userInput={userInput}
 				setUserInput={setUserInput}
 				filterSearchHandle={filterSearchHandle}
@@ -70,13 +70,13 @@ const Home = () => {
 			/>
 
 			<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
-				<Filter
+				<FilterTasksButton
 					filterLaterHandle={filterLaterHandle}
 					filterSoonHandle={filterSoonHandle}
 					filterPriorityHandle={filterPriorityHandle}
 					filterStatusHandle={filterStatusHandle}
 				/>
-				<RefreshButton
+				<RefreshTasksButton
 					refreshTasksHandle={refreshTasksHandle}
 					filterSearchHandle={filterSearchHandle}
 					isClearFilterDisplayed={isClearFilterDisplayed}
