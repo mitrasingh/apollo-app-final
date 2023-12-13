@@ -6,9 +6,9 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { useDispatch } from 'react-redux';
 import { doc, getDoc } from 'firebase/firestore';
 import { loginUser, logoutUser } from "../../features/user/userSlice";
-import { Navigation } from "../Navigation/Navigation";
+import Navigation from "../Navigation/Navigation";
 
-export const ProtectedRoute = () => {
+const ProtectedRoute = () => {
 
   // Hook from the react-router-dom to get the current location of a route 
   const location = useLocation();
@@ -68,3 +68,5 @@ export const ProtectedRoute = () => {
 
   );
 };
+
+export default ProtectedRoute;
