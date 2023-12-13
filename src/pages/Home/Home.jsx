@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
-import ErrorFallbackTasks from "../../components/ErrorFallbackTasks";
+import ErrorFallbackTasks from "../../components/Error Fallback/ErrorFallbackTasks";
 import SearchTasksForm from "./SearchTasksForm/SearchTasksForm";
 import FilterTasksButton from "./FilterTasksButton/FilterTasksButton";
 import RefreshTasksButton from "./RefreshTasksButton/RefreshTasksButton";

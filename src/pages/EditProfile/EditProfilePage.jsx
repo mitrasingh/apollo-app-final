@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
-import ErrorFallbackProfile from "../../components/ErrorFallbackProfile";
-import ProfileForm from "../../components/ProfileForm";
+import ErrorFallbackProfile from "../../components/Error Fallback/ErrorFallbackProfile";
+import ProfileForm from "./ProfileForm/ProfileForm";
 
 const EditProfilePage = () => {
 

@@ -8,7 +8,7 @@ import { useErrorBoundary } from "react-error-boundary";
 import { toast } from 'react-toastify';
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
 import EditTaskModal from "../EditTaskModal/EditTaskModal";
-import DeleteModal from "../../../components/DeleteModal";
+import DeleteModal from "../../../components/Modals/DeleteModal";
 import PropTypes from "prop-types";
 import styles from "./TaskCard.module.css";
 
