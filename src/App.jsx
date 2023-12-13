@@ -4,17 +4,17 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import { Home } from "./pages/Home";
-import CreateTaskPage from "./pages/CreateTaskPage";
-import TopicBoard from "./pages/TopicBoard"
-import EditProfilePage from "./pages/EditProfilePage"
-import { SignIn } from "./pages/SignIn";
-import { SignUp } from "./pages/SignUp";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { PhotoUpload } from "./pages/PhotoUpload";
-import TopicDetailsPage from "./pages/TopicDetailsPage";
-import { ForgotPassword } from "./pages/ForgotPassword";
-import { NotFound } from "./pages/NotFound";
+import Home from "./pages/Home/Home";
+import CreateTaskPage from "./pages/CreateTask/CreateTaskPage";
+import TopicBoard from "./pages/TopicBoard/TopicBoard"
+import EditProfilePage from "./pages/EditProfile/EditProfilePage"
+import SignIn from "./pages/SignIn/SignIn";
+import SignUp from "./pages/SignUp/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import PhotoUpload from "./pages/PhotoUpload/PhotoUpload";
+import TopicDetailsPage from "./pages/TopicDetails/TopicDetailsPage";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import NotFound from "./pages/NotFound/NotFound";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
