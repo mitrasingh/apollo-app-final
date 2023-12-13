@@ -1,8 +1,0 @@
-.customImage {
-	object-fit: "cover";
-	border-radius: "50%";
-}
-
-::-webkit-calendar-picker-indicator {
-	filter: invert(1);
-}
