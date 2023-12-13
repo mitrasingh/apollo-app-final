@@ -6,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from "prop-types";
 import TaskCard from "../TaskCard/TaskCard";
 
-const TaskCards = ({ setTaskArray, setTaskArrayFilter, taskArrayFilter }) => {
+const TaskCardList = ({ setTaskArray, setTaskArrayFilter, taskArrayFilter }) => {
 
     // State for displaying loader component
     const [isLoading, setIsLoading] = useState(true);
@@ -60,10 +60,10 @@ const TaskCards = ({ setTaskArray, setTaskArrayFilter, taskArrayFilter }) => {
     )
 };
 
-TaskCards.propTypes = {
+TaskCardList.propTypes = {
     setTaskArray: PropTypes.func.isRequired,
     setTaskArrayFilter: PropTypes.func.isRequired,
     taskArrayFilter: PropTypes.array.isRequired,
 };
 
-export default TaskCards;
+export default TaskCardList;
