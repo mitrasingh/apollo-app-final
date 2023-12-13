@@ -87,7 +87,7 @@ export const SignIn = () => {
             <h6 className="text-center">Welcome to</h6>
             <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
                 <Image
-                    src="public/img/rocket_white.svg"
+                    src="src/assets/rocket_white.svg"
                     width="50"
                     height="50"
                     className="d-inline-block align-top"

@@ -72,8 +72,8 @@ export const Like = ({ docId }) => { // Prop from CommentCard.jsx
             <Image
                 src={
                     hasUserLiked
-                        ? "/public/img/rocketLike.svg"
-                        : "/public/img/rocketNoLike.svg"
+                        ? "/src/assets/rocketLike.svg"
+                        : "/src/assets/rocketNoLike.svg"
                 }
                 width="20"
                 height="20"

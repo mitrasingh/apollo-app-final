@@ -22,7 +22,7 @@ const SearchBar = ({ userInput, setUserInput, filterSearchHandle, refreshTasksHa
                         <InputGroup>
                             <Button >
                                 <img
-                                    src="public/img/search_new.svg"
+                                    src="src/assets/search_new.svg"
                                     width="20"
                                     height="20"
                                     alt="Search bar button"

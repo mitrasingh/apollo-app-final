@@ -110,7 +110,7 @@ export const TopicCard = (props) => {
 						<Col>
 							<Stack direction="horizontal" gap={2} className="mt-1">
 								<Image
-									src="public/img/comments.svg"
+									src="src/assets/comments.svg"
 									width="18"
 									height="18"
 									alt="comments icon"
