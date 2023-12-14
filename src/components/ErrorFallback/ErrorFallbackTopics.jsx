@@ -1,7 +1,7 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import styles from "./ErrorFallbackTopics.module.css";
+import styles from "./ErrorFallback.module.css";
 
 export const ErrorFallbackTopics = ({ resetErrorBoundary }) => {
 
