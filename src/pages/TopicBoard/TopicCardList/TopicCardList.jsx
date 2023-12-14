@@ -21,9 +21,13 @@ export const TopicCardList = ({ isTopicsRefreshed }) => {
         const fetchTopics = async () => {
             try {
                 const dbRef = collection(db, "topics");
-                const queryOrderDate = query(dbRef, orderBy("datePosted", "desc"));
-                const topicsData = await getDocs(queryOrderDate);
-                const topicsMap = topicsData.docs.map((doc) => ({ ...doc.data(), topicId: doc.id }))
+                // const queryOrderDate = query(dbRef, orderBy("datePosted", "desc"));
+                const fetchTopics = await getDocs(query(dbRef));
+                // const topicsData = await getDocs(queryOrderDate);
+                const topicsMap = fetchTopics.docs.map((doc) => ({
+                    ...doc.data(),
+                    topicId: doc.id
+                }));
                 setTopicArray(topicsMap);
             } catch (error) {
                 console.log(`Error: ${error.message}`);
