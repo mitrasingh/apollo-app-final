@@ -35,6 +35,8 @@ export const TopicCardList = ({ isTopicsRefreshed }) => {
         fetchTopics();
     }, [isTopicsRefreshed]);
 
+    const listTopicCards = topicArray.map((topic) => <TopicCard topic={topic} key={topic.topicId} />)
+
     return (
         <>
             {isLoading ?
@@ -43,9 +45,10 @@ export const TopicCardList = ({ isTopicsRefreshed }) => {
                 </div>
                 :
                 <>
-                    {topicArray.map(topic => {
+                    {/* {topicArray.map(topic => {
                         return <TopicCard topic={topic} key={topic.topicId} />;
-                    })}
+                    })} */}
+                    {listTopicCards}
                 </>
             }
         </>
