@@ -10,6 +10,11 @@ import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicCard.module.css";
 
+// NETLIFY GIVING ERROR ON TOPICBOARD PAGE, I BELIEVE IT HAS TO DO WITH PROPS...FIX THE ISSUE AND REUPLOAD FOR A TEST
+// SEE THE RELATIONSHIP BETWEEN PROPS RECEIVED IN TOPICCARDLIST AND THEN PASSED TO CHILD (CURRENT FILE) SOMETHING IS GOING ON THERE
+// COMPARE THIS SETUP TO TASKCARDLIST -> TASKCARD, SEEMS THE SAME WITH PROPTYPES SHAPE SO I BLIEVE THE ERROR COULD BE THE FACT THAT THIS
+// COMPONENT IS NOT USING ALL OF ITS PROPS FROM TOPICCARDLIST AND YOUR PROPTYPE SAYS IT IS REQUIRED!
+
 export const TopicCard = (props) => {
 	// Receiving prop data from TopicCards.jsx
 	const { topic } = props;
@@ -128,7 +133,7 @@ export const TopicCard = (props) => {
 TopicCard.propTypes = {
 	topic: PropTypes.shape({
 		title: PropTypes.string.isRequired,
-		description: PropTypes.string.isRequired,
+		description: PropTypes.string,
 		firstName: PropTypes.string.isRequired,
 		lastName: PropTypes.string.isRequired,
 		userId: PropTypes.string.isRequired,
@@ -137,6 +142,18 @@ TopicCard.propTypes = {
 		isDocEdited: PropTypes.bool.isRequired
 	})
 };
+
+// TopicCard.propTypes = {
+// 	title: PropTypes.string.isRequired,
+// 	description: PropTypes.string.isRequired,
+// 	firstName: PropTypes.string.isRequired,
+// 	lastName: PropTypes.string.isRequired,
+// 	userId: PropTypes.string.isRequired,
+// 	topicId: PropTypes.string.isRequired,
+// 	datePosted: PropTypes.object.isRequired,
+// 	isDocEdited: PropTypes.bool.isRequired
+// };
+
 
 export default TopicCard;
 
