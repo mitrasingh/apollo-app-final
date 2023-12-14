@@ -114,7 +114,7 @@ const TaskCard = (props) => {
 											<Image
 												onClick={handleShow}
 												className={styles.cursorPointer}
-												src="src/assets/trash-fill.svg"
+												src="/trash-fill.svg"
 												width="15"
 												height="15"
 												alt="trash icon"

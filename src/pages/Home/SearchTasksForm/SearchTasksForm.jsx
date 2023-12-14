@@ -22,7 +22,7 @@ const SearchTasksForm = ({ userInput, setUserInput, filterSearchHandle, refreshT
                         <InputGroup>
                             <Button >
                                 <img
-                                    src="src/assets/search_new.svg"
+                                    src="/search_new.svg"
                                     width="20"
                                     height="20"
                                     alt="Search bar button"
