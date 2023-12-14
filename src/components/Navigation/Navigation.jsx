@@ -43,7 +43,7 @@ const Navigation = () => {
                     <Image
                         as={Link}
                         to="/"
-                        src="src/assets/rocket_white.svg"
+                        src="/rocket_white.svg"
                         width="30"
                         height="30"
                         alt="apollo logo"
