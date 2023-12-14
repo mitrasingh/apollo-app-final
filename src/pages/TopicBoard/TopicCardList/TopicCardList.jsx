@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useErrorBoundary } from "react-error-boundary";
 import Spinner from 'react-bootstrap/Spinner';
@@ -17,29 +17,53 @@ export const TopicCardList = ({ isTopicsRefreshed }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     // Function that fetches data from database by querying "topics" collection
+    // useEffect(() => {
+    //     const fetchTopics = async () => {
+    //         try {
+    //             const dbRef = collection(db, "topics");
+    //             // const queryOrderDate = query(dbRef, orderBy("datePosted", "desc"));
+    //             const fetchTopics = await getDocs(query(dbRef));
+    //             // const topicsData = await getDocs(queryOrderDate);
+    //             const topicsMap = fetchTopics.docs.map((doc) => ({
+    //                 ...doc.data(),
+    //                 topicId: doc.id
+    //             }));
+    //             setTopicArray(topicsMap);
+    //         } catch (error) {
+    //             console.log(`Error: ${error.message}`);
+    //             showBoundary(error);
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     };
+    //     fetchTopics();
+    // }, [isTopicsRefreshed]);
+
+    const fetchTopics = async () => {
+        try {
+            const dbRef = collection(db, "topics");
+            // const queryOrderDate = query(dbRef, orderBy("datePosted", "desc"));
+            const fetchTopics = await getDocs(query(dbRef));
+            // const topicsData = await getDocs(queryOrderDate);
+            const topicsMap = fetchTopics.docs.map((doc) => ({
+                ...doc.data(),
+                topicId: doc.id
+            }));
+            setTopicArray(topicsMap);
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+            showBoundary(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchTopics = async () => {
-            try {
-                const dbRef = collection(db, "topics");
-                // const queryOrderDate = query(dbRef, orderBy("datePosted", "desc"));
-                const fetchTopics = await getDocs(query(dbRef));
-                // const topicsData = await getDocs(queryOrderDate);
-                const topicsMap = fetchTopics.docs.map((doc) => ({
-                    ...doc.data(),
-                    topicId: doc.id
-                }));
-                setTopicArray(topicsMap);
-            } catch (error) {
-                console.log(`Error: ${error.message}`);
-                showBoundary(error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
         fetchTopics();
     }, [isTopicsRefreshed]);
 
-    const listTopicCards = topicArray.map((topic) => <TopicCard topic={topic} key={topic.topicId} />)
+
+    // const listTopicCards = topicArray.map((topic) => <TopicCard topic={topic} key={topic.topicId} />)
 
     return (
         <>
@@ -49,10 +73,10 @@ export const TopicCardList = ({ isTopicsRefreshed }) => {
                 </div>
                 :
                 <>
-                    {/* {topicArray.map(topic => {
+                    {topicArray.map(topic => {
                         return <TopicCard topic={topic} key={topic.topicId} />;
-                    })} */}
-                    {listTopicCards}
+                    })}
+                    {/* {listTopicCards} */}
                 </>
             }
         </>
