@@ -2,7 +2,7 @@ import { Button, Card, Container, Form, Stack, Image } from "react-bootstrap";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../features/user/userSlice";
+import { loginUser } from "../../store/users/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
 import { useForm } from "react-hook-form";

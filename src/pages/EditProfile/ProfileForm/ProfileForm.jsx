@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Row, Stack, Image } from 'react-bootstrap'
 import { useSelector, useDispatch } from "react-redux"
-import { editUser } from "../../../features/user/userSlice"
+import { editUser } from "../../../store/users/userSlice"
 import { useNavigate } from "react-router-dom"
 import { getAuth, updateProfile, updateEmail } from "firebase/auth"
 import { doc, updateDoc } from "firebase/firestore"

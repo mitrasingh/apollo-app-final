@@ -4,7 +4,7 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { db } from "../../utils/firebase-config"
 import { Container, Form, Card, Button, Stack, Image } from "react-bootstrap"
 import { useDispatch } from "react-redux"
-import { loginUser } from "../../features/user/userSlice"
+import { loginUser } from "../../store/users/userSlice"
 import { Link, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
