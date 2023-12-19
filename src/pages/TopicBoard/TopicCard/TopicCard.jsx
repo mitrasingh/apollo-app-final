@@ -65,11 +65,8 @@ export const TopicCard = (props) => {
 
 	// Conversion of firestore timestamp to dayjs fromNow method
 	dayjs.extend(relativeTime);
-	// const convertTimeStamp = topic.datePosted.toDate();
-	const dateRelativeTime = dayjs('1999-01-01').fromNow();
-	// console.log(topic.datePosted);
-	// console.log(convertTimeStamp);
-	// const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
+	const convertTimeStamp = topic.datePosted.toDate();
+	const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
 		<Container className="mt-3">
@@ -140,18 +137,6 @@ TopicCard.propTypes = {
 		isDocEdited: PropTypes.bool.isRequired
 	})
 };
-
-// TopicCard.propTypes = {
-// 	title: PropTypes.string.isRequired,
-// 	description: PropTypes.string.isRequired,
-// 	firstName: PropTypes.string.isRequired,
-// 	lastName: PropTypes.string.isRequired,
-// 	userId: PropTypes.string.isRequired,
-// 	topicId: PropTypes.string.isRequired,
-// 	datePosted: PropTypes.object.isRequired,
-// 	isDocEdited: PropTypes.bool.isRequired
-// };
-
 
 export default TopicCard;
 
