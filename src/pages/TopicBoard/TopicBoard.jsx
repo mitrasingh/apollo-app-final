@@ -21,7 +21,7 @@ const TopicBoard = () => {
 
 	return (
 		<Container className={styles.customContainer}>
-			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Topic Board Test 2</p>
+			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Topic Board Test 3</p>
 			<Button
 				className={`d-flex align-items-center justify-content-center fs-6 fw-bold text-light ms-3 mb-2 ${styles.customBtn}`}
 				variant="primary"
