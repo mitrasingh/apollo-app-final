@@ -17,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         autoClose={2500}
         hideProgressBar={true}
         theme="dark"
+        style={{ width: "20%" }}
       />
     </Provider>
   </React.StrictMode>
