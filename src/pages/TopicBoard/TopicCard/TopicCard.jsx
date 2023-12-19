@@ -6,8 +6,8 @@ import { db } from "../../../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
-import * as dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+// import * as dayjs from "dayjs";
+// import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicCard.module.css";
 
 // NETLIFY GIVING ERROR ON TOPICBOARD PAGE, I BELIEVE IT HAS TO DO WITH PROPS...FIX THE ISSUE AND REUPLOAD FOR A TEST
@@ -69,9 +69,9 @@ export const TopicCard = (props) => {
 	}, [numOfComments]);
 
 	// Conversion of firestore timestamp to dayjs fromNow method
-	dayjs.extend(relativeTime);
-	const convertTimeStamp = topic.datePosted.toDate();
-	const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
+	// dayjs.extend(relativeTime);
+	// const convertTimeStamp = topic.datePosted.toDate();
+	// const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
 		<Container className="mt-3">
