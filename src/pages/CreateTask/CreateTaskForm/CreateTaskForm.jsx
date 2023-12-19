@@ -57,6 +57,7 @@ const CreateTaskForm = () => {
                 <Form.Label className="fw-bold mt-3">Task name</Form.Label>
                 <Form.Control
                     className="fs-6 shadow-none"
+                    autoFocus={false}
                     maxLength={50}
                     type="text"
                     {...register("taskname", {
@@ -76,6 +77,7 @@ const CreateTaskForm = () => {
                 </Form.Label>
                 <Form.Control
                     className="fs-6 shadow-none"
+                    autoFocus={false}
                     as="textarea"
                     rows={3}
                     maxLength={450}
@@ -143,6 +145,7 @@ const CreateTaskForm = () => {
                 </Form.Label>
                 <Form.Control
                     className="fs-6 shadow-none"
+                    autoFocus={false}
                     type="date"
                     {...register("taskduedate", {
                         valueAsDate: true,
