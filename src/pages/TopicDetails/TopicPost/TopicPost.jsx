@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { db } from "../../../utils/firebase-config";
 import { toast } from 'react-toastify';
 import { useErrorBoundary } from "react-error-boundary";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import EditTopicPost from "../EditTopicPost/EditTopicPost";
