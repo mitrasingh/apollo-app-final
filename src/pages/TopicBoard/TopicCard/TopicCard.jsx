@@ -6,14 +6,9 @@ import { db } from "../../../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
-// import * as dayjs from "dayjs";
-// import relativeTime from "dayjs/plugin/relativeTime";
+import * as dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicCard.module.css";
-
-// NETLIFY GIVING ERROR ON TOPICBOARD PAGE, I BELIEVE IT HAS TO DO WITH PROPS...FIX THE ISSUE AND REUPLOAD FOR A TEST
-// SEE THE RELATIONSHIP BETWEEN PROPS RECEIVED IN TOPICCARDLIST AND THEN PASSED TO CHILD (CURRENT FILE) SOMETHING IS GOING ON THERE
-// COMPARE THIS SETUP TO TASKCARDLIST -> TASKCARD, SEEMS THE SAME WITH PROPTYPES SHAPE SO I BLIEVE THE ERROR COULD BE THE FACT THAT THIS
-// COMPONENT IS NOT USING ALL OF ITS PROPS FROM TOPICCARDLIST AND YOUR PROPTYPE SAYS IT IS REQUIRED!
 
 export const TopicCard = (props) => {
 	// Receiving prop data from TopicCards.jsx
@@ -69,8 +64,11 @@ export const TopicCard = (props) => {
 	}, [numOfComments]);
 
 	// Conversion of firestore timestamp to dayjs fromNow method
-	// dayjs.extend(relativeTime);
+	dayjs.extend(relativeTime);
 	// const convertTimeStamp = topic.datePosted.toDate();
+	const dateRelativeTime = dayjs('1999-01-01').fromNow();
+	// console.log(topic.datePosted);
+	// console.log(convertTimeStamp);
 	// const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
@@ -109,7 +107,7 @@ export const TopicCard = (props) => {
 
 						<Col>
 							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
-							{/* <Card.Text className="my-0">{dateRelativeTime}</Card.Text> */}
+							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
 						</Col>
 
 						<Col>
