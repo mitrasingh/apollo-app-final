@@ -109,7 +109,7 @@ export const TopicCard = (props) => {
 
 						<Col>
 							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
-							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
+							{/* <Card.Text className="my-0">{dateRelativeTime}</Card.Text> */}
 						</Col>
 
 						<Col>
