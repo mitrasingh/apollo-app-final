@@ -69,9 +69,13 @@ const SignUp = () => {
             navigate("/photoupload");
         } catch (error) {
             if (error.message.includes("email-already-in-use")) {
-                toast.error("This email is already registered!")
+                toast.error("This email is already registered!", {
+                    hideProgressBar: true
+                })
             } else {
-                toast.error("Sorry, we are having some technical issues!")
+                toast.error("Sorry, we are having some technical issues!", {
+                    hideProgressBar: true
+                })
             }
             console.log(`Error: ${error.message}`);
         }
