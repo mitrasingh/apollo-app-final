@@ -26,7 +26,9 @@ const Navigation = () => {
             await signOut(auth);
             dispatch(logoutUser());
             navigate("/signin");
-            toast.info('You have been logged out!')
+            toast.info('You have been logged out!', {
+                hideProgressBar: true
+            })
         } catch (error) {
             console.log(`Error: ${error.message}`);
         }
