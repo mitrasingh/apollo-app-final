@@ -37,7 +37,7 @@ const ProtectedRoute = () => {
         if (user) {
           setIsLoggedIn(auth);
           const userCustomPhotoRef = `user-photo/${user.uid}`;
-          const photoRefCondition = userCustomPhotoRef ? userCustomPhotoRef : "user-photo/temporaryphoto.jpeg";
+          const photoRefCondition = !userCustomPhotoRef ? "user-photo/temporaryphoto.jpeg" : userCustomPhotoRef;
           const userPhotoURL = await getDownloadURL(ref(storageRef, photoRefCondition));
           const docRef = doc(db, "users", user.uid)
           const docSnap = await getDoc(docRef)
