@@ -43,7 +43,9 @@ const SignIn = () => {
                     email: auth.currentUser.email,
                 })
             );
-            toast.success(`Hello ${auth.currentUser.displayName}, you are logged in!`);
+            toast.success(`Hello ${auth.currentUser.displayName}, you are logged in!`, {
+                hideProgressBar: true
+            });
             navigate("/");
         } catch (error) {
             if (error.message.includes("user-not-found")) {
@@ -74,7 +76,9 @@ const SignIn = () => {
                     email: auth.currentUser.email,
                 })
             );
-            toast.success("Welcome to Apollo!");
+            toast.success("Welcome to Apollo!", {
+                hideProgressBar: true
+            });
             navigate("/");
         } catch (error) {
             toast.error("Sorry, we are having some technical issues!")
