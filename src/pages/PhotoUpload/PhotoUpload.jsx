@@ -46,7 +46,7 @@ const PhotoUpload = () => {
 	const handlePreviewPhoto = async (e) => {
 		e.preventDefault();
 		try {
-			const imageRef = ref(storageRef, "user-photo/temp.jpeg");
+			const imageRef = ref(storageRef, `user-photo/temp-${auth.currentUser.uid}`);
 			await uploadBytes(imageRef, userChosenFile);
 			const getURL = await getDownloadURL(imageRef);
 			setUserPhoto(getURL);
@@ -61,7 +61,9 @@ const PhotoUpload = () => {
 		event.preventDefault();
 		try {
 			if (!userChosenFile) { // If user triggers this function and has selected/previewed their image
-				toast.error("Photo is required!")
+				toast.error("Photo is required!", {
+					hideProgressBar: true
+				})
 			} else {
 				const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
 				await uploadBytes(imageRef, userChosenFile);

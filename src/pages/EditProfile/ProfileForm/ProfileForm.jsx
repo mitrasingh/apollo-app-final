@@ -80,7 +80,7 @@ const ProfileForm = () => {
         e.preventDefault();
         try {
             setIsFilePreviewed(true);
-            const imageRef = ref(storageRef, "user-photo/temp");
+            const imageRef = ref(storageRef, `user-photo/temp-${auth.currentUser.uid}`);
             await uploadBytes(imageRef, userChosenFile);
             const getURL = await getDownloadURL(imageRef);
             setUserPhoto(getURL);
