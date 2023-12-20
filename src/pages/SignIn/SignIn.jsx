@@ -43,7 +43,7 @@ const SignIn = () => {
                     email: auth.currentUser.email,
                 })
             );
-            toast.info("Welcome to Apollo!");
+            toast.success(`Hello ${auth.currentUser.displayName}, you are logged in!`);
             navigate("/");
         } catch (error) {
             if (error.message.includes("user-not-found")) {
@@ -74,7 +74,7 @@ const SignIn = () => {
                     email: auth.currentUser.email,
                 })
             );
-            toast.info("Welcome to Apollo!");
+            toast.success("Welcome to Apollo!");
             navigate("/");
         } catch (error) {
             toast.error("Sorry, we are having some technical issues!")
