@@ -15,9 +15,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ToastContainer
         className="fs-5 mt-4"
         autoClose={2500}
-        hideProgressBar={true}
+        hideProgressBar={false}
         theme="dark"
+        closeOnClick
       />
     </Provider>
   </React.StrictMode>
 )
+
+
