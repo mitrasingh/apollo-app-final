@@ -16,14 +16,12 @@ const ProtectedRoute = () => {
   // Redux management 
   const dispatch = useDispatch(); // Redux function which dispatches actions to Redux store
 
-
   // Reference to firebase storage
   const storage = getStorage();
   const storageRef = ref(storage);
 
   // State variable which verifies the authentication of a user through firebase
   const [isLoggedIn, setIsLoggedIn] = useState(auth);
-
 
   // Listens for changes in authentication associated with the user
   useEffect(() => {
@@ -37,7 +35,8 @@ const ProtectedRoute = () => {
         if (user) {
           setIsLoggedIn(auth);
           const userCustomPhotoRef = `user-photo/${user.uid}`;
-          const photoRefCondition = !userCustomPhotoRef ? "user-photo/temporaryphoto.jpeg" : userCustomPhotoRef;
+          const userTempPhotoRef = "user-photo/temporaryphoto.jpeg";
+          const photoRefCondition = !userCustomPhotoRef ? userTempPhotoRef : userCustomPhotoRef;
           const userPhotoURL = await getDownloadURL(ref(storageRef, photoRefCondition));
           const docRef = doc(db, "users", user.uid)
           const docSnap = await getDoc(docRef)
@@ -65,7 +64,6 @@ const ProtectedRoute = () => {
     </>
   ) : (
     <Navigate to="/signin" state={{ from: location }} replace />  // Redirects user to signin page from current location 
-
   );
 };
 
