@@ -52,13 +52,15 @@ const PhotoUpload = () => {
 			setUserPhoto(getURL);
 		} catch (error) {
 			console.log(`Error: ${error.message}`);
-			toast.error("Please try another photo!");
+			toast.error("Please try another photo!", {
+				hideProgressBar: true
+			});
 		}
 	};
 
 	// Confirm photo preview and make final by assigning photo to current user id
-	const handleAcceptPhoto = async (event) => {
-		event.preventDefault();
+	const handleAcceptPhoto = async (e) => {
+		e.preventDefault();
 		try {
 			if (!userChosenFile) { // If user triggers this function and has selected/previewed their image
 				toast.error("Photo is required!", {
@@ -80,15 +82,16 @@ const PhotoUpload = () => {
 							lastName: data.lastname,
 							title: data.title,
 							email: auth.currentUser.email,
-						})
-					);
+						}));
 				}
 				toast.success(`Welcome ${auth.currentUser.displayName} to Apollo!`)
 				navigate("/");
 			}
 		} catch (error) {
 			console.log(`Error: ${error.message}`);
-			toast.error("Sorry, we are having some technical issues!")
+			toast.error("Sorry, we are having some technical issues!", {
+				hideProgressBar: true
+			})
 		}
 	};
 
