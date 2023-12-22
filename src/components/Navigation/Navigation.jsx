@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase-config";
-import { logoutUser } from "../../store/users/userSlice";
+import { logoutUser } from "../../store/user/userSlice";
 import { signOut } from "firebase/auth";
 import { toast } from 'react-toastify';
 import LogoutModal from "../Modals/LogoutModal";

@@ -5,7 +5,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { useDispatch } from 'react-redux';
 import { doc, getDoc } from 'firebase/firestore';
-import { loginUser, logoutUser } from "../../store/users/userSlice";
+import { loginUser, logoutUser } from "../../store/user/userSlice";
 import Navigation from "../Navigation/Navigation";
 
 const ProtectedRoute = () => {

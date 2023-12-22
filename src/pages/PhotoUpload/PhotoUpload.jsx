@@ -5,7 +5,7 @@ import { db } from "../../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../store/users/userSlice";
+import { loginUser } from "../../store/user/userSlice";
 import { Container, Form, Card, Button, Row, Col, Stack, Image } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import styles from "./PhotoUpload.module.css";
