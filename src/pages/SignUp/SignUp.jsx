@@ -62,8 +62,7 @@ const SignUp = () => {
                         lastName: fetchUserData.lastname,
                         title: fetchUserData.title,
                         email: auth.currentUser.email,
-                    })
-                );
+                    }));
             }
             toast.success("Your profile has been created!")
             navigate("/photoupload");
@@ -80,7 +79,6 @@ const SignUp = () => {
             console.log(`Error: ${error.message}`);
         }
     };
-
 
     return (
         <Container className={`fs-6 ${styles.formContainer}`}>
