@@ -37,6 +37,7 @@ const SignIn = () => {
             dispatch(
                 loginUser({
                     userId: auth.currentUser.uid,
+                    userPhoto: userData.userPhoto,
                     firstName: auth.currentUser.displayName,
                     lastName: userData.lastname,
                     title: userData.title,
@@ -70,6 +71,7 @@ const SignIn = () => {
             dispatch(
                 loginUser({
                     userId: auth.currentUser.uid,
+                    userPhoto: userData.userPhoto,
                     firstName: auth.currentUser.displayName,
                     lastName: userData.lastname,
                     title: userData.title,
