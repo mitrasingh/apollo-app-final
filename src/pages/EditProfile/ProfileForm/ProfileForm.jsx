@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Row, Stack, Image } from 'react-bootstrap'
-import { useSelector, useDispatch } from "react-redux"
-import { editUser } from "../../../store/user/userSlice"
-import { useNavigate } from "react-router-dom"
-import { getAuth, updateProfile, updateEmail } from "firebase/auth"
-import { doc, updateDoc } from "firebase/firestore"
-import { db } from "../../../utils/firebase-config"
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row, Stack, Image } from 'react-bootstrap';
+import { useSelector, useDispatch } from "react-redux";
+import { editUser } from "../../../store/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import { getAuth, updateProfile, updateEmail } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../utils/firebase-config";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
