@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user/userSlice";
+import { photoFalse } from "../../store/photo/photoSlice"
 import { Container, Form, Card, Button, Row, Col, Stack, Image } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import styles from "./PhotoUpload.module.css";
@@ -36,8 +37,8 @@ const PhotoUpload = () => {
 	// Loads temporary (generic) image from database storage
 	useEffect(() => {
 		const loadUserImage = async () => {
-			const userTempPhotoURL = await getDownloadURL(ref(storageRef, "user-photo/temporaryphoto.jpeg"));
-			setUserPhoto(userTempPhotoURL);
+			const userPhoto = userState.userPhoto;
+			setUserPhoto(userPhoto);
 		};
 		loadUserImage();
 	}, []);
@@ -61,6 +62,7 @@ const PhotoUpload = () => {
 	// Confirm photo preview and make final by assigning photo to current user id
 	const handleAcceptPhoto = async (e) => {
 		e.preventDefault();
+		dispatch(photoFalse());
 		try {
 			if (!userChosenFile) { // If user triggers this function and has selected/previewed their image
 				toast.error("Photo is required!", {
@@ -74,6 +76,9 @@ const PhotoUpload = () => {
 				const docSnap = await getDoc(docRef);
 				if (auth && userPhotoURL && docSnap) {
 					const data = docSnap.data();
+					await updateDoc(docRef, {
+						userPhoto: userPhotoURL,
+					});
 					dispatch(
 						loginUser({
 							userId: auth.currentUser.uid,
