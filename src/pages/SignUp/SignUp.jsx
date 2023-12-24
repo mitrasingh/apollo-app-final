@@ -40,27 +40,27 @@ const SignUp = () => {
                 displayName: data.firstname,
             });
 
-            const docRef = doc(db, "users", auth.currentUser.uid);
-            await setDoc(docRef, {
-                firstname: data.firstname, // Allows access for current auth user's name to be available throughout app
-                lastname: data.lastname,
-                title: data.title,
-            })
-
             const photoRef = ref(storageRef, `user-photo/temporaryphoto.jpeg`);
             const userTempPhotoURL = await getDownloadURL(photoRef);
 
+            const docRef = doc(db, "users", auth.currentUser.uid);
+            await setDoc(docRef, {
+                userId: auth.currentUser.uid,
+                userPhoto: userTempPhotoURL,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                title: data.title,
+                email: auth.currentUser.email
+            })
             const docSnap = await getDoc(docRef);
             if (auth && docSnap.exists()) {
-                const fetchUserData = docSnap.data();
-                // Assigns default values to Redux user state
                 dispatch(
                     loginUser({
                         userId: auth.currentUser.uid,
                         userPhoto: userTempPhotoURL,
-                        firstName: auth.currentUser.displayName,
-                        lastName: fetchUserData.lastname,
-                        title: fetchUserData.title,
+                        firstName: data.firstname,
+                        lastName: data.lastname,
+                        title: data.title,
                         email: auth.currentUser.email,
                     }));
             }
