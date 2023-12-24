@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user/userSlice";
-import { photoFalse } from "../../store/photo/photoSlice"
 import { Container, Form, Card, Button, Row, Col, Stack, Image } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import styles from "./PhotoUpload.module.css";
@@ -62,7 +61,6 @@ const PhotoUpload = () => {
 	// Confirm photo preview and make final by assigning photo to current user id
 	const handleAcceptPhoto = async (e) => {
 		e.preventDefault();
-		dispatch(photoFalse());
 		try {
 			if (!userChosenFile) { // If user triggers this function and has selected/previewed their image
 				toast.error("Photo is required!", {
