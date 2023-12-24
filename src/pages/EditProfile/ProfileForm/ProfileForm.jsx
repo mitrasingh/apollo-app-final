@@ -86,7 +86,9 @@ const ProfileForm = () => {
             setUserPhoto(getURL);
         } catch (error) {
             console.log(`Error: ${error.message}`);
-            toast.error('Sorry, having issues displaying photo!');
+            toast.error('Sorry, having issues displaying photo! Try another!', {
+                hideProgressBar: true
+            });
         }
     };
 
@@ -97,19 +99,24 @@ const ProfileForm = () => {
                 displayName: data.firstname,
             });
 
+            await updateEmail(auth.currentUser, data.email);
+
             await updateDoc(doc(db, "users", auth.currentUser.uid), {
                 firstname: data.firstname,
                 lastname: data.lastname,
                 title: data.title,
+                email: data.email
             });
 
             if (isFilePreviewed) {
                 const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
                 await uploadBytes(imageRef, userChosenFile);
                 await getDownloadURL(imageRef);
+                await updateDoc(doc(db, "users", auth.currentUser.uid), {
+                    userPhoto: userPhoto,
+                });
             }
 
-            await updateEmail(auth.currentUser, data.email);
 
             if (updateProfile || isFilePreviewed || updateEmail || updateDoc) {
                 // Assigns updated values to Redux user state
@@ -128,7 +135,9 @@ const ProfileForm = () => {
             navigate("/");
         } catch (error) {
             console.log(`Error: ${error.message}`);
-            toast.error('Sorry, could not update profile!');
+            toast.error('Sorry, could not update profile!', {
+                hideProgressBar: true
+            });
         }
     };
 
