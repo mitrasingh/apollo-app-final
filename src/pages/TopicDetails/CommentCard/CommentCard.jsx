@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { deleteDoc, doc } from "firebase/firestore/lite";
+import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useState } from "react";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";

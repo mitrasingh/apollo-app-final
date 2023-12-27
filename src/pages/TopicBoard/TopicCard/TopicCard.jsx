@@ -3,7 +3,7 @@ import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { Link } from "react-router-dom";
 import { db } from "../../../utils/firebase-config";
-import { collection, getCountFromServer, query, where } from "firebase/firestore/lite";
+import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";

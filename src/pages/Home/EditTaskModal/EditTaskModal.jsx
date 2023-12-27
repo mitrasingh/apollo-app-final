@@ -2,7 +2,7 @@ import { Button, Form, Modal, Stack, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { db } from "../../../utils/firebase-config";
-import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form"
 import { toast } from 'react-toastify';
 import * as dayjs from "dayjs";

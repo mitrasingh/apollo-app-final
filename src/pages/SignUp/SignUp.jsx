@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, updateProfile, getAuth } from "firebase/auth"
-import { doc, setDoc, getDoc } from "firebase/firestore/lite"
+import { doc, setDoc, getDoc } from "firebase/firestore"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { db } from "../../utils/firebase-config"
 import { Container, Form, Card, Button, Stack, Image } from "react-bootstrap"

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore/lite";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useErrorBoundary } from "react-error-boundary";
 import CommentCard from "../CommentCard/CommentCard";

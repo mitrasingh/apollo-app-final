@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, query } from "firebase/firestore/lite";
+import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useErrorBoundary } from "react-error-boundary";
 import Spinner from 'react-bootstrap/Spinner';

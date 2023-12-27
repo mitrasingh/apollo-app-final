@@ -1,5 +1,5 @@
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import { collection, addDoc, Timestamp } from "firebase/firestore/lite";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
