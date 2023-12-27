@@ -3,7 +3,7 @@ import { Col, Row, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebase-config";
 import { toast } from 'react-toastify';
 import PropTypes from "prop-types";

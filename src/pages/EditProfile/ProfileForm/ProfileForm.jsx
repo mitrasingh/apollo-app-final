@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { editUser } from "../../../store/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { getAuth, updateProfile, updateEmail } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../../utils/firebase-config";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useForm } from "react-hook-form";

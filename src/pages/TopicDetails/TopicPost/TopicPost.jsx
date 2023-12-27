@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, Row, Col, Image, Stack, Dropdown, CloseButton } from "react-bootstrap";
-import { doc, getDoc, collection, query, getCountFromServer, where, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, getCountFromServer, where, deleteDoc } from "firebase/firestore/lite";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";

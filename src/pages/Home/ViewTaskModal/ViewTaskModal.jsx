@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, Stack, Image } from "react-bootstrap";
 import { db } from "../../../utils/firebase-config";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore/lite";
 import PropTypes from "prop-types";
 import styles from "./ViewTaskModal.module.css";
 

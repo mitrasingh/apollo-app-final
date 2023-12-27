@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../../../utils/firebase-config";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore/lite";
 import { useSelector } from "react-redux";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from 'react-toastify';
