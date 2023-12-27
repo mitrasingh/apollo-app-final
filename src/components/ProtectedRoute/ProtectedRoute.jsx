@@ -5,6 +5,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from "../../store/user/userSlice";
 import Navigation from "../Navigation/Navigation";
+import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 const ProtectedRoute = () => {
 
@@ -40,6 +41,7 @@ const ProtectedRoute = () => {
   return isLoggedIn ? (
     <>
       <Navigation />
+      <ScrollToTop />
       <Outlet />
     </>
   ) : (
