@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Row, Form, Button, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -51,44 +51,46 @@ const CommentPostForm = ({ setIsCommentsRefreshed }) => {
     }, [isSubmitSuccessful, reset]);
 
     return (
-        <Form
-            className="mt-3 text-light"
-            onSubmit={handleSubmit(handlePostCommentButton)}
-            noValidate
-        >
-            <Form.Group>
-                <Form.Label className="fs-6">
-                    comment as {currentUser.firstName} {currentUser.lastName}
-                </Form.Label>
-                <Form.Control
-                    className="fs-5"
-                    maxLength={2000}
-                    rows={5}
-                    type="text"
-                    as="textarea"
-                    placeholder="What are your thoughts?"
-                    {...register("postcomment", {
-                        required: {
-                            value: true,
-                            message: "Post cannot be empty!",
-                        },
-                    })}
-                />
-                <p className="mt-2 fs-6">{errors.postcomment?.message}</p>
-            </Form.Group>
-            <Row>
-                <Col className="d-flex justify-content-end">
-                    <Button
-                        className="d-flex align-items-center fs-6 fw-bold text-light"
-                        variant="primary"
-                        size="sm"
-                        type="submit"
-                    >
-                        Post
-                    </Button>
-                </Col>
-            </Row>
-        </Form>
+        <Container className="mt-4">
+            <Form
+                className="mt-3 text-light"
+                onSubmit={handleSubmit(handlePostCommentButton)}
+                noValidate
+            >
+                <Form.Group>
+                    <Form.Label className="fs-6">
+                        comment as {currentUser.firstName} {currentUser.lastName}
+                    </Form.Label>
+                    <Form.Control
+                        className="fs-5"
+                        maxLength={2000}
+                        rows={5}
+                        type="text"
+                        as="textarea"
+                        placeholder="What are your thoughts?"
+                        {...register("postcomment", {
+                            required: {
+                                value: true,
+                                message: "Post cannot be empty!",
+                            },
+                        })}
+                    />
+                    <p className="mt-2 fs-6">{errors.postcomment?.message}</p>
+                </Form.Group>
+                <Row>
+                    <Col className="d-flex justify-content-end">
+                        <Button
+                            className="d-flex align-items-center fs-6 fw-bold text-light"
+                            variant="primary"
+                            size="sm"
+                            type="submit"
+                        >
+                            Post
+                        </Button>
+                    </Col>
+                </Row>
+            </Form>
+        </Container>
     )
 };
 
