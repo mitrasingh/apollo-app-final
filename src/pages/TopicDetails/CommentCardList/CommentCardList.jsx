@@ -1,71 +1,158 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy, limit, startAfter, getCountFromServer } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
-import { useErrorBoundary } from "react-error-boundary";
+import { Button, Container, Stack } from "react-bootstrap";
+import { toast } from 'react-toastify';
 import CommentCard from "../CommentCard/CommentCard";
 import PropTypes from "prop-types";
-import Spinner from 'react-bootstrap/Spinner';
 
 const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
     // useParams, creates a dynamic page using the topicId property from its fetched document within the "topics" collection in database
-    // This shared id also specifies the specific document to query within the "topics" collection of the database
+    // This shared id also specifies the unique document to query within the "topics" collection of the database
     const { id } = useParams();
 
-    // Stores fetched data from database "comments" sub-collection of document id via fetchComments function
-    const [commentsArray, setCommentsArray] = useState([]);
-    const sortComments = commentsArray.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sorts comments newest to oldest
+    const [commentsList, setCommentsList] = useState([]); // State for fetched data from querying database
+    const [commentCount, setCommentCount] = useState(); // State for the comment collection count
+    const [lastComment, setLastComment] = useState(); // State for the last comment/document from query
 
-    // Catches error and returns to error boundary component (error component in parent (TopicDetailsPage component)
-    const { showBoundary } = useErrorBoundary();
+    const [isCommentsEmpty, setIsCommentsEmpty] = useState(false); // Boolean state for if comment collection is empty (topic has no comments)
+    const [isLoadMoreShown, setIsLoadMoreShown] = useState(false); // Boolean state displaying the Load More Button
+    const [isLoading, setIsLoading] = useState(false); // Boolean state for loading data display
 
-    // State for displaying loader component
-    const [isLoading, setIsLoading] = useState(true);
-
+    // Fetches initial comment data
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const commentsToQuery = query(
+                setIsLoading(true);
+
+                // Fetches data from the entire comments collection for this topic
+                const commentsCollection = query(
                     collection(db, "comments"),
                     where("topicId", "==", id),
-                    orderBy("datePosted", "desc")
+                    orderBy("datePosted", "desc"),
                 );
-                const data = await getDocs(commentsToQuery);
-                setCommentsArray(
-                    data.docs.map((doc) => ({ ...doc.data(), commentId: doc.id }))
-                );
+                const snapshot = await getCountFromServer(commentsCollection); // Retrieves document count from commentsCollection
+                setCommentCount(snapshot.data().count); // Stores the amount of comments into state variable
+
+                // If collection count is 0, isCommentsEmpty will be true
+                if (commentCount == 0) {
+                    setIsCommentsEmpty(true);
+                }
+
+                if (commentCount > 0) {
+                    // Query specific comments within collection and display the first four comments
+                    const commentsToQuery = query(
+                        collection(db, "comments"),
+                        where("topicId", "==", id),
+                        orderBy("datePosted", "desc"),
+                        limit(4)
+                    );
+                    const data = await getDocs(commentsToQuery); // Retrieves documents from commentsToQuery
+                    const comments = data.docs.map((doc) => ({ ...doc.data(), commentId: doc.id })); // Declared variable for mapping through retrieved docs
+                    const lastCommentDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last document returned by query
+
+                    // Set states with variables via query data
+                    setCommentsList(comments);
+                    setLastComment(lastCommentDoc);
+                }
+
+                // If collection count exceed 4, isLoadMoreShown (the displaying of load more comments button) will be true
+                if (commentCount > 4) {
+                    setIsLoadMoreShown(true);
+                }
+
+                // If collection count is 4, isLoadMoreShown will be false (no other comments are needed to load)
+                if (commentCount == 4) {
+                    setIsLoadMoreShown(false);
+                }
+
             } catch (error) {
                 console.log(`Error: ${error.message}`);
-                showBoundary(error);
+                toast.error('Sorry, comments are not loading!', {
+                    hideProgressBar: true
+                });
             } finally {
                 setIsLoading(false);
             }
         };
         fetchComments();
-    }, [isCommentsRefreshed]);
+    }, [isCommentsRefreshed, commentCount])
+
+    // Fetches additional comments via trigger of Load More Comments button
+    const handleLoadMore = async () => {
+        setIsLoading(true);
+        try {
+            // Query additional comments starting after the state of lastComment
+            const commentsToQuery = query(
+                collection(db, "comments"),
+                where("topicId", "==", id),
+                orderBy("datePosted", "desc"),
+                startAfter(lastComment),
+                limit(4)
+            );
+            const data = await getDocs(commentsToQuery); // Retrieves documents from commentsToQuery
+
+            const isDataEmpty = data.size === 0; // Declared variable for if document equal 0 (no additional documents/comments)
+            if (!isDataEmpty) {
+                const comments = data.docs.map((doc) => ({ ...doc.data(), commentId: doc.id })); // Declared variable for mapping through retrieved docs
+                const lastCommentDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last document returned by query
+
+                // Set states with variables via query data
+                setCommentsList((commentsList) => [...commentsList, ...comments]);
+                setLastComment(lastCommentDoc);
+            } else { // If data is empty (no additional documents/comments) set boolean value isCommentsEmpty to true
+                setIsCommentsEmpty(true);
+            }
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+            toast.error('Sorry, could not load more comments!', {
+                hideProgressBar: true
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // When triggered function scrolls user back to top of page 
+    const handleScrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        });
+    };
+
+    // If true, UI will be returned (shown when post has no comments)
+    if (isCommentsEmpty) {
+        return <h4 className="text-light text-center fs-6 mt-4">Be the first to comment!</h4>
+    }
 
     return (
-        <>
-            {isLoading ?
-                <div className="d-flex justify-content-center align-items-center pt-4">
-                    <Spinner animation="border" variant="warning" />
-                </div>
-                :
-                <>
-                    {
-                        sortComments.map((sortedComment) => {
-                            return (
-                                <CommentCard
-                                    key={sortedComment.commentId}
-                                    comment={sortedComment}
-                                    setIsCommentsRefreshed={setIsCommentsRefreshed}
-                                />
-                            );
-                        })
-                    }
-                </>
+        <Container className="pt-3 pb-4">
+            {commentsList.map((comment) => {
+                return (
+                    <CommentCard
+                        key={comment.commentId}
+                        comment={comment}
+                        setIsCommentsRefreshed={setIsCommentsRefreshed}
+                    />
+                );
+            })}
+            {isLoading && <h4 className="text-light text-center fs-6 mt-4">Loading comments...</h4>}
+            {!isLoading && !isCommentsEmpty && isLoadMoreShown &&
+                <Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+                    <Button
+                        className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
+                        variant="primary"
+                        size="sm"
+                        onClick={commentsList.length === commentCount ? handleScrollToTop : handleLoadMore}
+                    >
+                        {commentsList.length === commentCount ? `Back to the top` : `Load More Comments`}
+                    </Button>
+                </Stack>
             }
-        </>
+        </Container>
     )
 }
 
