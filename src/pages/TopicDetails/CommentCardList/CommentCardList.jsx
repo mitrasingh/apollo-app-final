@@ -12,8 +12,8 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
     // This shared id also specifies the unique document to query within the "topics" collection of the database
     const { id } = useParams();
 
-    const [commentList, setCommentList] = useState([]); // State for fetched data from querying database
-    const [commentCount, setCommentCount] = useState(); // State for the comment collection count
+    const [commentsList, setCommentsList] = useState([]); // State for fetched data from querying database
+    const [commentsCount, setCommentsCount] = useState(); // State for the comment collection count
     const [lastComment, setLastComment] = useState(); // State for the last comment/document from query
 
     const [isCommentsEmpty, setIsCommentsEmpty] = useState(false); // Boolean state for if comment collection is empty (topic has no comments)
@@ -33,14 +33,14 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                     orderBy("datePosted", "desc"),
                 );
                 const snapshot = await getCountFromServer(commentsCollection); // Retrieves document count from commentsCollection
-                setCommentCount(snapshot.data().count); // Stores the amount of comments into state variable
+                setCommentsCount(snapshot.data().count); // Stores the amount of comments into state variable
 
                 // If collection count is 0, isCommentsEmpty will be true
-                if (commentCount == 0) {
+                if (commentsCount == 0) {
                     setIsCommentsEmpty(true);
                 }
 
-                if (commentCount > 0) {
+                if (commentsCount > 0) {
                     // Query specific comments within collection and display the first four comments
                     const commentsToQuery = query(
                         collection(db, "comments"),
@@ -53,17 +53,17 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                     const lastCommentDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last document returned by query
 
                     // Set states with variables via query data
-                    setCommentList(comments);
+                    setCommentsList(comments);
                     setLastComment(lastCommentDoc);
                 }
 
                 // If collection count exceed 4, isLoadMoreShown (the displaying of load more comments button) will be true
-                if (commentCount > 4) {
+                if (commentsCount > 4) {
                     setIsLoadMoreShown(true);
                 }
 
                 // If collection count is 4, isLoadMoreShown will be false (no other comments are needed to load)
-                if (commentCount == 4) {
+                if (commentsCount == 4) {
                     setIsLoadMoreShown(false);
                 }
 
@@ -77,7 +77,7 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
             }
         };
         fetchComments();
-    }, [isCommentsRefreshed, commentCount])
+    }, [isCommentsRefreshed, commentsCount])
 
     // Fetches additional comments via trigger of Load More Comments button
     const handleLoadMore = async () => {
@@ -99,7 +99,7 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                 const lastCommentDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last document returned by query
 
                 // Set states with variables via query data
-                setCommentList((commentsList) => [...commentsList, ...comments]);
+                setCommentsList((commentList) => [...commentList, ...comments]);
                 setLastComment(lastCommentDoc);
             } else { // If data is empty (no additional documents/comments) set boolean value isCommentsEmpty to true
                 setIsCommentsEmpty(true);
@@ -130,7 +130,7 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
 
     return (
         <Container className="pt-3 pb-4">
-            {commentList.map((comment) => {
+            {commentsList.map((comment) => {
                 return (
                     <CommentCard
                         key={comment.commentId}
@@ -146,9 +146,9 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                         className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
                         variant="primary"
                         size="sm"
-                        onClick={commentList.length === commentCount ? handleScrollToTop : handleLoadMore}
+                        onClick={commentsList.length === commentsCount ? handleScrollToTop : handleLoadMore}
                     >
-                        {commentList.length === commentCount ? `Back to the top` : `Load More Comments`}
+                        {commentsList.length === commentsCount ? `Back to the top` : `Load More Comments`}
                     </Button>
                 </Stack>
             }
