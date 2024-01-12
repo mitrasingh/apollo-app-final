@@ -9,54 +9,55 @@ import TaskCardList from "./TaskCardList/TaskCardList";
 import styles from "./Home.module.css";
 
 const Home = () => {
-	// Initial state for task data from database
-	const [taskArray, setTaskArray] = useState([]);
 
-	// Current task array depending on what filter is applied
-	const [taskArrayFilter, setTaskArrayFilter] = useState([]);
+	// State array which sets parameters (for firebase query)
+	const [queryFilter, setQueryFilter] = useState(["dueDate", "asc"]);
+
+	// Boolean state which sets whether firebase query orderyby method is being used (orderby method sorts tasks)
+	const [isQuerySorted, setIsQuerySorted] = useState(true);
+
+	// Boolean state which sets whether firebase query where method is being used (where method filters tasks)
+	const [isTasksSearched, setIsTasksSearched] = useState(false);
 
 	// Boolean state decides whether refresh tasks button changes display text to "clear filter"
 	const [isClearFilterDisplayed, setIsClearFilterDisplayed] = useState(false);
 
-	// User input state for SearchTasks
+	// User input state from search task form 
 	const [userInput, setUserInput] = useState("");
 
-	// Refresh task state (used for refresh tasks button) - resets data and clears filters
+	// Refresh task state (used for refresh tasks button) - resets form data and clears filters
 	const refreshTasksHandle = () => {
-		setTaskArrayFilter(taskArray);
+		setQueryFilter(["dueDate", "asc"]);
+		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(false);
-		setUserInput("");
+		setIsTasksSearched(false);
+		setUserInput(""); // Resets form data if needed
 	};
 
-	// Options for filter fuctionality 
+	// Options for filter fuctionality
 	const filterLaterHandle = () => {
-		const sortLater = [...taskArray].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
-		setTaskArrayFilter(sortLater);
+		setQueryFilter(["dueDate", "desc"]);
+		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(true);
 	};
-
 	const filterSoonHandle = () => {
-		const sortSoon = [...taskArray].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-		setTaskArrayFilter(sortSoon);
+		setQueryFilter(["dueDate", "asc"]);
+		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(true);
 	};
-
-	const filterPriorityHandle = (priority) => {
-		const filterPriority = [...taskArray.filter((task) => task.priorityLevel === priority)]
-		setTaskArrayFilter(filterPriority)
+	const filterPriorityHandle = (priorityType) => {
+		setQueryFilter(["priorityLevel", priorityType]);
+		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
-
-	const filterStatusHandle = (status) => {
-		const filterStatus = [...taskArray.filter((task) => task.statusProject === status)];
-		setTaskArrayFilter(filterStatus);
+	const filterStatusHandle = (statusType) => {
+		setQueryFilter(["statusProject", statusType]);
+		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
-
 	const filterSearchHandle = (event) => {
-		event.preventDefault(); // function is used within a form so preventDefault method needed
-		const filterUserInput = [...taskArray.filter((task) => task.taskName.toLowerCase().includes(userInput.toLowerCase()))];
-		setTaskArrayFilter(filterUserInput);
+		event.preventDefault();
+		setIsTasksSearched(prevState => !prevState);
 		setIsClearFilterDisplayed(true);
 	};
 
@@ -78,21 +79,17 @@ const Home = () => {
 				/>
 				<RefreshTasksButton
 					refreshTasksHandle={refreshTasksHandle}
-					filterSearchHandle={filterSearchHandle}
 					isClearFilterDisplayed={isClearFilterDisplayed}
 				/>
 			</Stack>
 
 			<ErrorBoundary FallbackComponent={ErrorFallbackTasks}>
 				<TaskCardList
-					setTaskArray={setTaskArray}
-					setTaskArrayFilter={setTaskArrayFilter}
-					taskArrayFilter={taskArrayFilter}
-					refreshTasksHandle={refreshTasksHandle}
+					userInput={userInput}
+					isTasksSearched={isTasksSearched}
+					queryFilter={queryFilter}
+					isQuerySorted={isQuerySorted}
 				/>
-				{taskArrayFilter.length === 0 && (
-					<p className="mt-4 d-flex justify-content-center text-light fs-5">No tasks found</p>
-				)}
 			</ErrorBoundary>
 		</Container>
 	);
