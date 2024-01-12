@@ -1,7 +1,8 @@
 import { Col, Container, Form, FormControl, InputGroup, Row, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 
-const SearchTasksForm = ({ userInput, setUserInput, filterSearchHandle, refreshTasksHandle }) => { // Prop from Home.jsx
+// Prop from Home.jsx
+const SearchTasksForm = ({ userInput, setUserInput, filterSearchHandle, refreshTasksHandle }) => {
 
     // Function sets value from user input within form field 
     const handleUserInput = (e) => {
@@ -20,7 +21,7 @@ const SearchTasksForm = ({ userInput, setUserInput, filterSearchHandle, refreshT
                 <Col lg={5} md={8} sm={8}>
                     <Form onSubmit={filterSearchHandle} className="d-flex">
                         <InputGroup>
-                            <Button >
+                            <Button  >
                                 <img
                                     src="/search_new.svg"
                                     width="20"
