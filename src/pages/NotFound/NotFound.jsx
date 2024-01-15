@@ -8,7 +8,7 @@ const NotFound = () => {
             <Row>
                 <Col className="d-flex justify-content-center">
                     <Image
-                        src="public/img/rocket_white.svg"
+                        src="/rocket_white.svg"
                         width="50"
                         height="50"
                         className="d-inline-block align-top"
