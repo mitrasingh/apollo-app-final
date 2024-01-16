@@ -41,10 +41,8 @@ const Navigation = () => {
     return (
         <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.customNav}`}>
             <Container className={styles.customContainer}>
-                <Navbar.Brand className="fw-bold fs-3">
+                <Navbar.Brand as={Link} to="/" className="fw-bold fs-3">
                     <Image
-                        as={Link}
-                        to="/"
                         src="/rocket_white.svg"
                         width="30"
                         height="30"
