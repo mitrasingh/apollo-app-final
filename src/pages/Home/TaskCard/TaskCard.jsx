@@ -79,9 +79,21 @@ const TaskCard = (props) => {
 			toast.success('Task has been deleted!');
 		} catch (error) {
 			console.log(`Error: ${error.message}`);
-			toast.error('Could not delete task!');
+			toast.error('Could not delete task!', {
+				hideProgressBar: true
+			});
 		}
 	};
+
+	// Convert the parsed Date object to a Firestore Timestamp
+	const timestampDueDate = task.dueDate.toDate();
+
+	// Format the Timestamp to a string in "MM/DD/YYYY" format
+	const formattedDueDate = timestampDueDate.toLocaleDateString('en-US', {
+		month: '2-digit',
+		day: '2-digit',
+		year: 'numeric',
+	});
 
 	return (
 		<>
@@ -154,7 +166,7 @@ const TaskCard = (props) => {
 								{task.priorityLevel}
 							</Col>
 							<Col>
-								{task.dueDate}
+								{formattedDueDate}
 							</Col>
 						</Row>
 						<Row className={styles.customFooter}>
@@ -235,7 +247,7 @@ TaskCard.propTypes = {
 		taskName: PropTypes.string.isRequired,
 		statusProject: PropTypes.string.isRequired,
 		priorityLevel: PropTypes.string.isRequired,
-		dueDate: PropTypes.string.isRequired,
+		dueDate: PropTypes.object.isRequired,
 		userId: PropTypes.string.isRequired,
 		taskId: PropTypes.string.isRequired
 	})
