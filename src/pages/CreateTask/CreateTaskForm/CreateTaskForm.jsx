@@ -1,7 +1,7 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
@@ -27,13 +27,16 @@ const CreateTaskForm = () => {
     const handleCreateTask = async (data) => {
         try {
             const formattedDueDate = dayjs.utc(data.taskduedate).format("MM/DD/YYYY");
+            const [month, day, year] = formattedDueDate.split('/').map(Number);
+            const parsedDueDate = new Date(year, month - 1, day); // Note: Month is zero-based in JavaScript Dates
+            const timestampDueDate = Timestamp.fromDate(parsedDueDate);
             const dbRef = collection(db, "tasks");
             const taskData = {
                 taskName: data.taskname,
                 descriptionTask: data.taskdescription,
                 statusProject: data.taskstatus,
                 priorityLevel: data.taskpriority,
-                dueDate: formattedDueDate,
+                dueDate: timestampDueDate,
                 userId: user.userId,
             };
             await addDoc(dbRef, taskData);
@@ -41,7 +44,9 @@ const CreateTaskForm = () => {
             navigate("/");
         } catch (error) {
             console.log(`Error: ${error.message}`);
-            toast.error('Sorry, could not create task!');
+            toast.error('Sorry, could not create task!', {
+                hideProgressBar: true
+            });
         }
     };
 
