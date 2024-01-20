@@ -13,7 +13,8 @@ const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creator
 	const [descriptionTask, setDescriptionTask] = useState("");
 	const [statusProject, setStatusProject] = useState("");
 	const [priorityLevel, setPriorityLevel] = useState("");
-	const [dueDate, setDueDate] = useState("");
+	const [dueDate, setDueDate] = useState();
+	// const [formattedDate, setFormattedDate] = useState();
 
 	// Data fetched for task
 	useEffect(() => {
@@ -27,7 +28,17 @@ const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creator
 					setDescriptionTask(data.descriptionTask);
 					setStatusProject(data.statusProject);
 					setPriorityLevel(data.priorityLevel);
-					setDueDate(data.dueDate);
+
+					// Convert the parsed Date object to a Firestore Timestamp
+					const timestampDueDate = data.dueDate.toDate();
+
+					// Format the Timestamp to a string in "MM/DD/YYYY" format
+					const formattedDueDate = timestampDueDate.toLocaleDateString('en-US', {
+						month: '2-digit',
+						day: '2-digit',
+						year: 'numeric',
+					});
+					setDueDate(formattedDueDate);
 				}
 			} catch (error) {
 				console.log(`Error: ${error.message}`);
@@ -37,6 +48,7 @@ const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creator
 			taskContent();
 		}
 	}, [isViewModal]);
+
 
 	return (
 		<>
