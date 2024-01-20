@@ -2,7 +2,7 @@ import { Button, Form, Modal, Stack, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { db } from "../../../utils/firebase-config";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form"
 import { toast } from 'react-toastify';
 import * as dayjs from "dayjs";
@@ -28,19 +28,29 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 				const docSnap = await getDoc(docRef);
 				if (docSnap.exists()) {
 					const taskData = docSnap.data();
-					const taskDueDate = taskData.dueDate;
-					const formattedTaskDueDate = dayjs.utc(taskDueDate).format("YYYY-MM-DD");
+					// Convert the parsed Date object to a Firestore Timestamp
+					const timestampDueDate = taskData.dueDate.toDate();
+					// Format the Timestamp to a string in "YYYY/MM/DD" format
+					const formattedDueDate = timestampDueDate.toLocaleDateString('en-CA', {
+						year: 'numeric',
+						month: '2-digit',
+						day: '2-digit',
+					});
+					// const taskDueDate = taskData.dueDate;
+					// const formattedTaskDueDate = dayjs.utc(taskDueDate).format("YYYY-MM-DD");
 					let defaultValues = {};
 					defaultValues.taskname = taskData.taskName;
 					defaultValues.taskdescription = taskData.descriptionTask;
 					defaultValues.taskstatus = taskData.statusProject;
 					defaultValues.taskpriority = taskData.priorityLevel;
-					defaultValues.taskduedate = formattedTaskDueDate;
+					defaultValues.taskduedate = formattedDueDate;
 					reset({ ...defaultValues });
 				}
 			} catch (error) {
 				console.log(`Error: ${error.message}`);
-				toast.error('Could not load task!');
+				toast.error('Could not load task!', {
+					hideProgressBar: true
+				});
 			}
 		};
 		if (isEditModal) {
@@ -52,12 +62,15 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 	const handleUpdate = async (data) => {
 		try {
 			const formattedDueDate = dayjs.utc(data.taskduedate).format("MM/DD/YYYY");
+			const [month, day, year] = formattedDueDate.split('/').map(Number);
+			const parsedDueDate = new Date(year, month - 1, day); // Note: Month is zero-based in JavaScript Dates
+			const timestampDueDate = Timestamp.fromDate(parsedDueDate);
 			await updateDoc(doc(db, "tasks", taskId), {
 				taskName: data.taskname,
 				descriptionTask: data.taskdescription,
 				statusProject: data.taskstatus,
 				priorityLevel: data.taskpriority,
-				dueDate: formattedDueDate
+				dueDate: timestampDueDate
 			});
 			if (updateDoc) {
 				handleEditModalClose();
@@ -66,7 +79,9 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 			}
 		} catch (error) {
 			console.log(`Error: ${error.message}`);
-			toast.error('Could not update task!');
+			toast.error('Could not update task!', {
+				hideProgressBar: true
+			});
 		}
 	};
 
