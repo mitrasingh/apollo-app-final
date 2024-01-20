@@ -208,7 +208,7 @@ const TaskCard = (props) => {
 										<Button
 											variant="primary"
 											size="sm"
-											className={`px-3 fs-6 text-light fw-bold ${styles.customBtn}`}
+											className={`px-2 fs-6 text-light fw-bold ${styles.customBtn}`}
 											onClick={() => setIsEditModal(true)}
 										>
 											Edit
@@ -227,10 +227,10 @@ const TaskCard = (props) => {
 								<Button
 									variant="primary"
 									size="sm"
-									className={`px-3 ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+									className={`px-2 ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
 									onClick={() => setIsViewModal(true)}
 								>
-									Details
+									View
 								</Button>
 							</Col>
 						</Row>
