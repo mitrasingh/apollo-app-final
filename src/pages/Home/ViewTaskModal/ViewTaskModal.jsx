@@ -1,76 +1,50 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Modal, Stack, Image } from "react-bootstrap";
-import { db } from "../../../utils/firebase-config";
-import { doc, getDoc } from "firebase/firestore";
+// import { db } from "../../../utils/firebase-config";
+// import { doc, getDoc } from "firebase/firestore";
+import useDateToString from "../../../hooks/useDateToString";
 import PropTypes from "prop-types";
 import styles from "./ViewTaskModal.module.css";
 
 // Props are from TaskCard.jsx
-const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creatorName }) => {
+const ViewTaskModal = ({ task, creatorPhoto, creatorName }) => {
 
-	// State to store fetched data for task
-	const [taskName, setTaskName] = useState("");
-	const [descriptionTask, setDescriptionTask] = useState("");
-	const [statusProject, setStatusProject] = useState("");
-	const [priorityLevel, setPriorityLevel] = useState("");
-	const [dueDate, setDueDate] = useState();
-	// const [formattedDate, setFormattedDate] = useState();
+	// Details task modal functionality
+	const [isViewModal, setIsViewModal] = useState(false);
+	const handleClose = () => setIsViewModal(false);
 
-	// Data fetched for task
-	useEffect(() => {
-		const taskContent = async () => {
-			try {
-				const docRef = doc(db, "tasks", taskId);
-				const docSnap = await getDoc(docRef);
-				if (docSnap.exists()) {
-					const data = docSnap.data();
-					setTaskName(data.taskName);
-					setDescriptionTask(data.descriptionTask);
-					setStatusProject(data.statusProject);
-					setPriorityLevel(data.priorityLevel);
-
-					// Convert the parsed Date object to a Firestore Timestamp
-					const timestampDueDate = data.dueDate.toDate();
-
-					// Format the Timestamp to a string in "MM/DD/YYYY" format
-					const formattedDueDate = timestampDueDate.toLocaleDateString('en-US', {
-						month: '2-digit',
-						day: '2-digit',
-						year: 'numeric',
-					});
-					setDueDate(formattedDueDate);
-				}
-			} catch (error) {
-				console.log(`Error: ${error.message}`);
-			}
-		};
-		if (isViewModal) {
-			taskContent();
-		}
-	}, [isViewModal]);
-
+	const dateToString = useDateToString(task.dueDate, 'en-US');
 
 	return (
 		<>
+			<Button
+				variant="primary"
+				size="sm"
+				className={`px-2 ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+				onClick={() => setIsViewModal(true)}
+			>
+				View
+			</Button>
+
 			<Modal show={isViewModal} onHide={handleClose} className="mt-4">
 				<Modal.Header closeButton>
 					<Modal.Title className="fw-bold fs-3">
-						{taskName}
+						{task.taskName}
 					</Modal.Title>
 				</Modal.Header>
 
 				<Modal.Body className="fs-6">
 					<p className={`fw-bold ${styles.detailText}`}>Description of Task </p>
-					<p>{descriptionTask}</p>
+					<p>{task.descriptionTask}</p>
 
 					<p className={`fw-bold ${styles.detailText}`}>Status of Project</p>
-					<p>{statusProject}</p>
+					<p>{task.statusProject}</p>
 
 					<p className={`fw-bold ${styles.detailText}`}>Percent Completed</p>
-					<p>{priorityLevel}</p>
+					<p>{task.priorityLevel}</p>
 
 					<p className={`fw-bold ${styles.detailText}`}>Due Date</p>
-					<p>{dueDate}</p>
+					<p>{dateToString}</p>
 
 					<Stack direction="horizontal">
 						<Image
@@ -100,11 +74,17 @@ const ViewTaskModal = ({ isViewModal, handleClose, taskId, creatorPhoto, creator
 };
 
 ViewTaskModal.propTypes = {
-	isViewModal: PropTypes.bool.isRequired,
-	handleClose: PropTypes.func.isRequired,
-	taskId: PropTypes.string.isRequired,
 	creatorPhoto: PropTypes.string.isRequired,
 	creatorName: PropTypes.string.isRequired,
+	task: PropTypes.shape({
+		taskName: PropTypes.string.isRequired,
+		descriptionTask: PropTypes.string.isRequired,
+		statusProject: PropTypes.string.isRequired,
+		priorityLevel: PropTypes.string.isRequired,
+		dueDate: PropTypes.object.isRequired,
+		userId: PropTypes.string.isRequired,
+		taskId: PropTypes.string.isRequired
+	})
 };
 
 export default ViewTaskModal;
