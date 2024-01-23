@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../../../utils/firebase-config";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from 'react-toastify';
-import useDateToString from "../../../hooks/useDateToString";
+import useTimestampToDate from "../../../hooks/useTimestampToDate";
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
 import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import DeleteModal from "../../../components/Modals/DeleteModal";
@@ -30,10 +30,6 @@ const TaskCard = (props) => {
 	// Delete task modal functionality
 	const [isVisible, setIsVisible] = useState(false);
 	const handleShow = () => setIsVisible(true);
-
-	// Edit task modal functionality
-	const [isEditModal, setIsEditModal] = useState(false);
-	const handleEditModalClose = () => setIsEditModal(false);
 
 	// Reference for firebase database
 	const storage = getStorage();
@@ -82,7 +78,8 @@ const TaskCard = (props) => {
 		}
 	};
 
-	const dateToString = useDateToString(task.dueDate, 'en-US');
+	// Converts firestore timestamp to a string date
+	const dateToString = useTimestampToDate(task.dueDate, 'en-US');
 
 	return (
 		<>
@@ -182,30 +179,12 @@ const TaskCard = (props) => {
 							</Col>
 
 							<Col className="d-flex justify-content-end mt-1">
-								{/* IF EDIT BUTTON IS CLICKED AND MATCHES LOGGED IN USER - MODAL IS SHOWN */}
-								{currentUser.userId !== task.userId ? null : (
-									<>
-										<EditTaskModal
-											isEditModal={isEditModal}
-											handleEditModalClose={handleEditModalClose}
-											taskId={task.taskId}
-											creatorPhoto={creatorPhoto}
-											creatorName={creatorName}
-											fetchTasks={fetchTasks}
-										/>
-
-										<Button
-											variant="primary"
-											size="sm"
-											className={`px-2 fs-6 text-light fw-bold ${styles.customBtn}`}
-											onClick={() => setIsEditModal(true)}
-										>
-											Edit
-										</Button>
-									</>
-								)}
-
-								{/* IF DETAILS BUTTON IS CLICKED MODAL IS SHOWN */}
+								<EditTaskModal
+									task={task}
+									creatorPhoto={creatorPhoto}
+									creatorName={creatorName}
+									fetchTasks={fetchTasks}
+								/>
 								<ViewTaskModal
 									task={task}
 									creatorPhoto={creatorPhoto}
