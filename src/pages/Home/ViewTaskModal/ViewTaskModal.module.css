@@ -3,6 +3,11 @@
 	border-radius: "50%";
 }
 
+.customBtn {
+	max-height: 25px;
+	max-width: 70px;
+}
+
 .detailText {
 	margin: 0;
 }
