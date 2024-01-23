@@ -1,11 +1,11 @@
 import { Button, Form, Modal, Stack, Image } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { db } from "../../../utils/firebase-config";
-import { doc, updateDoc, Timestamp } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form"
 import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
-import useTimestampToDate from "../../../hooks/useTimestampToDate";
+import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
 import * as dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
@@ -17,6 +17,9 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 	// Edit task modal display state and functionality
 	const [isEditModal, setIsEditModal] = useState(false);
 	const handleEditModalClose = () => setIsEditModal(false);
+
+	// Custom hook converts date into firestore timestamp / date string
+	const { convertToTimestamp, convertToDate } = useDateConverter();
 
 	// Redux user state data
 	const currentUser = useSelector((state) => state.user);
@@ -30,11 +33,10 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 	// Converts date to UTC ensuring dates match from user input to display via database
 	dayjs.extend(utc);
 
-	// Converts firestore timestamp to a string date
-	const dateToString = useTimestampToDate(task.dueDate, 'en-CA');
 
 	useEffect(() => {
 		const loadDefaultValues = () => {
+			const dateToString = convertToDate(task.dueDate, 'en-CA');
 			try {
 				defaultValues.taskname = task.taskName;
 				defaultValues.taskdescription = task.descriptionTask;
@@ -55,16 +57,13 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 	// Update new task content to database
 	const handleUpdate = async (data) => {
 		try {
-			const formattedDueDate = dayjs.utc(data.taskduedate).format("MM/DD/YYYY");
-			const [month, day, year] = formattedDueDate.split('/').map(Number);
-			const parsedDueDate = new Date(year, month - 1, day); // Note: Month is zero-based in JavaScript Dates
-			const timestampDueDate = Timestamp.fromDate(parsedDueDate);
+			const timestamp = convertToTimestamp(data.taskduedate);
 			await updateDoc(doc(db, "tasks", task.taskId), {
 				taskName: data.taskname,
 				descriptionTask: data.taskdescription,
 				statusProject: data.taskstatus,
 				priorityLevel: data.taskpriority,
-				dueDate: timestampDueDate
+				dueDate: timestamp
 			});
 			if (updateDoc) {
 				handleEditModalClose();
