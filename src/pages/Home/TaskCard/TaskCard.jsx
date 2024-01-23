@@ -6,6 +6,7 @@ import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from 'react-toastify';
+import useDateToString from "../../../hooks/useDateToString";
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
 import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import DeleteModal from "../../../components/Modals/DeleteModal";
@@ -33,10 +34,6 @@ const TaskCard = (props) => {
 	// Edit task modal functionality
 	const [isEditModal, setIsEditModal] = useState(false);
 	const handleEditModalClose = () => setIsEditModal(false);
-
-	// Details task modal functionality
-	const [isViewModal, setIsViewModal] = useState(false);
-	const handleClose = () => setIsViewModal(false);
 
 	// Reference for firebase database
 	const storage = getStorage();
@@ -85,15 +82,7 @@ const TaskCard = (props) => {
 		}
 	};
 
-	// Convert the parsed Date object to a Firestore Timestamp
-	const timestampDueDate = task.dueDate.toDate();
-
-	// Format the Timestamp to a string in "MM/DD/YYYY" format
-	const formattedDueDate = timestampDueDate.toLocaleDateString('en-US', {
-		month: '2-digit',
-		day: '2-digit',
-		year: 'numeric',
-	});
+	const dateToString = useDateToString(task.dueDate, 'en-US');
 
 	return (
 		<>
@@ -166,7 +155,7 @@ const TaskCard = (props) => {
 								{task.priorityLevel}
 							</Col>
 							<Col>
-								{formattedDueDate}
+								{dateToString}
 							</Col>
 						</Row>
 						<Row className={styles.customFooter}>
@@ -218,20 +207,10 @@ const TaskCard = (props) => {
 
 								{/* IF DETAILS BUTTON IS CLICKED MODAL IS SHOWN */}
 								<ViewTaskModal
-									isViewModal={isViewModal}
-									handleClose={handleClose}
-									taskId={task.taskId}
+									task={task}
 									creatorPhoto={creatorPhoto}
 									creatorName={creatorName}
 								/>
-								<Button
-									variant="primary"
-									size="sm"
-									className={`px-2 ms-2 fs-6 text-light fw-bold ${styles.customBtn}`}
-									onClick={() => setIsViewModal(true)}
-								>
-									View
-								</Button>
 							</Col>
 						</Row>
 					</Card.Body>
