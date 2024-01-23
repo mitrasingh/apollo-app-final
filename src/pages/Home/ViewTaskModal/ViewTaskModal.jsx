@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Modal, Stack, Image } from "react-bootstrap";
-import useTimestampToDate from "../../../hooks/useTimestampToDate";
+import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
 import styles from "./ViewTaskModal.module.css";
 
@@ -11,8 +11,9 @@ const ViewTaskModal = ({ task, creatorPhoto, creatorName }) => {
 	const [isViewModal, setIsViewModal] = useState(false);
 	const handleClose = () => setIsViewModal(false);
 
-	// Converts firestore timestamp to a string date
-	const dateToString = useTimestampToDate(task.dueDate, 'en-US');
+	// Custom hook converts date into date string
+	const { convertToDate } = useDateConverter();
+	const dateToString = convertToDate(task.dueDate, 'en-US');
 
 	return (
 		<>
