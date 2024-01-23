@@ -1,62 +1,56 @@
 import { Button, Form, Modal, Stack, Image } from "react-bootstrap";
-import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../../../utils/firebase-config";
-import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore";
+import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form"
 import { toast } from 'react-toastify';
+import { useSelector } from "react-redux";
+import useTimestampToDate from "../../../hooks/useTimestampToDate";
+import PropTypes from "prop-types";
 import * as dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import styles from "./EditTaskModal.module.css";
 
 // Props are from TaskCard.jsx
-const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto, creatorName, fetchTasks }) => {
+const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
+
+	// Edit task modal display state and functionality
+	const [isEditModal, setIsEditModal] = useState(false);
+	const handleEditModalClose = () => setIsEditModal(false);
+
+	// Redux user state data
+	const currentUser = useSelector((state) => state.user);
 
 	// React Hook Form
 	const form = useForm();
 	const { register, handleSubmit, reset, formState } = form;
 	const { errors } = formState;
+	let defaultValues = {};
 
 	// Converts date to UTC ensuring dates match from user input to display via database
 	dayjs.extend(utc);
 
-	// Fetch task content from database and assign values to the related form fields 
+	// Converts firestore timestamp to a string date
+	const dateToString = useTimestampToDate(task.dueDate, 'en-CA');
+
 	useEffect(() => {
-		const taskContent = async () => {
+		const loadDefaultValues = () => {
 			try {
-				const docRef = doc(db, "tasks", taskId);
-				const docSnap = await getDoc(docRef);
-				if (docSnap.exists()) {
-					const taskData = docSnap.data();
-					// Convert the parsed Date object to a Firestore Timestamp
-					const timestampDueDate = taskData.dueDate.toDate();
-					// Format the Timestamp to a string in "YYYY/MM/DD" format
-					const formattedDueDate = timestampDueDate.toLocaleDateString('en-CA', {
-						year: 'numeric',
-						month: '2-digit',
-						day: '2-digit',
-					});
-					// const taskDueDate = taskData.dueDate;
-					// const formattedTaskDueDate = dayjs.utc(taskDueDate).format("YYYY-MM-DD");
-					let defaultValues = {};
-					defaultValues.taskname = taskData.taskName;
-					defaultValues.taskdescription = taskData.descriptionTask;
-					defaultValues.taskstatus = taskData.statusProject;
-					defaultValues.taskpriority = taskData.priorityLevel;
-					defaultValues.taskduedate = formattedDueDate;
-					reset({ ...defaultValues });
-				}
+				defaultValues.taskname = task.taskName;
+				defaultValues.taskdescription = task.descriptionTask;
+				defaultValues.taskstatus = task.statusProject;
+				defaultValues.taskpriority = task.priorityLevel;
+				defaultValues.taskduedate = dateToString;
 			} catch (error) {
 				console.log(`Error: ${error.message}`);
 				toast.error('Could not load task!', {
 					hideProgressBar: true
 				});
 			}
-		};
-		if (isEditModal) {
-			taskContent();
 		}
-	}, [isEditModal]);
+		reset({ ...defaultValues });
+		loadDefaultValues();
+	}, [])
 
 	// Update new task content to database
 	const handleUpdate = async (data) => {
@@ -65,7 +59,7 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 			const [month, day, year] = formattedDueDate.split('/').map(Number);
 			const parsedDueDate = new Date(year, month - 1, day); // Note: Month is zero-based in JavaScript Dates
 			const timestampDueDate = Timestamp.fromDate(parsedDueDate);
-			await updateDoc(doc(db, "tasks", taskId), {
+			await updateDoc(doc(db, "tasks", task.taskId), {
 				taskName: data.taskname,
 				descriptionTask: data.taskdescription,
 				statusProject: data.taskstatus,
@@ -87,6 +81,17 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 
 	return (
 		<>
+			{/* if the current user matches the task creator, the edit button will be shown */}
+			{currentUser.userId !== task.userId ? null : (
+				<Button
+					variant="primary"
+					size="sm"
+					className={`px-2 fs-6 text-light fw-bold ${styles.customBtn}`}
+					onClick={() => setIsEditModal(true)}
+				>
+					Edit
+				</Button>
+			)}
 			<Modal show={isEditModal} onHide={handleEditModalClose} className="mt-4">
 				<Form onSubmit={handleSubmit(handleUpdate)} noValidate>
 					<Modal.Header closeButton>
@@ -232,12 +237,18 @@ const EditTaskModal = ({ isEditModal, handleEditModalClose, taskId, creatorPhoto
 };
 
 EditTaskModal.propTypes = {
-	isEditModal: PropTypes.bool.isRequired,
-	handleEditModalClose: PropTypes.func.isRequired,
 	creatorPhoto: PropTypes.string.isRequired,
 	creatorName: PropTypes.string.isRequired,
-	taskId: PropTypes.string.isRequired,
-	fetchTasks: PropTypes.func.isRequired
+	fetchTasks: PropTypes.func.isRequired,
+	task: PropTypes.shape({
+		taskName: PropTypes.string.isRequired,
+		descriptionTask: PropTypes.string.isRequired,
+		statusProject: PropTypes.string.isRequired,
+		priorityLevel: PropTypes.string.isRequired,
+		dueDate: PropTypes.object.isRequired,
+		userId: PropTypes.string.isRequired,
+		taskId: PropTypes.string.isRequired,
+	})
 };
 
 export default EditTaskModal;
