@@ -8,8 +8,8 @@ import { useErrorBoundary } from "react-error-boundary";
 // import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
 import styles from "./TopicCard.module.css";
-import * as dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+// import * as dayjs from "dayjs";
+// import relativeTime from "dayjs/plugin/relativeTime";
 
 
 export const TopicCard = (props) => {
@@ -26,9 +26,9 @@ export const TopicCard = (props) => {
 	// const { convertToRelativeTime } = useDateConverter();
 	// const dateRelativeTime = convertToRelativeTime(topic.datePosted);
 
-	dayjs.extend(relativeTime);
-	const convertTimestamp = topic.datePosted.toDate();
-	const dateRelativeTime = dayjs(convertTimestamp).fromNow();
+	// dayjs.extend(relativeTime);
+	// const convertTimestamp = topic.datePosted.toDate();
+	// const dateRelativeTime = dayjs(convertTimestamp).fromNow();
 
 	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
@@ -109,7 +109,7 @@ export const TopicCard = (props) => {
 
 						<Col>
 							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
-							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
+							{/* <Card.Text className="my-0">{dateRelativeTime}</Card.Text> */}
 						</Col>
 
 						<Col>
