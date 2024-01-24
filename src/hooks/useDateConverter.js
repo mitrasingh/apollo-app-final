@@ -4,9 +4,6 @@ import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 const useDateConverter = () => {
-	dayjs.extend(relativeTime);
-	dayjs.extend(utc);
-
 	// Converts received timestamp and allows `dayjs` to calculate and display relative time
 	const createTimestamp = () => {
 		const currentDate = new Date(); // Javascript date object
@@ -17,6 +14,7 @@ const useDateConverter = () => {
 
 	// Converts received timestamp and allows `dayjs` to calculate and display relative time
 	const convertToRelativeTime = (date) => {
+		dayjs.extend(relativeTime);
 		const convertTimestamp = date.toDate();
 		const convertRelativeTime = dayjs(convertTimestamp).fromNow();
 
@@ -25,6 +23,7 @@ const useDateConverter = () => {
 
 	// Converts date to UTC ensuring date is converted to proper format as a firestore timestamp
 	const convertToTimestamp = (date) => {
+		dayjs.extend(utc);
 		const formattedDate = dayjs.utc(date).format("MM/DD/YYYY");
 		const [month, day, year] = formattedDate.split("/").map(Number);
 		const parsedDate = new Date(year, month - 1, day); // Note: Month is zero-based in JavaScript Dates
