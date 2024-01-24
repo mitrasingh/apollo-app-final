@@ -41,6 +41,7 @@ const CommentCardList = ({ isCommentsRefreshed, setIsCommentsRefreshed }) => {
                 }
 
                 if (commentsCount > 0) {
+                    setIsCommentsEmpty(false);
                     // Query specific comments within collection and display the first four comments
                     const commentsToQuery = query(
                         collection(db, "comments"),
