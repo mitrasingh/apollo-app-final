@@ -1,9 +1,10 @@
 import { Form, Stack, Button, Row, Col } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { db } from "../../../utils/firebase-config";
-import { doc, updateDoc, Timestamp } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
+import useDateConverter from "../../../hooks/useDateConverter";
+import PropTypes from "prop-types";
 
 // Props from TopicPost.jsx
 const EditTopicPost = ({ setIsEditTopicDisplayed, description, id, setIsTopicRefreshed }) => {
@@ -17,15 +18,17 @@ const EditTopicPost = ({ setIsEditTopicDisplayed, description, id, setIsTopicRef
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
 
+	// Custom hook converts current date/time as a firestore timestamp
+	const { createTimestamp } = useDateConverter();
+
 	// Updates topic document in database and refreshes topic description
 	const handleEditTopic = async (data) => {
 		try {
-			const myDate = new Date();
-			const postTimeStamp = Timestamp.fromDate(myDate);
+			const timestamp = createTimestamp();
 			const docRef = doc(db, "topics", id);
 			await updateDoc(docRef, {
 				description: data.newdescription,
-				datePosted: postTimeStamp,
+				datePosted: timestamp,
 				isDocEdited: true
 			});
 			if (updateDoc) {
