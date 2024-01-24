@@ -16,9 +16,9 @@ const useDateConverter = () => {
 	const convertToRelativeTime = (date) => {
 		dayjs.extend(relativeTime);
 		const convertTimestamp = date.toDate();
-		const convertRelativeTime = dayjs(convertTimestamp).fromNow();
+		const convertRelativeTime = dayjs(convertTimestamp);
 
-		return convertRelativeTime;
+		return convertRelativeTime.fromNow();
 	};
 
 	// Converts date to UTC ensuring date is converted to proper format as a firestore timestamp
