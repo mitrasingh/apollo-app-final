@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 import { db } from "../../../utils/firebase-config";
 import { toast } from 'react-toastify';
 import { useErrorBoundary } from "react-error-boundary";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
 import EditTopicPost from "../EditTopicPost/EditTopicPost";
 import DeleteModal from "../../../components/Modals/DeleteModal";
@@ -40,6 +39,9 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
 
     // Display edit fields for the topic description when set to true
     const [isEditTopicDisplayed, setIsEditTopicDisplayed] = useState(false);
+
+    // Custom hook converts firestore timestamp into relative time from current time
+    const { convertToRelativeTime } = useDateConverter();
 
     // Catches error and returns to error boundary component (error component in parent (TopicDetailsPage component)
     const { showBoundary } = useErrorBoundary();
@@ -73,10 +75,9 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
                     data.isDocEdited ? setIsTopicEdited(true) : setIsTopicEdited(false);
                     setUserPhoto(userPhotoURL);
                     setTopic(data);
-                    // Conversion of firestore timestamp to dayjs fromNow method
-                    dayjs.extend(relativeTime);
-                    const convertTimeStamp = data.datePosted.toDate();
-                    const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
+
+                    // Conversion of firestore timestamp to relative time
+                    const dateRelativeTime = convertToRelativeTime(data.datePosted);
                     setDisplayTimeStamp(dateRelativeTime);
                 }
 
