@@ -1,14 +1,13 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useState } from "react";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
+import useDateConverter from "../../../hooks/useDateConverter";
+import PropTypes from "prop-types";
 import EditComment from "../EditComment/EditComment";
 import Like from "../../../components/Like/Like";
 import DeleteModal from "../../../components/Modals/DeleteModal";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 
 const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from parent Comments.jsx
 
@@ -17,6 +16,10 @@ const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from par
 
 	// Display edit field for the comment when set to true
 	const [isEditComment, setIsEditComment] = useState(false);
+
+	// Custom hook converts firestore timestamp into relative time from current time
+	const { convertToRelativeTime } = useDateConverter();
+	const dateRelativeTime = convertToRelativeTime(comment.datePosted);
 
 	// Delete comment functionality
 	const [isVisible, setIsVisible] = useState(false); // Modal display state to confirm delete
@@ -31,11 +34,6 @@ const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from par
 			console.log(`Error: ${error.message}`);
 		}
 	};
-
-	// Conversion of firestore timestamp to dayjs fromNow method
-	dayjs.extend(relativeTime);
-	const convertTimeStamp = comment.datePosted.toDate();
-	const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
 		<>
