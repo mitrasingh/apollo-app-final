@@ -1,9 +1,10 @@
 import { Form, Stack, Button, Row, Col } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { db } from "../../../utils/firebase-config";
-import { doc, updateDoc, Timestamp } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
+import useDateConverter from "../../../hooks/useDateConverter";
+import PropTypes from "prop-types";
 
 const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }) => { // Props from CommentCard.jsx
 
@@ -16,15 +17,17 @@ const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRe
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
 
+	// Custom hook converts current date/time as a firestore timestamp
+	const { createTimestamp } = useDateConverter();
+
 	// Updates comment document in database and refreshes comment card
 	const handleUpdateButton = async (data) => {
-		const myDate = new Date();
-		const postTimeStamp = Timestamp.fromDate(myDate);
 		try {
+			const timestamp = createTimestamp();
 			const docRef = doc(db, "comments", commentId);
 			await updateDoc(docRef, {
 				userComment: data.editcomment,
-				datePosted: postTimeStamp,
+				datePosted: timestamp,
 				isDocEdited: true
 			});
 			setIsEditComment(false); // Hides display of edit component
