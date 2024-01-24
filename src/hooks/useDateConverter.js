@@ -1,10 +1,28 @@
 import { Timestamp } from "firebase/firestore";
 import * as dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const useDateConverter = () => {
+	// Converts received timestamp and allows `dayjs` to calculate and display relative time
+	const createTimestamp = () => {
+		const currentDate = new Date(); // Javascript date object
+		const dateToTimestamp = Timestamp.fromDate(currentDate); // Converts date object into a firestore timestamp
+
+		return dateToTimestamp;
+	};
+
+	// Converts received timestamp and allows `dayjs` to calculate and display relative time
+	const convertToRelativeTime = (date) => {
+		dayjs.extend(relativeTime);
+		const convertTimestamp = date.toDate();
+		const convertRelativeTime = dayjs(convertTimestamp).fromNow();
+
+		return convertRelativeTime;
+	};
+
+	// Converts date to UTC ensuring date is converted to proper format as a firestore timestamp
 	const convertToTimestamp = (date) => {
-		// Converts date to UTC ensuring dates match from user input to display via database
 		dayjs.extend(utc);
 		const formattedDate = dayjs.utc(date).format("MM/DD/YYYY");
 		const [month, day, year] = formattedDate.split("/").map(Number);
@@ -14,11 +32,9 @@ const useDateConverter = () => {
 		return timestampDate;
 	};
 
+	// Convert the parsed Date object to a Firestore Timestamp
 	const convertToDate = (date, locales) => {
-		// Convert the parsed Date object to a Firestore Timestamp
 		const timestampToDate = date.toDate();
-
-		// Format the Timestamp to a string in "YYYY/MM/DD" format
 		const formattedDate = timestampToDate.toLocaleDateString(locales, {
 			year: "numeric",
 			month: "2-digit",
@@ -28,7 +44,12 @@ const useDateConverter = () => {
 		return formattedDate;
 	};
 
-	return { convertToTimestamp, convertToDate };
+	return {
+		createTimestamp,
+		convertToRelativeTime,
+		convertToTimestamp,
+		convertToDate,
+	};
 };
 
 export default useDateConverter;
