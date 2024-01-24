@@ -14,7 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <App />
       <ToastContainer
         className="fs-5 mt-4"
-        position="bottom-center"
         autoClose={2500}
         hideProgressBar={false}
         theme="dark"
