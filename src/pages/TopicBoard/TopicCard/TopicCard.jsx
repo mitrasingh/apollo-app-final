@@ -5,23 +5,26 @@ import { Link } from "react-router-dom";
 import { db } from "../../../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
+import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import styles from "./TopicCard.module.css";
 
 export const TopicCard = (props) => {
 	// Receiving prop data from TopicCards.jsx
 	const { topic } = props;
 
-	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
-	const { showBoundary } = useErrorBoundary();
-
 	// Retrieving photo url of user and saving it in a state
 	const [creatorPhoto, setCreatorPhoto] = useState("");
 
 	// Displays numbers of comments (how many documents within "comments" collection in database)
 	const [numOfComments, setNumOfComments] = useState("");
+
+	// Custom hook converts firestore timestamp into relative time from current time
+	const { convertToRelativeTime } = useDateConverter();
+	const dateRelativeTime = convertToRelativeTime(topic.datePosted);
+
+	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
+	const { showBoundary } = useErrorBoundary();
 
 	// Firebase storage method and reference (used for fetching user photo url based off of userId prop)
 	const storage = getStorage();
@@ -62,11 +65,6 @@ export const TopicCard = (props) => {
 		};
 		getNumOfComments();
 	}, [numOfComments]);
-
-	// Conversion of firestore timestamp to dayjs fromNow method
-	dayjs.extend(relativeTime);
-	const convertTimeStamp = topic.datePosted.toDate();
-	const dateRelativeTime = dayjs(convertTimeStamp).fromNow();
 
 	return (
 		<Container className="mt-3">
