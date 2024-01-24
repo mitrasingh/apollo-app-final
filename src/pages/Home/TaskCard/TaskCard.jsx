@@ -6,7 +6,7 @@ import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from 'react-toastify';
-import useTimestampToDate from "../../../hooks/useTimestampToDate";
+import useDateConverter from "../../../hooks/useDateConverter";
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
 import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import DeleteModal from "../../../components/Modals/DeleteModal";
@@ -20,6 +20,10 @@ const TaskCard = (props) => {
 
 	// Redux user state data
 	const currentUser = useSelector((state) => state.user);
+
+	// Custom hook converts date into date string
+	const { convertToDate } = useDateConverter();
+	const dateToString = convertToDate(task.dueDate, 'en-US');
 
 	// State holds user creator photo
 	const [creatorPhoto, setCreatorPhoto] = useState("");
@@ -77,9 +81,6 @@ const TaskCard = (props) => {
 			});
 		}
 	};
-
-	// Converts firestore timestamp to a string date
-	const dateToString = useTimestampToDate(task.dueDate, 'en-US');
 
 	return (
 		<>
