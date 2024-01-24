@@ -7,8 +7,6 @@ import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
 import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
-import * as dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
 import styles from "./EditTaskModal.module.css";
 
 // Props are from TaskCard.jsx
@@ -28,21 +26,18 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 	const form = useForm();
 	const { register, handleSubmit, reset, formState } = form;
 	const { errors } = formState;
-	let defaultValues = {};
-
-	// Converts date to UTC ensuring dates match from user input to display via database
-	dayjs.extend(utc);
-
 
 	useEffect(() => {
 		const loadDefaultValues = () => {
-			const dateToString = convertToDate(task.dueDate, 'en-CA');
 			try {
+				const dateToString = convertToDate(task.dueDate, 'en-CA');
+				let defaultValues = {};
 				defaultValues.taskname = task.taskName;
 				defaultValues.taskdescription = task.descriptionTask;
 				defaultValues.taskstatus = task.statusProject;
 				defaultValues.taskpriority = task.priorityLevel;
 				defaultValues.taskduedate = dateToString;
+				reset({ ...defaultValues });
 			} catch (error) {
 				console.log(`Error: ${error.message}`);
 				toast.error('Could not load task!', {
@@ -50,7 +45,6 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 				});
 			}
 		}
-		reset({ ...defaultValues });
 		loadDefaultValues();
 	}, [])
 
