@@ -6,17 +6,12 @@ import { db } from "../../../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 import useDateConverter from "../../../hooks/useDateConverter";
-// import * as dayjs from "dayjs";
-// import utc from 'dayjs/plugin/utc';
 
 const CreateTaskForm = () => {
     // React Hook Form
     const form = useForm();
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
-
-    // Converts date to UTC ensuring dates match from user input to display via database
-    // dayjs.extend(utc);
 
     // Custom hook converts date into firestore timestamp
     const { convertToTimestamp } = useDateConverter();
