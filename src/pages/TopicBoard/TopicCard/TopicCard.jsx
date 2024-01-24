@@ -5,12 +5,9 @@ import { Link } from "react-router-dom";
 import { db } from "../../../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
-// import useDateConverter from "../../../hooks/useDateConverter";
+import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
 import styles from "./TopicCard.module.css";
-// import * as dayjs from "dayjs";
-// import relativeTime from "dayjs/plugin/relativeTime";
-
 
 export const TopicCard = (props) => {
 	// Receiving prop data from TopicCards.jsx
@@ -23,12 +20,8 @@ export const TopicCard = (props) => {
 	const [numOfComments, setNumOfComments] = useState("");
 
 	// Custom hook converts firestore timestamp into relative time from current time
-	// const { convertToRelativeTime } = useDateConverter();
-	// const dateRelativeTime = convertToRelativeTime(topic.datePosted);
-
-	// dayjs.extend(relativeTime);
-	// const convertTimestamp = topic.datePosted.toDate();
-	// const dateRelativeTime = dayjs(convertTimestamp).fromNow();
+	const { convertToRelativeTime } = useDateConverter();
+	const dateRelativeTime = convertToRelativeTime(topic.datePosted);
 
 	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
@@ -109,7 +102,7 @@ export const TopicCard = (props) => {
 
 						<Col>
 							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
-							{/* <Card.Text className="my-0">{dateRelativeTime}</Card.Text> */}
+							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
 						</Col>
 
 						<Col>
