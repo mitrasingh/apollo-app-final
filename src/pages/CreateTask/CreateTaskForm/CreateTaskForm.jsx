@@ -1,12 +1,13 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import * as dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
+import useDateConverter from "../../../hooks/useDateConverter";
+// import * as dayjs from "dayjs";
+// import utc from 'dayjs/plugin/utc';
 
 const CreateTaskForm = () => {
     // React Hook Form
@@ -15,7 +16,10 @@ const CreateTaskForm = () => {
     const { errors } = formState;
 
     // Converts date to UTC ensuring dates match from user input to display via database
-    dayjs.extend(utc);
+    // dayjs.extend(utc);
+
+    // Custom hook converts date into firestore timestamp
+    const { convertToTimestamp } = useDateConverter();
 
     // React router function allows user to navigate to specified route
     const navigate = useNavigate();
@@ -26,17 +30,14 @@ const CreateTaskForm = () => {
     // Firestore to generate task ID
     const handleCreateTask = async (data) => {
         try {
-            const formattedDueDate = dayjs.utc(data.taskduedate).format("MM/DD/YYYY");
-            const [month, day, year] = formattedDueDate.split('/').map(Number);
-            const parsedDueDate = new Date(year, month - 1, day); // Note: Month is zero-based in JavaScript Dates
-            const timestampDueDate = Timestamp.fromDate(parsedDueDate);
+            const timestamp = convertToTimestamp(data.taskduedate);
             const dbRef = collection(db, "tasks");
             const taskData = {
                 taskName: data.taskname,
                 descriptionTask: data.taskdescription,
                 statusProject: data.taskstatus,
                 priorityLevel: data.taskpriority,
-                dueDate: timestampDueDate,
+                dueDate: timestamp,
                 userId: user.userId,
             };
             await addDoc(dbRef, taskData);
