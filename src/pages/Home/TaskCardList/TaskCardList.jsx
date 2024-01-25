@@ -199,7 +199,7 @@ const TaskCardList = ({ queryFilter, isQuerySorted, isTasksSearched, userInput }
                         size="sm"
                         onClick={tasksList.length === tasksCount ? handleScrollToTop : handleLoadMore}
                     >
-                        {tasksList.length === tasksCount ? `Back to the top` : `Load More Topics`}
+                        {tasksList.length === tasksCount ? `Back to the top` : `Load More Tasks`}
                     </Button>
                 </Stack>
                 :
