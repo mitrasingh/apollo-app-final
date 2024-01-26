@@ -70,7 +70,7 @@ const Home = () => {
 				refreshTasksHandle={refreshTasksHandle}
 			/>
 
-			<Stack direction="horizontal" gap={2} className="ms-3 mt-4">
+			<Stack direction="horizontal" gap={2} className="ms-4 mt-4">
 				<FilterTasksButton
 					filterLaterHandle={filterLaterHandle}
 					filterSoonHandle={filterSoonHandle}
