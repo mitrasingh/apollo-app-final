@@ -1,5 +1,5 @@
 import { Button, Card, Container, Form, Stack, Image } from "react-bootstrap";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { browserSessionPersistence, getAuth, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/user/userSlice";
@@ -29,6 +29,7 @@ const SignIn = () => {
     // Function handles login process, and displays message of success/failsure (toast)
     const handleLogin = async (data) => {
         try {
+            await setPersistence(auth, browserSessionPersistence);
             await signInWithEmailAndPassword(auth, data.email, data.password);
             const docRef = doc(db, "users", auth.currentUser.uid);
             const docSnap = await getDoc(docRef);
@@ -63,6 +64,7 @@ const SignIn = () => {
     // Login functionality with set parameters for guest
     const handleGuestLogin = async () => {
         try {
+            await setPersistence(auth, browserSessionPersistence);
             await signInWithEmailAndPassword(auth, "guest@apollo.com", "guest123");
             const docRef = doc(db, "users", auth.currentUser.uid);
             const docSnap = await getDoc(docRef);
