@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, updateProfile, getAuth } from "firebase/auth"
+import { createUserWithEmailAndPassword, updateProfile, getAuth, setPersistence, browserSessionPersistence } from "firebase/auth"
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { db } from "../../utils/firebase-config"
@@ -35,6 +35,8 @@ const SignUp = () => {
     // Creates user and sends data to db storage and assigns data to Redux (using dispatch)
     const handleSignUp = async (data) => {
         try {
+            // Sets parameters for user to be logged out if window/tab is closed
+            await setPersistence(auth, browserSessionPersistence); // Logs user out with window/tab is closed
             await createUserWithEmailAndPassword(auth, data.email, data.password);
             await updateProfile(auth.currentUser, {
                 displayName: data.firstname,
