@@ -29,6 +29,7 @@ const SignIn = () => {
     // Function handles login process, and displays message of success/failsure (toast)
     const handleLogin = async (data) => {
         try {
+            // Sets parameters for user to be logged out if window/tab is closed
             await setPersistence(auth, browserSessionPersistence);
             await signInWithEmailAndPassword(auth, data.email, data.password);
             const docRef = doc(db, "users", auth.currentUser.uid);
@@ -64,6 +65,7 @@ const SignIn = () => {
     // Login functionality with set parameters for guest
     const handleGuestLogin = async () => {
         try {
+            // Sets parameters for user to be logged out if window/tab is closed
             await setPersistence(auth, browserSessionPersistence);
             await signInWithEmailAndPassword(auth, "guest@apollo.com", "guest123");
             const docRef = doc(db, "users", auth.currentUser.uid);
