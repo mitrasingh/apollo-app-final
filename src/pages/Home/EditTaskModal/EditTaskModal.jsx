@@ -46,7 +46,7 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 			}
 		}
 		loadDefaultValues();
-	}, [])
+	}, [isEditModal])
 
 	// Update new task content to database
 	const handleUpdate = async (data) => {
