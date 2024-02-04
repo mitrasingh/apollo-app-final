@@ -164,7 +164,7 @@ const TaskCard = (props) => {
 										roundedCircle
 									/>
 									<Stack direction="vertical" className="ms-2 mt-1">
-										<p className="fs-6 my-0 text-truncate">Created by:</p>
+										<p className="fs-6 my-0 text-truncate">Creator:</p>
 										<p className="fs-6 fw-bold my-0 text-truncate">
 											{creatorName}
 										</p>

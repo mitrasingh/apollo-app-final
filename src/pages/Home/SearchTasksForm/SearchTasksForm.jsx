@@ -18,8 +18,8 @@ const SearchTasksForm = ({ userInput, setUserInput, filterSearchHandle, refreshT
     return (
         <Container className="mt-4 mb-3">
             <Row className="justify-content-center">
-                <Col lg={5} md={8} sm={8}>
-                    <Form onSubmit={filterSearchHandle} className="d-flex">
+                <Col lg={8} md={8} sm={8}>
+                    <Form onSubmit={filterSearchHandle} className="d-flex ms-2">
                         <InputGroup>
                             <Button  >
                                 <img
