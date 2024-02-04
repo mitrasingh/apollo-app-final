@@ -97,12 +97,12 @@ export const TopicCard = (props) => {
 							</Stack>
 						</Col>
 
-						<Col>
+						<Col xs={4} className={styles.mobileHidden}>
 							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
 							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
 						</Col>
 
-						<Col>
+						<Col xs={3}>
 							<Stack direction="horizontal" gap={2} className="mt-1">
 								<Image
 									src="/comments.svg"
