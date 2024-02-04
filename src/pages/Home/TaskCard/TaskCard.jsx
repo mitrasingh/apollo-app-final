@@ -88,15 +88,10 @@ const TaskCard = (props) => {
 				<Card>
 					<Card.Header className="fs-6 text-light">
 						<Row>
-							<Col>
-								<Stack direction="horizontal" gap={2}>
-									<div className="fs-4 fw-bold">
-										{task.taskName.length > 30
-											? `${task.taskName.substring(0, 30)}...`
-											: task.taskName
-										}
-									</div>
-								</Stack>
+							<Col xs={8}>
+								<div className="fs-4 fw-bold text-truncate">
+									{task.taskName}
+								</div>
 							</Col>
 							<Col>
 								{task.userId === currentUser.userId ? (
@@ -158,7 +153,7 @@ const TaskCard = (props) => {
 						</Row>
 						<Row className={styles.customFooter}>
 							<hr className="mt-2"></hr>
-							<Col xs={6}>
+							<Col xs={4}>
 								<Stack direction="horizontal">
 									<Image
 										className="object-fit-cover"
@@ -168,12 +163,9 @@ const TaskCard = (props) => {
 										roundedCircle
 									/>
 									<Stack direction="vertical" className="ms-2 mt-1">
-										<p className="fs-6 my-0">Created by:</p>
-										<p className="fs-6 fw-bold my-0">
-											{creatorName.length > 12
-												? `${creatorName.substring(0, 12)}...`
-												: creatorName
-											}
+										<p className="fs-6 my-0 text-truncate">Created by:</p>
+										<p className="fs-6 fw-bold my-0 text-truncate">
+											{creatorName}
 										</p>
 									</Stack>
 								</Stack>
