@@ -13,7 +13,7 @@ import styles from "./SignUp.module.css";
 const SignUp = () => {
 
     // React Hook Form
-    const form = useForm({ mode: "onChange" });
+    const form = useForm({ mode: "onBlur" });
     const { register, handleSubmit, watch, formState } = form;
     const { errors } = formState;
     const watchPassword = watch("password") // Observes password field (to match confirm password)
