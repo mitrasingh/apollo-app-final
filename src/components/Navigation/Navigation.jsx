@@ -25,7 +25,7 @@ const Navigation = () => {
         try {
             await signOut(auth);
             dispatch(logoutUser());
-            navigate("/signin");
+            navigate("/");
             toast.info('You have been logged out!', {
                 hideProgressBar: true
             })
@@ -41,7 +41,7 @@ const Navigation = () => {
     return (
         <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.customNav}`}>
             <Container className={styles.customContainer}>
-                <Navbar.Brand as={Link} to="/" className="fw-bold fs-3">
+                <Navbar.Brand as={Link} to="/home" className="fw-bold fs-3">
                     <Image
                         src="/rocket_white.svg"
                         width="30"
@@ -79,7 +79,7 @@ const Navigation = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="text-center">
                     <Nav className="mx-auto">
-                        <Nav.Link eventKey="1" as={Link} to="/" className="me-1">Home</Nav.Link>
+                        <Nav.Link eventKey="1" as={Link} to="/home" className="me-1">Home</Nav.Link>
                         <Nav.Link eventKey="2" as={Link} to="/createtask">Create Task</Nav.Link>
                         <Nav.Link eventKey="3" as={Link} to="/topicboard" >Topic Board</Nav.Link>
                         <Nav.Link eventKey="4" onClick={handleVisible}>Logout</Nav.Link>
