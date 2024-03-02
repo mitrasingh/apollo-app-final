@@ -62,6 +62,7 @@ const ForgotPassword = () => {
                         <Form.Control
                             className="shadow-none fs-6 mt-2"
                             type="text"
+                            autoComplete="email"
                             placeholder="Email"
                             {...register("email", {
                                 required: {
