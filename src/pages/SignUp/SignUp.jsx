@@ -102,7 +102,7 @@ const SignUp = () => {
                         Already registered?&nbsp;
                         <Link
                             className="fw-bold"
-                            to="/signin"
+                            to="/"
                         >
                             Sign In
                         </Link>
@@ -231,7 +231,7 @@ const SignUp = () => {
                         variant="secondary"
                         size="sm"
                         as={Link}
-                        to="/signin"
+                        to="/"
                     >
                         Back to Sign In
                     </Button>
