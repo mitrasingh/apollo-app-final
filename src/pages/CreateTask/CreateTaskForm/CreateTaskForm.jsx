@@ -37,7 +37,7 @@ const CreateTaskForm = () => {
             };
             await addDoc(dbRef, taskData);
             toast.success('Your task has been added!')
-            navigate("/");
+            navigate("/home");
         } catch (error) {
             console.log(`Error: ${error.message}`);
             toast.error('Sorry, could not create task!', {
