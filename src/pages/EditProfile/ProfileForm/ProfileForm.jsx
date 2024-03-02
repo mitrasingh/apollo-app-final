@@ -132,7 +132,7 @@ const ProfileForm = () => {
                 );
             }
             toast.success('Your profile has been updated!')
-            navigate("/");
+            navigate("/home");
         } catch (error) {
             console.log(`Error: ${error.message}`);
             toast.error('Sorry, could not update profile!', {
