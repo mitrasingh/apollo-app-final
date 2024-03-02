@@ -53,7 +53,7 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/srcphotoupload" element={<PhotoUpload />} />
+        <Route path="/photoupload" element={<PhotoUpload />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
