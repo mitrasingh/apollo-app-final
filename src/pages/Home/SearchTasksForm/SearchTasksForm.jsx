@@ -32,8 +32,10 @@ const SearchTasksForm = ({ userInput, setUserInput, filterSearchHandle, refreshT
                                 />
                             </Button>
                             <FormControl
-                                type="text"
                                 className="me-2 fs-6 shadow-none"
+                                type="text"
+                                name="tasksearch"
+                                autoComplete="tasksearch"
                                 placeholder="Search by task name..."
                                 value={userInput}
                                 onKeyDown={handleKeyDownReset}
