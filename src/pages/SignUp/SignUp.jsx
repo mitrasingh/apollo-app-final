@@ -161,6 +161,7 @@ const SignUp = () => {
                         <Form.Control
                             className="shadow-none fs-6"
                             type="text"
+                            autoComplete="email"
                             placeholder="Enter email"
                             {...register("email", {
                                 required: {
