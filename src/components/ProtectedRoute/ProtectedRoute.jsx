@@ -61,7 +61,7 @@ const ProtectedRoute = () => {
       <Outlet />
     </>
   ) : (
-    <Navigate to="/signin" state={{ from: location }} replace />  // Redirects user to signin page from current location 
+    <Navigate to="/" state={{ from: location }} replace />  // Redirects user to signin page from current location 
   );
 };
 
