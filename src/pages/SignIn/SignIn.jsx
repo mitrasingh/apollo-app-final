@@ -49,7 +49,7 @@ const SignIn = () => {
             toast.success(`Hello ${auth.currentUser.displayName}, you are logged in!`, {
                 hideProgressBar: true
             });
-            navigate("/");
+            navigate("/home");
         } catch (error) {
             if (error.message.includes("user-not-found")) {
                 toast.error("User not found!")
@@ -85,7 +85,7 @@ const SignIn = () => {
             toast.success("Welcome to Apollo!", {
                 hideProgressBar: true
             });
-            navigate("/");
+            navigate("/home");
         } catch (error) {
             toast.error("Sorry, we are having some technical issues!")
             console.log(`Error: ${error.message}`);
