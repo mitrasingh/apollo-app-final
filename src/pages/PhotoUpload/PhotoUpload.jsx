@@ -88,7 +88,7 @@ const PhotoUpload = () => {
 						}));
 				}
 				toast.success(`Welcome ${auth.currentUser.displayName} to Apollo!`)
-				navigate("/");
+				navigate("/home");
 			}
 		} catch (error) {
 			console.log(`Error: ${error.message}`);
