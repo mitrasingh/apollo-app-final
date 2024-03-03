@@ -108,9 +108,12 @@ const SignUp = () => {
                         </Link>
                     </p>
 
-                    <p className="fw-bold mb-1"> First Name </p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="firstNameInput">
+                        <Form.Label className="fw-bold">
+                            First Name
+                        </Form.Label>
                         <Form.Control
+                            // id="firstNameInput"
                             className="shadow-none fs-6"
                             type="text"
                             placeholder="Enter first name"
@@ -124,8 +127,10 @@ const SignUp = () => {
                         <p className="mt-2">{errors.firstname?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1"> Last Name </p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="lastNameInput">
+                        <Form.Label className="fw-bold">
+                            Last Name
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="text"
@@ -140,8 +145,10 @@ const SignUp = () => {
                         <p className="mt-2">{errors.lastname?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1"> Title </p>
-                    <Form.Group className="mb-2" controlId="progress">
+                    <Form.Group className="mb-2" controlId="titleInput">
+                        <Form.Label className="fw-bold">
+                            Title
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="text"
@@ -156,8 +163,10 @@ const SignUp = () => {
                         <p className="mt-2">{errors.title?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1"> Email Address </p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="emailAddressInput">
+                        <Form.Label className="fw-bold">
+                            Email Address
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="text"
@@ -177,8 +186,10 @@ const SignUp = () => {
                         <p className="mt-2">{errors.email?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1"> Password </p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="passwordInput">
+                        <Form.Label className="fw-bold">
+                            Password
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="password"
@@ -197,8 +208,10 @@ const SignUp = () => {
                         <p className="mt-2">{errors.password?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1"> Confirm Password </p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="confirmPasswordInput">
+                        <Form.Label className="fw-bold">
+                            Confirm Password
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="password"

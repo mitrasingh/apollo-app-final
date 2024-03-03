@@ -118,12 +118,11 @@ const SignIn = () => {
                         </Link>
                     </p>
 
-                    <Form.Group className="mb-2">
-                        <Form.Label className="fw-bold" htmlFor="emailInput">
+                    <Form.Group className="mb-2" controlId="emailInput">
+                        <Form.Label className="fw-bold">
                             Email Address
                         </Form.Label>
                         <Form.Control
-                            id="emailInput"
                             className="shadow-none fs-6"
                             type="text"
                             autoComplete="email"
@@ -142,12 +141,11 @@ const SignIn = () => {
                         <p className="mt-2">{errors.email?.message}</p>
                     </Form.Group>
 
-                    <Form.Group className="mb-2">
-                        <Form.Label className="fw-bold" htmlFor="passwordInput">
+                    <Form.Group className="mb-2" controlId="passwordInput">
+                        <Form.Label className="fw-bold">
                             Password
                         </Form.Label>
                         <Form.Control
-                            id="passwordInput"
                             className="shadow-none fs-6"
                             type="password"
                             placeholder="Enter password"
