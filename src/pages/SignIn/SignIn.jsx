@@ -118,9 +118,12 @@ const SignIn = () => {
                         </Link>
                     </p>
 
-                    <p className="fw-bold mb-1">Email Address</p>
                     <Form.Group className="mb-2">
+                        <Form.Label className="fw-bold" htmlFor="emailInput">
+                            Email Address
+                        </Form.Label>
                         <Form.Control
+                            id="emailInput"
                             className="shadow-none fs-6"
                             type="text"
                             autoComplete="email"
@@ -139,9 +142,12 @@ const SignIn = () => {
                         <p className="mt-2">{errors.email?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1">Password</p>
                     <Form.Group className="mb-2">
+                        <Form.Label className="fw-bold" htmlFor="passwordInput">
+                            Password
+                        </Form.Label>
                         <Form.Control
+                            id="passwordInput"
                             className="shadow-none fs-6"
                             type="password"
                             placeholder="Enter password"
