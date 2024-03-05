@@ -58,10 +58,14 @@ const ForgotPassword = () => {
                     <h4 className="text-center text-light">Forgot your password?</h4>
                     <p className={`fs-5 mt-2 ${styles.modalAertMessage}`}> {modalAlertMessage} </p>
 
-                    <Form.Group>
+                    <Form.Group controlId="emailInput">
+                        <Form.Label className="fw-bold text-light fs-6">
+                            Enter Email
+                        </Form.Label>
                         <Form.Control
-                            className="shadow-none fs-6 mt-2"
+                            className="shadow-none fs-6"
                             type="text"
+                            autoComplete="email"
                             placeholder="Email"
                             {...register("email", {
                                 required: {

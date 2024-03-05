@@ -94,7 +94,7 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 					</Modal.Header>
 
 					<Modal.Body>
-						<Form.Group className="mb-3">
+						<Form.Group className="mb-3" controlId="taskNameInput">
 							<Form.Label className="fw-bold fs-6">
 								Current Task Name
 							</Form.Label>
@@ -111,7 +111,7 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 							<p className="fs-6 mt-1">{errors.taskname?.message}</p>
 						</Form.Group>
 
-						<Form.Group className="mb-3">
+						<Form.Group className="mb-3" controlId="taskDescriptionInput">
 							<Form.Label className="fw-bold fs-6">
 								Description of Task
 							</Form.Label>
@@ -130,7 +130,7 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 							<p className="fs-6 mt-1">{errors.taskdescription?.message}</p>
 						</Form.Group>
 
-						<Form.Group className="mb-3">
+						<Form.Group className="mb-3" controlId="taskStatusInput">
 							<Form.Label className="fw-bold fs-6">
 								Status of Project
 							</Form.Label>
@@ -151,7 +151,7 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 							<p className="fs-6 mt-1">{errors.taskstatus?.message}</p>
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="progress">
+						<Form.Group className="mb-3" controlId="taskPriorityInput">
 							<Form.Label className="fw-bold fs-6">
 								What is the priority level of this project?
 							</Form.Label>
@@ -172,7 +172,7 @@ const EditTaskModal = ({ task, creatorPhoto, creatorName, fetchTasks }) => {
 							<p className="fs-6 mt-1">{errors.taskpriority?.message}</p>
 						</Form.Group>
 
-						<Form.Group className="mb-3">
+						<Form.Group className="mb-3" controlId="taskDueDateInput">
 							<Form.Label className="fw-bold fs-6">
 								Due Date
 							</Form.Label>

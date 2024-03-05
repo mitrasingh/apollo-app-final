@@ -1,10 +1,10 @@
 import { Button, Card, Container, Form, Stack, Image } from "react-bootstrap";
-import { browserSessionPersistence, getAuth, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/user/userSlice";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../utils/firebase-config";
+import { db, auth } from "../../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 import styles from "./SignIn.module.css";
@@ -18,7 +18,7 @@ const SignIn = () => {
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     // Instance created from firebase authentication
-    const auth = getAuth();
+    const userAuth = auth;
 
     // Redux function which will dispatch actions needed for user state changes
     const dispatch = useDispatch();
@@ -30,23 +30,23 @@ const SignIn = () => {
     const handleLogin = async (data) => {
         try {
             // Sets parameters for user to be logged out if window/tab is closed
-            await setPersistence(auth, browserSessionPersistence);
-            await signInWithEmailAndPassword(auth, data.email, data.password);
-            const docRef = doc(db, "users", auth.currentUser.uid);
+            await setPersistence(userAuth, browserSessionPersistence);
+            await signInWithEmailAndPassword(userAuth, data.email, data.password);
+            const docRef = doc(db, "users", userAuth.currentUser.uid);
             const docSnap = await getDoc(docRef);
             const userData = docSnap.data();
             // Assigns default values to Redux user state
             dispatch(
                 loginUser({
-                    userId: auth.currentUser.uid,
+                    userId: userAuth.currentUser.uid,
                     userPhoto: userData.userPhoto,
-                    firstName: auth.currentUser.displayName,
+                    firstName: userAuth.currentUser.displayName,
                     lastName: userData.lastname,
                     title: userData.title,
-                    email: auth.currentUser.email,
+                    email: userAuth.currentUser.email,
                 })
             );
-            toast.success(`Hello ${auth.currentUser.displayName}, you are logged in!`, {
+            toast.success(`Hello ${userAuth.currentUser.displayName}, you are logged in!`, {
                 hideProgressBar: true
             });
             navigate("/home");
@@ -66,20 +66,20 @@ const SignIn = () => {
     const handleGuestLogin = async () => {
         try {
             // Sets parameters for user to be logged out if window/tab is closed
-            await setPersistence(auth, browserSessionPersistence);
-            await signInWithEmailAndPassword(auth, "guest@apollo.com", "guest123");
-            const docRef = doc(db, "users", auth.currentUser.uid);
+            await setPersistence(userAuth, browserSessionPersistence);
+            await signInWithEmailAndPassword(userAuth, "guest@apollo.com", "guest123");
+            const docRef = doc(db, "users", userAuth.currentUser.uid);
             const docSnap = await getDoc(docRef);
             const userData = docSnap.data();
             // Assigns default values to Redux user state
             dispatch(
                 loginUser({
-                    userId: auth.currentUser.uid,
+                    userId: userAuth.currentUser.uid,
                     userPhoto: userData.userPhoto,
-                    firstName: auth.currentUser.displayName,
+                    firstName: userAuth.currentUser.displayName,
                     lastName: userData.lastname,
                     title: userData.title,
-                    email: auth.currentUser.email,
+                    email: userAuth.currentUser.email,
                 })
             );
             toast.success("Welcome to Apollo!", {
@@ -118,11 +118,14 @@ const SignIn = () => {
                         </Link>
                     </p>
 
-                    <p className="fw-bold mb-1">Email Address</p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="emailInput">
+                        <Form.Label className="fw-bold">
+                            Email Address
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="text"
+                            autoComplete="email"
                             placeholder="Enter email"
                             {...register("email", {
                                 required: {
@@ -138,8 +141,10 @@ const SignIn = () => {
                         <p className="mt-2">{errors.email?.message}</p>
                     </Form.Group>
 
-                    <p className="fw-bold mb-1">Password</p>
-                    <Form.Group className="mb-2">
+                    <Form.Group className="mb-2" controlId="passwordInput">
+                        <Form.Label className="fw-bold">
+                            Password
+                        </Form.Label>
                         <Form.Control
                             className="shadow-none fs-6"
                             type="password"

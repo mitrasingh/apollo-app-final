@@ -57,7 +57,7 @@ const CommentPostForm = ({ setIsCommentsRefreshed }) => {
                 onSubmit={handleSubmit(handlePostCommentButton)}
                 noValidate
             >
-                <Form.Group>
+                <Form.Group controlId="commentInput">
                     <Form.Label className="fs-6">
                         comment as {currentUser.firstName} {currentUser.lastName}
                     </Form.Label>

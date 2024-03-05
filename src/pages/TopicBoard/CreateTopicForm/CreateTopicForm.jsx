@@ -50,9 +50,10 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 	return (
 		<Container className="mt-2 mb-4 pb-3">
 			<Container className={`mt-4 p-4 border ${styles.customContainer}`}>
+
 				<Form onSubmit={handleSubmit(handleCreateTopic)} noValidate>
-					<Form.Group className="fs-6 text-light">
-						<Form.Label className="fw-bold">Title</Form.Label>
+					<Form.Group controlId="titleInput">
+						<Form.Label className="fw-bold fs-6 text-light">Title</Form.Label>
 						<Form.Control
 							className="fs-6 shadow-none"
 							maxLength={50}
@@ -66,8 +67,10 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 							})}
 						/>
 						<p className="mt-2">{errors.title?.message}</p>
+					</Form.Group>
 
-						<Form.Label className="fw-bold">Message</Form.Label>
+					<Form.Group controlId="messageInput">
+						<Form.Label className="fw-bold fs-6 text-light">Message</Form.Label>
 						<Form.Control
 							className="fs-6 shadow-none"
 							maxLength={100000}
@@ -106,6 +109,7 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 						</Col>
 					</Row>
 				</Form>
+
 			</Container>
 		</Container>
 	);

@@ -53,9 +53,10 @@ const CreateTaskForm = () => {
 
     return (
         <Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
-            <Form.Label className="fs-2 fw-bold d-flex justify-content-center">Create Task</Form.Label>
-            <Form.Group className="mb-4">
-                <Form.Label className="fw-bold mt-3">Task name</Form.Label>
+            <Form.Group className="mb-4" controlId="taskNameInput">
+                <Form.Label className="fw-bold mt-3">
+                    Task name
+                </Form.Label>
                 <Form.Control
                     className="fs-6 shadow-none"
                     maxLength={50}
@@ -71,7 +72,7 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskname?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-4" controlId="taskDescriptionInput">
                 <Form.Label className="fw-bold">
                     Description of task
                 </Form.Label>
@@ -92,7 +93,7 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskdescription?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-4" controlId="taskStatusInput">
                 <Form.Label className="fw-bold">
                     What is the status of this project?
                 </Form.Label>
@@ -115,7 +116,7 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskstatus?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-4" controlId="taskPriorityInput">
                 <Form.Label className="fw-bold">
                     What is the priority level of this project?
                 </Form.Label>
@@ -138,7 +139,7 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskpriority?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3" controlId="dueDateInput">
                 <Form.Label className="fw-bold">
                     Due date
                 </Form.Label>

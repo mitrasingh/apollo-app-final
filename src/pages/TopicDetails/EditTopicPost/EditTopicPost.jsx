@@ -48,7 +48,10 @@ const EditTopicPost = ({ setIsEditTopicDisplayed, description, id, setIsTopicRef
 				onSubmit={handleSubmit(handleEditTopic)}
 				noValidate
 			>
-				<Form.Group className="mb-3">
+				<Form.Group className="mb-3" controlId="editPostInput">
+					<Form.Label className="fw-bold text-light fs-6">
+						Edit Your Post
+					</Form.Label>
 					<Form.Control
 						className="fs-5"
 						maxLength={100000}
@@ -58,7 +61,7 @@ const EditTopicPost = ({ setIsEditTopicDisplayed, description, id, setIsTopicRef
 						{...register("newdescription", {
 							required: {
 								value: true,
-								message: "Description of task is required!",
+								message: "Description of topic is required!",
 							},
 						})}
 					/>
