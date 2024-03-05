@@ -64,7 +64,6 @@ const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRe
 								className="fs-6 text-light fw-bold"
 								variant="secondary"
 								size="sm"
-								type="submit"
 								onClick={() => setIsEditComment(false)}
 							>
 								Cancel

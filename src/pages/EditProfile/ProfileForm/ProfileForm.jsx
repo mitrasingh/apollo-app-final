@@ -199,12 +199,13 @@ const ProfileForm = () => {
 
                         <Row className="mt-4">
                             <Stack>
-                                <p className="fs-6 fw-bold mb-1">First Name</p>
-                                <Form.Group>
+                                <Form.Group controlId="firstNameInput">
+                                    <Form.Label className="fs-6 fw-bold mb-1">
+                                        First Name
+                                    </Form.Label>
                                     <Form.Control
                                         className="fs-6"
                                         type="text"
-                                        id="firstname"
                                         {...register("firstname", {
                                             required: {
                                                 value: true,
@@ -215,12 +216,13 @@ const ProfileForm = () => {
                                     <p className="mt-2">{errors.firstname?.message}</p>
                                 </Form.Group>
 
-                                <p className="fs-6 fw-bold mb-1 mt-2">Last Name</p>
-                                <Form.Group>
+                                <Form.Group controlId="lastNameInput">
+                                    <Form.Label className="fs-6 fw-bold mb-1">
+                                        Last Name
+                                    </Form.Label>
                                     <Form.Control
                                         className="fs-6"
                                         type="text"
-                                        id="lastname"
                                         {...register("lastname", {
                                             required: {
                                                 value: true,
@@ -231,12 +233,13 @@ const ProfileForm = () => {
                                     <p className="mt-2">{errors.lastname?.message}</p>
                                 </Form.Group>
 
-                                <p className="fs-6 fw-bold mb-1 mt-2">Title</p>
-                                <Form.Group>
+                                <Form.Group controlId="titleInput">
+                                    <Form.Label className="fs-6 fw-bold mb-1">
+                                        Title
+                                    </Form.Label>
                                     <Form.Control
                                         className="fs-6"
                                         type="text"
-                                        id="title"
                                         {...register("title", {
                                             required: {
                                                 value: true,
@@ -247,12 +250,14 @@ const ProfileForm = () => {
                                     <p className="mt-2">{errors.title?.message}</p>
                                 </Form.Group>
 
-                                <p className="fs-6 fw-bold mb-1 mt-2">E-mail</p>
-                                <Form.Group>
+                                <Form.Group controlId="emailInput">
+                                    <Form.Label className="fs-6 fw-bold mb-1">
+                                        Email
+                                    </Form.Label>
                                     <Form.Control
                                         className="fs-6"
                                         type="text"
-                                        id="email"
+                                        autoComplete="email"
                                         {...register("email", {
                                             required: {
                                                 value: true,

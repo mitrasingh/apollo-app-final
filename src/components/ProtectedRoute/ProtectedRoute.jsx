@@ -8,7 +8,7 @@ import { logoutUser } from "../../store/user/userSlice";
 import { loginUser } from "../../store/user/userSlice";
 import { doc, getDoc } from "firebase/firestore";
 import Navigation from "../Navigation/Navigation";
-import ScrollToTop from "../ScrollToTop/ScrollToTop";
+// import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 const ProtectedRoute = () => {
 
@@ -57,7 +57,7 @@ const ProtectedRoute = () => {
   return isLoggedIn ? (
     <>
       <Navigation />
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <Outlet />
     </>
   ) : (
