@@ -113,7 +113,6 @@ const SignUp = () => {
                             First Name
                         </Form.Label>
                         <Form.Control
-                            // id="firstNameInput"
                             className="shadow-none fs-6"
                             type="text"
                             placeholder="Enter first name"
