@@ -12,18 +12,18 @@ import LogoutModal from "../Modals/LogoutModal";
 import styles from "./Navigation.module.css";
 
 const Navigation = () => {
+
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
     const navbarRef = useRef(null);
 
+    // Handles the behavior of closing the Navbar when a user clicks outside of it
     useEffect(() => {
         const handleOutsideClick = (event) => {
             if (navbarRef.current && !navbarRef.current.contains(event.target)) {
                 setIsNavbarOpen(false); // Close the Navbar if clicked outside
             }
         };
-
         document.addEventListener('click', handleOutsideClick);
-
         return () => {
             document.removeEventListener('click', handleOutsideClick);
         };
@@ -54,12 +54,6 @@ const Navigation = () => {
     // Details modal functionality
     const [isLogoutModalVisible, setLogOutModalVisible] = useState(false);
     const handleVisible = () => setLogOutModalVisible(true);
-
-    // const [showMenu, setShowMenu] = useState(false);
-
-    // const handleMenuToggle = () => {
-    //     setShowMenu(!showMenu);
-    // };
 
     return (
         <Navbar collapseOnSelect fixed="top" bg="info" variant="dark" expand="lg" className={`px-5 d-flex flex-row ${styles.customNav}`} ref={navbarRef}>
