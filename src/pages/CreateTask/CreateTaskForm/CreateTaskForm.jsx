@@ -53,12 +53,11 @@ const CreateTaskForm = () => {
 
     return (
         <Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
-            <Form.Group className="mb-4">
-                <Form.Label className="fw-bold mt-3" htmlFor="taskNameInput">
+            <Form.Group className="mb-4" controlId="taskNameInput">
+                <Form.Label className="fw-bold mt-3">
                     Task name
                 </Form.Label>
                 <Form.Control
-                    id="taskNameInput"
                     className="fs-6 shadow-none"
                     maxLength={50}
                     type="text"
@@ -73,12 +72,11 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskname?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-4">
-                <Form.Label className="fw-bold" htmlFor="descriptionTaskInput">
+            <Form.Group className="mb-4" controlId="taskDescriptionInput">
+                <Form.Label className="fw-bold">
                     Description of task
                 </Form.Label>
                 <Form.Control
-                    id="descriptionTaskInput"
                     className="fs-6 shadow-none"
                     as="textarea"
                     rows={3}
@@ -95,12 +93,11 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskdescription?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-4">
-                <Form.Label className="fw-bold" htmlFor="statusProjectInput">
+            <Form.Group className="mb-4" controlId="taskStatusInput">
+                <Form.Label className="fw-bold">
                     What is the status of this project?
                 </Form.Label>
                 <Form.Select
-                    id="statusProjectInput"
                     className="fs-6 shadow-none"
                     aria-label="Default select example"
                     {...register("taskstatus", {
@@ -119,12 +116,11 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskstatus?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-4">
-                <Form.Label className="fw-bold" htmlFor="priorityProjectInput">
+            <Form.Group className="mb-4" controlId="taskPriorityInput">
+                <Form.Label className="fw-bold">
                     What is the priority level of this project?
                 </Form.Label>
                 <Form.Select
-                    id="priorityProjectInput"
                     className="fs-6 shadow-none"
                     aria-label="Default select example"
                     {...register("taskpriority", {
@@ -143,12 +139,11 @@ const CreateTaskForm = () => {
                 <p className="mt-2">{errors.taskpriority?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-3">
-                <Form.Label className="fw-bold" htmlFor="dueDateInput">
+            <Form.Group className="mb-3" controlId="dueDateInput">
+                <Form.Label className="fw-bold">
                     Due date
                 </Form.Label>
                 <Form.Control
-                    id="dueDateInput"
                     className="fs-6 shadow-none"
                     type="date"
                     {...register("taskduedate", {
