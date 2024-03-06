@@ -72,7 +72,7 @@ export const TopicCard = (props) => {
 				<Card.Header>
 					<Row>
 						<Col>
-							<Link to={topic.topicId.toString()}>
+							<Link to={`/topicboard/${topic.topicId}`}>
 								<Card.Text className="fw-bold fs-5 text-truncate">{topic.title}</Card.Text>
 							</Link>
 						</Col>
