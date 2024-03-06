@@ -15,7 +15,7 @@ import styles from "./TaskCard.module.css";
 
 const TaskCard = (props) => {
 
-	// Props from TaskCards.jsx
+	// Props from TaskCardList.jsx
 	const { task, fetchTasks } = props;
 
 	// Redux user state data
