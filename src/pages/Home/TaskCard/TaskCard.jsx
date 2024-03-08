@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Card, Col, Container, Row, Image, Stack, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { db } from "../../../utils/firebase-config";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 import useDateConverter from "../../../hooks/useDateConverter";
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
-import EditTaskModal from "../EditTaskModal/EditTaskModal";
+// import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import DeleteModal from "../../../components/Modals/DeleteModal";
 import PropTypes from "prop-types";
 import styles from "./TaskCard.module.css";
@@ -97,8 +98,9 @@ const TaskCard = (props) => {
 							<Col>
 								{task.userId === currentUser.userId ? (
 									<Col className="d-flex justify-content-end fw-bold mt-1">
+										{/* <Stack direction="horizontal" gap={3}> */}
+										{/* Delete Task Functionality */}
 										<OverlayTrigger
-											key="bottom"
 											placement="bottom"
 											overlay={
 												<Tooltip className="fs-6">
@@ -115,6 +117,7 @@ const TaskCard = (props) => {
 												alt="trash icon"
 											/>
 										</OverlayTrigger>
+										{/* </Stack> */}
 									</Col>
 								) : null}
 							</Col>
@@ -173,12 +176,24 @@ const TaskCard = (props) => {
 							</Col>
 
 							<Col className="d-flex justify-content-end mt-1">
-								<EditTaskModal
+								{/* <EditTaskModal
 									task={task}
 									creatorPhoto={creatorPhoto}
 									creatorName={creatorName}
 									fetchTasks={fetchTasks}
-								/>
+								/> */}
+								{/* if the current user matches the task creator, the edit button will be shown */}
+								{currentUser.userId !== task.userId ? null : (
+									<Link to={`/home/${task.taskId}`} state={{ task, creatorName, creatorPhoto }}>
+										<Button
+											variant="primary"
+											size="sm"
+											className={`px-2 fs-6 mb-1 text-light fw-bold ${styles.customBtn}`}
+										>
+											Edit
+										</Button>
+									</Link>
+								)}
 								<ViewTaskModal
 									task={task}
 									creatorPhoto={creatorPhoto}
