@@ -70,7 +70,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 
     // Goes to previous page
     const handleCancel = () => {
-        navigate(-1);
+        navigate("/home");
     }
 
     return (
