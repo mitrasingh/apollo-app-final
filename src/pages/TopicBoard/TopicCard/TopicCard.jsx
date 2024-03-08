@@ -72,6 +72,7 @@ export const TopicCard = (props) => {
 				<Card.Header>
 					<Row>
 						<Col>
+							{/* Link below renders TopicDetailsPage component via React Router Dynamic Routing */}
 							<Link to={`/topicboard/${topic.topicId}`}>
 								<Card.Text className="fw-bold fs-5 text-truncate">{topic.title}</Card.Text>
 							</Link>
