@@ -4,6 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
+import EditTaskPage from "./pages/EditTask/EditTaskPage";
 import CreateTaskPage from "./pages/CreateTask/CreateTaskPage";
 import TopicBoard from "./pages/TopicBoard/TopicBoard"
 import EditProfilePage from "./pages/EditProfile/EditProfilePage"
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/home/:id" element={<EditTaskPage />} />
           <Route path="/createtask" element={<CreateTaskPage />} />
           <Route path="/editprofile" element={<EditProfilePage />} />
           <Route path="/topicboard" element={<TopicBoard />} />

@@ -44,11 +44,25 @@ const useDateConverter = () => {
 		return formattedDate;
 	};
 
+	// When passing Fire Timestamp as a prop, value is changed and becomes object
+	// This function converts new object to proper date formatting
+	const convertLostTimestampToDate = (date) => {
+		const convertedTimestamp = new Date(date.seconds * 1000).toDateString();
+		const newDate = new Date(convertedTimestamp);
+		const year = newDate.getFullYear();
+		const month = String(newDate.getMonth() + 1).padStart(2, '0'); // Month starts from 0
+		const day = String(newDate.getDate()).padStart(2, '0');
+		const formattedDate = `${year}-${month}-${day}`;
+
+		return formattedDate;
+	};
+
 	return {
 		createTimestamp,
 		convertToRelativeTime,
 		convertToTimestamp,
 		convertToDate,
+		convertLostTimestampToDate
 	};
 };
 
