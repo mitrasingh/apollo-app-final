@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, Row, Col, Image, Stack, Dropdown, CloseButton } from "react-bootstrap";
 import { doc, getDoc, collection, query, getCountFromServer, where, deleteDoc } from "firebase/firestore";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { db } from "../../../utils/firebase-config";
 import { toast } from 'react-toastify';
@@ -14,10 +14,7 @@ import DeleteModal from "../../../components/Modals/DeleteModal";
 import Like from "../../../components/Like/Like";
 import Spinner from 'react-bootstrap/Spinner';
 
-const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed }) => {
-    // useParams, creates a dynamic page using the topicId property from its fetched document within the "topics" collection in database
-    // This shared id also specifies the specific document to query within the "topics" collection of the database
-    const { id } = useParams();
+const TopicPost = ({ id, isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed }) => {
 
     // React router function allows user to navigate to specified route
     const navigate = useNavigate();
@@ -211,6 +208,7 @@ const TopicPost = ({ isTopicRefreshed, setIsTopicRefreshed, isCommentsRefreshed 
 }
 
 TopicPost.propTypes = {
+    id: PropTypes.string.isRequired,
     isTopicRefreshed: PropTypes.bool.isRequired,
     setIsTopicRefreshed: PropTypes.func.isRequired,
     isCommentsRefreshed: PropTypes.bool.isRequired,
