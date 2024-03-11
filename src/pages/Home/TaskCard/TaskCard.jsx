@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import useDateConverter from "../../../hooks/useDateConverter";
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
-// import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import DeleteModal from "../../../components/Modals/DeleteModal";
 import PropTypes from "prop-types";
 import styles from "./TaskCard.module.css";
@@ -98,7 +97,6 @@ const TaskCard = (props) => {
 							<Col>
 								{task.userId === currentUser.userId ? (
 									<Col className="d-flex justify-content-end fw-bold mt-1">
-										{/* <Stack direction="horizontal" gap={3}> */}
 										{/* Delete Task Functionality */}
 										<OverlayTrigger
 											placement="bottom"
@@ -117,7 +115,6 @@ const TaskCard = (props) => {
 												alt="trash icon"
 											/>
 										</OverlayTrigger>
-										{/* </Stack> */}
 									</Col>
 								) : null}
 							</Col>
@@ -176,12 +173,6 @@ const TaskCard = (props) => {
 							</Col>
 
 							<Col className="d-flex justify-content-end mt-1">
-								{/* <EditTaskModal
-									task={task}
-									creatorPhoto={creatorPhoto}
-									creatorName={creatorName}
-									fetchTasks={fetchTasks}
-								/> */}
 								{/* if the current user matches the task creator, the edit button will be shown */}
 								{currentUser.userId !== task.userId ? null : (
 									<Link to={`/home/${task.taskId}`} state={{ task, creatorName, creatorPhoto }}>
