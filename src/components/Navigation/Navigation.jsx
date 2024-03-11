@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar, Image, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Container, Nav, Navbar, Image, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -12,8 +12,6 @@ import LogoutModal from "../Modals/LogoutModal";
 import styles from "./Navigation.module.css";
 
 const Navigation = () => {
-
-    // ADDED COLUMNS TO THE NAVBAR
 
     // State whether navbar is open or closed
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
