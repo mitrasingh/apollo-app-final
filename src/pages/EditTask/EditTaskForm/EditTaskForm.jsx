@@ -8,7 +8,7 @@ import { Button, Row, Col, Image, Form, Stack } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
-import styles from "../../Home/EditTaskModal/EditTaskModal.module.css";
+import styles from "../EditTaskPage.module.css";
 
 const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 
