@@ -81,7 +81,7 @@ const Navigation = () => {
                     />{" "}
                     Apollo
                 </Navbar.Brand>
-                <Navbar.Brand className={`order-lg-last ${styles.brandnav2}`}>
+                <Navbar.Brand className={`order-lg-last  ${styles.brandnav2}`}>
                     <OverlayTrigger
                         key="bottom"
                         placement="bottom"
