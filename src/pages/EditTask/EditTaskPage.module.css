@@ -2,3 +2,7 @@ body .formContainer {
 	margin-top: 80px;
 	max-width: 650px;
 }
+
+::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+}

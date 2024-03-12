@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Stack } from "react-bootstrap";
+import { Row, Col, Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallbackTasks from "../../components/ErrorFallback/ErrorFallbackTasks";
 import SearchTasksForm from "./SearchTasksForm/SearchTasksForm";
@@ -63,34 +63,40 @@ const Home = () => {
 
 	return (
 		<Container className={styles.customContainer}>
-			<SearchTasksForm
-				userInput={userInput}
-				setUserInput={setUserInput}
-				filterSearchHandle={filterSearchHandle}
-				refreshTasksHandle={refreshTasksHandle}
-			/>
-
-			<Stack direction="horizontal" gap={2} className="ms-4 mt-4">
-				<FilterTasksButton
-					filterLaterHandle={filterLaterHandle}
-					filterSoonHandle={filterSoonHandle}
-					filterPriorityHandle={filterPriorityHandle}
-					filterStatusHandle={filterStatusHandle}
-				/>
-				<RefreshTasksButton
-					refreshTasksHandle={refreshTasksHandle}
-					isClearFilterDisplayed={isClearFilterDisplayed}
-				/>
-			</Stack>
-
-			<ErrorBoundary FallbackComponent={ErrorFallbackTasks}>
-				<TaskCardList
-					userInput={userInput}
-					isTasksSearched={isTasksSearched}
-					queryFilter={queryFilter}
-					isQuerySorted={isQuerySorted}
-				/>
-			</ErrorBoundary>
+			<Row>
+				<Col>
+					<SearchTasksForm
+						userInput={userInput}
+						setUserInput={setUserInput}
+						filterSearchHandle={filterSearchHandle}
+						refreshTasksHandle={refreshTasksHandle}
+					/>
+				</Col>
+			</Row>
+			<Row>
+				<Col lg={{ span: 8, offset: 2 }}>
+					<Stack direction="horizontal" gap={2} className="ms-4 mt-4">
+						<FilterTasksButton
+							filterLaterHandle={filterLaterHandle}
+							filterSoonHandle={filterSoonHandle}
+							filterPriorityHandle={filterPriorityHandle}
+							filterStatusHandle={filterStatusHandle}
+						/>
+						<RefreshTasksButton
+							refreshTasksHandle={refreshTasksHandle}
+							isClearFilterDisplayed={isClearFilterDisplayed}
+						/>
+					</Stack>
+					<ErrorBoundary FallbackComponent={ErrorFallbackTasks}>
+						<TaskCardList
+							userInput={userInput}
+							isTasksSearched={isTasksSearched}
+							queryFilter={queryFilter}
+							isQuerySorted={isQuerySorted}
+						/>
+					</ErrorBoundary>
+				</Col>
+			</Row>
 		</Container>
 	);
 };

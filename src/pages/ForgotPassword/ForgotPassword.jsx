@@ -18,6 +18,7 @@ const ForgotPassword = () => {
     const [modalAlertMessage, setModalAlertMessage] = useState("Once submitted, an email will be sent.");
 
     // Function resets users passsword by sending a link to the provided email (if email is registered)
+    // Data is user input values from collected from the form fields
     const handleForgotPassword = async (data) => {
         const auth = getAuth(); // Authentication from firebase
         try {

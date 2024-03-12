@@ -10,3 +10,7 @@ body .customContainer {
 	display: flex;
 	flex-direction: row-reverse;
 }
+
+.brandnav2 {
+	padding-right: 20px;
+}

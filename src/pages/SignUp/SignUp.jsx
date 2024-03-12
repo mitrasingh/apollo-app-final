@@ -33,6 +33,7 @@ const SignUp = () => {
     const storageRef = ref(storage);
 
     // Creates user and sends data to db storage and assigns data to Redux (using dispatch)
+    // Data is user input values from collected from the form fields
     const handleSignUp = async (data) => {
         try {
             // Sets parameters for user to be logged out if window/tab is closed

@@ -8,7 +8,6 @@ import { Button, Row, Col, Image, Form, Stack } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import useDateConverter from "../../../hooks/useDateConverter";
 import PropTypes from "prop-types";
-import styles from "../../Home/EditTaskModal/EditTaskModal.module.css";
 
 const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 
@@ -175,7 +174,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
                 <Col>
                     <Stack direction="horizontal">
                         <Image
-                            className={styles.customImage}
+                            className="object-fit-cover"
                             height="35px"
                             width="35px"
                             src={creatorPhoto}

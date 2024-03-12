@@ -129,6 +129,7 @@ const TopicPost = ({ id, isTopicRefreshed, setIsTopicRefreshed, isCommentsRefres
                             <Col xs={10}>
                                 <Stack direction="horizontal" gap={2}>
                                     <Image
+                                        className="object-fit-cover"
                                         height="30px"
                                         width="30px"
                                         src={userPhoto}

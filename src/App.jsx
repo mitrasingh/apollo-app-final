@@ -22,6 +22,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
+        {/* -- Routes below only accessible if user is authenticated via ProtectedRoute -- */}
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/home/:id" element={<EditTaskPage />} />
@@ -30,6 +31,7 @@ function App() {
           <Route path="/topicboard" element={<TopicBoard />} />
           <Route path="/topicboard/:id" element={<TopicDetailsPage />} />
         </Route>
+        {/* ------------------------------------------------------------------------------ */}
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />

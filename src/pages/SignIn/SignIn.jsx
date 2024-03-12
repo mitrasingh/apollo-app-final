@@ -26,7 +26,8 @@ const SignIn = () => {
     // React router function allows user to navigate to specified route
     const navigate = useNavigate();
 
-    // Function handles login process, and displays message of success/failsure (toast)
+    // Function handles login process, and displays message of success/failsure (toast), 
+    // Data is user input values from collected from the form fields
     const handleLogin = async (data) => {
         try {
             // Sets parameters for user to be logged out if window/tab is closed
