@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallbackTopics from "../../components/ErrorFallback/ErrorFallbackTopics";
 import TopicCardList from "./TopicCardList/TopicCardList";
@@ -22,24 +22,28 @@ const TopicBoard = () => {
 	return (
 		<Container className={styles.customContainer}>
 			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Topic Board</p>
-			<Button
-				className={`d-flex align-items-center justify-content-center fs-6 fw-bold text-light ms-4 mb-2 ${styles.customBtn}`}
-				variant="primary"
-				onClick={handleCreateTopic}
-			>
-				{!isCreateTopic ? "+ Create Topic" : "- Close"}
-			</Button>
+			<Row>
+				<Col lg={{ span: 8, offset: 2 }}>
+					<Button
+						className={`d-flex align-items-center justify-content-center fs-6 fw-bold text-light ms-4 mb-2 ${styles.customBtn}`}
+						variant="primary"
+						onClick={handleCreateTopic}
+					>
+						{!isCreateTopic ? "+ Create Topic" : "- Close"}
+					</Button>
 
-			{isCreateTopic ? (
-				<CreateTopicForm
-					setIsCreateTopic={setIsCreateTopic}
-					setIsTopicsRefreshed={setIsTopicsRefreshed}
-				/>
-			) : null}
+					{isCreateTopic ? (
+						<CreateTopicForm
+							setIsCreateTopic={setIsCreateTopic}
+							setIsTopicsRefreshed={setIsTopicsRefreshed}
+						/>
+					) : null}
 
-			<ErrorBoundary FallbackComponent={ErrorFallbackTopics}>
-				<TopicCardList isTopicsRefreshed={isTopicsRefreshed} />
-			</ErrorBoundary>
+					<ErrorBoundary FallbackComponent={ErrorFallbackTopics}>
+						<TopicCardList isTopicsRefreshed={isTopicsRefreshed} />
+					</ErrorBoundary>
+				</Col>
+			</Row>
 		</Container>
 	);
 };
