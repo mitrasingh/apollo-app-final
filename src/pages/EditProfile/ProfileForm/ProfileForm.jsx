@@ -3,9 +3,9 @@ import { Button, Col, Container, Form, Row, Stack, Image } from 'react-bootstrap
 import { useSelector, useDispatch } from "react-redux";
 import { editUser } from "../../../store/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { getAuth, updateProfile, updateEmail } from "firebase/auth";
+import { updateProfile, updateEmail } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../utils/firebase-config";
+import { db, auth } from "../../../utils/firebase-config";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
@@ -24,8 +24,8 @@ const ProfileForm = () => {
     // React Router Dom hook allowing access to different routes
     const navigate = useNavigate();
 
-    // Firebase function that returns the current authorize user of the app
-    const auth = getAuth();
+    // Instance created from firebase authentication
+    const userAuth = auth;
 
     // React Hook Form initial state
     const form = useForm({
@@ -80,7 +80,7 @@ const ProfileForm = () => {
         e.preventDefault();
         try {
             setIsFilePreviewed(true);
-            const imageRef = ref(storageRef, `user-photo/temp-${auth.currentUser.uid}`);
+            const imageRef = ref(storageRef, `user-photo/temp-${userAuth.currentUser.uid}`);
             await uploadBytes(imageRef, userChosenFile);
             const getURL = await getDownloadURL(imageRef);
             setUserPhoto(getURL);
@@ -95,13 +95,13 @@ const ProfileForm = () => {
     // Sends new data to to database and storage (if user added a new image), updates Redux user state values
     const handleUpdate = async (data) => {
         try {
-            await updateProfile(auth.currentUser, {
+            await updateProfile(userAuth.currentUser, {
                 displayName: data.firstname,
             });
 
-            await updateEmail(auth.currentUser, data.email);
+            await updateEmail(userAuth.currentUser, data.email);
 
-            await updateDoc(doc(db, "users", auth.currentUser.uid), {
+            await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
                 firstname: data.firstname,
                 lastname: data.lastname,
                 title: data.title,
@@ -109,10 +109,10 @@ const ProfileForm = () => {
             });
 
             if (isFilePreviewed) {
-                const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
+                const imageRef = ref(storageRef, `user-photo/${userAuth.currentUser.uid}`);
                 await uploadBytes(imageRef, userChosenFile);
                 await getDownloadURL(imageRef);
-                await updateDoc(doc(db, "users", auth.currentUser.uid), {
+                await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
                     userPhoto: userPhoto,
                 });
             }
