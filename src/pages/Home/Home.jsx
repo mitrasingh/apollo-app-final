@@ -63,6 +63,7 @@ const Home = () => {
 
 	return (
 		<Container className={styles.customContainer}>
+			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Task Board</p>
 			<Row>
 				<Col>
 					<SearchTasksForm
