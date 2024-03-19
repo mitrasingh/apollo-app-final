@@ -54,7 +54,7 @@ const CreateTaskForm = () => {
     return (
         <Form onSubmit={handleSubmit(handleCreateTask)} noValidate>
             <Form.Group className="mb-4" controlId="taskNameInput">
-                <Form.Label className="fw-bold mt-3">
+                <Form.Label className="fw-bold fs-6 mt-3">
                     Task name
                 </Form.Label>
                 <Form.Control
