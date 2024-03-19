@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../utils/firebase-config";
+import { db, auth } from "../../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+// import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/user/userSlice";
 import { Container, Form, Card, Button, Row, Col, Stack, Image } from "react-bootstrap";
@@ -20,7 +20,10 @@ const PhotoUpload = () => {
 	const [userPhoto, setUserPhoto] = useState("");
 
 	// Authentication from firebase
-	const auth = getAuth();
+	// const auth = getAuth();
+
+	// Instance created from firebase authentication
+	const userAuth = auth;
 
 	// Redux management 
 	const userState = useSelector((state) => state.user); // Access to Redux initial user state properties
@@ -46,7 +49,7 @@ const PhotoUpload = () => {
 	const handlePreviewPhoto = async (e) => {
 		e.preventDefault();
 		try {
-			const imageRef = ref(storageRef, `user-photo/temp-${auth.currentUser.uid}`);
+			const imageRef = ref(storageRef, `user-photo/temp-${userAuth.currentUser.uid}`);
 			await uploadBytes(imageRef, userChosenFile);
 			const getURL = await getDownloadURL(imageRef);
 			setUserPhoto(getURL);
@@ -67,27 +70,27 @@ const PhotoUpload = () => {
 					hideProgressBar: true
 				})
 			} else {
-				const imageRef = ref(storageRef, `user-photo/${auth.currentUser.uid}`);
+				const imageRef = ref(storageRef, `user-photo/${userAuth.currentUser.uid}`);
 				await uploadBytes(imageRef, userChosenFile);
-				const userPhotoURL = await getDownloadURL(ref(storageRef, `user-photo/${auth.currentUser.uid}`));
-				const docRef = doc(db, "users", auth.currentUser.uid);
+				const userPhotoURL = await getDownloadURL(ref(storageRef, `user-photo/${userAuth.currentUser.uid}`));
+				const docRef = doc(db, "users", userAuth.currentUser.uid);
 				const docSnap = await getDoc(docRef);
-				if (auth && userPhotoURL && docSnap) {
+				if (userAuth && userPhotoURL && docSnap) {
 					const data = docSnap.data();
 					await updateDoc(docRef, {
 						userPhoto: userPhotoURL,
 					});
 					dispatch(
 						loginUser({
-							userId: auth.currentUser.uid,
+							userId: userAuth.currentUser.uid,
 							userPhoto: userPhotoURL,
-							firstName: auth.currentUser.displayName,
+							firstName: userAuth.currentUser.displayName,
 							lastName: data.lastname,
 							title: data.title,
-							email: auth.currentUser.email,
+							email: userAuth.currentUser.email,
 						}));
 				}
-				toast.success(`Welcome ${auth.currentUser.displayName} to Apollo!`)
+				toast.success(`Welcome ${userAuth.currentUser.displayName} to Apollo!`)
 				navigate("/home");
 			}
 		} catch (error) {

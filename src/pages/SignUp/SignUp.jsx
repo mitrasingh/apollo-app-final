@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, updateProfile, getAuth, setPersistence, browserSessionPersistence } from "firebase/auth"
+import { createUserWithEmailAndPassword, updateProfile, setPersistence, browserSessionPersistence } from "firebase/auth"
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
-import { db } from "../../utils/firebase-config"
+import { db, auth } from "../../utils/firebase-config"
 import { Container, Form, Card, Button, Stack, Image } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { loginUser } from "../../store/user/userSlice"
@@ -25,8 +25,8 @@ const SignUp = () => {
     // React router function allows user to navigate to specified route
     const navigate = useNavigate();
 
-    // Authentication from firebase
-    const auth = getAuth();
+    // Instance created from firebase authentication
+    const userAuth = auth;
 
     // Firebase storage for access
     const storage = getStorage();
@@ -37,34 +37,34 @@ const SignUp = () => {
     const handleSignUp = async (data) => {
         try {
             // Sets parameters for user to be logged out if window/tab is closed
-            await setPersistence(auth, browserSessionPersistence); // Logs user out with window/tab is closed
-            await createUserWithEmailAndPassword(auth, data.email, data.password);
-            await updateProfile(auth.currentUser, {
+            await setPersistence(userAuth, browserSessionPersistence); // Logs user out with window/tab is closed
+            await createUserWithEmailAndPassword(userAuth, data.email, data.password);
+            await updateProfile(userAuth.currentUser, {
                 displayName: data.firstname,
             });
 
             const photoRef = ref(storageRef, `user-photo/temporaryphoto.jpeg`);
             const userTempPhotoURL = await getDownloadURL(photoRef);
 
-            const docRef = doc(db, "users", auth.currentUser.uid);
+            const docRef = doc(db, "users", userAuth.currentUser.uid);
             await setDoc(docRef, {
-                userId: auth.currentUser.uid,
+                userId: userAuth.currentUser.uid,
                 userPhoto: userTempPhotoURL,
                 firstname: data.firstname,
                 lastname: data.lastname,
                 title: data.title,
-                email: auth.currentUser.email
+                email: userAuth.currentUser.email
             })
             const docSnap = await getDoc(docRef);
-            if (auth && docSnap.exists()) {
+            if (userAuth && docSnap.exists()) {
                 dispatch(
                     loginUser({
-                        userId: auth.currentUser.uid,
+                        userId: userAuth.currentUser.uid,
                         userPhoto: userTempPhotoURL,
                         firstName: data.firstname,
                         lastName: data.lastname,
                         title: data.title,
-                        email: auth.currentUser.email,
+                        email: userAuth.currentUser.email,
                     }));
             }
             toast.success("Your profile has been created!")
