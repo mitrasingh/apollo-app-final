@@ -74,8 +74,8 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 
     return (
         <Form onSubmit={handleSubmit(handleUpdate)} noValidate>
-            <Form.Group className="mb-3" controlId="taskNameInput">
-                <Form.Label className="fw-bold fs-6">
+            <Form.Group className="mb-4" controlId="taskNameInput">
+                <Form.Label className="fw-bold fs-6 mt-3">
                     Current Task Name
                 </Form.Label>
                 <Form.Control
@@ -91,7 +91,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
                 <p className="fs-6 mt-1">{errors.taskname?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="taskDescriptionInput">
+            <Form.Group className="mb-4" controlId="taskDescriptionInput">
                 <Form.Label className="fw-bold fs-6">
                     Description of Task
                 </Form.Label>
@@ -110,7 +110,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
                 <p className="fs-6 mt-1">{errors.taskdescription?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="taskStatusInput">
+            <Form.Group className="mb-4" controlId="taskStatusInput">
                 <Form.Label className="fw-bold fs-6">
                     Status of Project
                 </Form.Label>
@@ -131,7 +131,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
                 <p className="fs-6 mt-1">{errors.taskstatus?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="taskPriorityInput">
+            <Form.Group className="mb-4" controlId="taskPriorityInput">
                 <Form.Label className="fw-bold fs-6">
                     What is the priority level of this project?
                 </Form.Label>
@@ -152,7 +152,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
                 <p className="fs-6 mt-1">{errors.taskpriority?.message}</p>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="taskDueDateInput">
+            <Form.Group className="mb-4" controlId="taskDueDateInput">
                 <Form.Label className="fw-bold fs-6">
                     Due Date
                 </Form.Label>
