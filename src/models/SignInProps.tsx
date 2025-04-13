@@ -1,4 +1,4 @@
-export interface SignInForm {
+export interface SignInProps {
 	email: string;
 	password: string;
 }
