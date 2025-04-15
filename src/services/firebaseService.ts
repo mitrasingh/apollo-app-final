@@ -51,13 +51,17 @@ export const firebaseSignIn = async (data: SignInProps) => {
 			navigate("/home");
 		}
 	} catch (error) {
-		if (error.message.includes("user-not-found")) {
-			toast.error("User not found!");
-		} else if (error.message.includes("wrong-password")) {
-			toast.error("Password is incorrect!");
+		if (error instanceof Error) {
+			if (error.message.includes("user-not-found")) {
+				toast.error("User not found!");
+			} else if (error.message.includes("wrong-password")) {
+				toast.error("Password is incorrect!");
+			} else {
+				toast.error("Sorry, we are having some technical issues!");
+			}
+			console.log(`Error: ${error.message}`);
 		} else {
-			toast.error("Sorry, we are having some technical issues!");
+			toast.error("Strange error has occurred!");
 		}
-		console.log(`Error: ${error.message}`);
 	}
 };
