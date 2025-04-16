@@ -12,15 +12,20 @@ import { loginUser } from "../store/user/userSlice";
 import { SignInProps } from "../models/SignInProps";
 
 // Redux function which will dispatch actions needed for user state changes
-const dispatch = useDispatch();
+// const dispatch = useDispatch();
 
 // Instance created from firebase authentication
-const userAuth = auth;
+// const userAuth = auth;
 
 // React router function allows user to navigate to specified route
-const navigate = useNavigate();
+// const navigate = useNavigate();
 
-export const firebaseSignIn = async (data: SignInProps) => {
+const signIn = async (data: SignInProps) => {
+	return console.log(data);
+};
+
+/*
+const signIn = async (data: SignInProps) => {
 	try {
 		if (!userAuth.currentUser) {
 			console.log("No user found");
@@ -65,3 +70,6 @@ export const firebaseSignIn = async (data: SignInProps) => {
 		}
 	}
 };
+*/
+
+export { signIn };
