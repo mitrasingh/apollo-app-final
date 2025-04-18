@@ -26,4 +26,19 @@ const logOut = async () => {
 	}
 };
 
-export { login, logOut };
+const guestLogin = async () => {
+	try {
+		const guestCredential = await signInWithEmailAndPassword(
+			auth,
+			"guest@apollo.com",
+			"guest123"
+		);
+		return console.log(
+			`User name ${auth.currentUser?.displayName} is logged in!`
+		);
+	} catch (error: any) {
+		throw new Error(error.message);
+	}
+};
+
+export { login, logOut, guestLogin };
