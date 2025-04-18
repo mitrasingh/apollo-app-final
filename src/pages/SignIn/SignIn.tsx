@@ -17,7 +17,7 @@ const SignIn = () => {
 		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	return (
-		<Container className={`text-light fs-6 ${styles.customContainer}`}>
+		<Container className={`text-light fs-6 ${styles.container}`}>
 			<h6 className="text-center">Welcome to</h6>
 			<Stack
 				direction="horizontal"
