@@ -2,7 +2,7 @@ import { Button, Card, Container, Form, Stack, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignInProps } from "../../models/SignInProps";
-import { login, logOut } from "../../services/firebaseService";
+import { login, logOut, guestLogin } from "../../services/firebaseService";
 import styles from "./SignIn.module.css";
 
 const SignIn = () => {
@@ -96,9 +96,9 @@ const SignIn = () => {
 			</Form>
 			<p className="text-center mt-4">
 				Sign In as{" "}
-				<Link className="fw-bold" onClick={handleGuestLogin}>
+				<a className="fw-bold" onClick={guestLogin}>
 					Guest
-				</Link>
+				</a>
 			</p>
 
 			<Button
