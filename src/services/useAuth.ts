@@ -1,6 +1,7 @@
-import { auth } from "../utils/firebase-config";
+import { auth, db } from "../utils/firebase-config";
 import { SignInProps } from "../models/SignInProps";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const login = async (data: SignInProps) => {
 	try {
@@ -9,9 +10,12 @@ const login = async (data: SignInProps) => {
 			data.email,
 			data.password
 		);
-		return console.log(
-			`User name ${auth.currentUser?.displayName} is logged in!`
-		);
+		// const docRef = doc(db, "users", auth.currentUser.uid);
+		// const docSnap = await getDoc(docRef);
+		// const userData = docSnap.data();
+		/* docRef, docSnap -> userData will be sent to Redux state allowing me to reuse 
+			 data throughout app without making repetitive api calls */
+		return console.log(`User name ${auth.currentUser?.displayName}`);
 	} catch (error: any) {
 		throw new Error(error.message);
 	}
