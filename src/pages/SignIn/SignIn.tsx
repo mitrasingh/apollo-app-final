@@ -2,10 +2,13 @@ import { Button, Card, Container, Form, Stack, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignInProps } from "../../models/SignInProps";
-import { login, logOut, guestLogin } from "../../services/firebaseService";
+import { useAuth } from "../../services/useAuth";
 import styles from "./SignIn.module.css";
 
 const SignIn = () => {
+	// Authentication Service
+	const { login, logOut, guestLogin } = useAuth();
+
 	// React Hook Form
 	const form = useForm<SignInProps>({ mode: "onBlur" });
 	const { register, handleSubmit, formState } = form;
