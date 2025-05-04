@@ -1,8 +1,8 @@
 export interface UserProps {
-	userId: string;
-	userPhoto: string;
-	firstName: string;
-	lastName: string;
-	title: string;
-	email: string;
+	userId: string | null;
+	userPhoto: string | null;
+	firstName: string | null;
+	lastName: string | null;
+	title: string | null;
+	email: string | null;
 }
