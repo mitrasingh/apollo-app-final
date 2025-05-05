@@ -103,15 +103,6 @@ const SignIn = () => {
 					Guest
 				</a>
 			</p>
-
-			<Button
-				className="fw-bold text-light fs-5"
-				variant="primary"
-				size="sm"
-				onClick={logOut}
-			>
-				Logout
-			</Button>
 		</Container>
 	);
 };
