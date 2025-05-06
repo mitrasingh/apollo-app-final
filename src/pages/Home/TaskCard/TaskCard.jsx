@@ -26,7 +26,7 @@ const TaskCard = (props) => {
 	const dateToString = convertToDate(task.dueDate, 'en-US');
 
 	// State holds user creator photo
-	const [creatorPhoto, setCreatorPhoto] = useState("");
+	const [creatorPhoto, setCreatorPhoto] = useState(null);
 
 	// State holds user creator name
 	const [creatorName, setCreatorName] = useState("");
