@@ -14,7 +14,7 @@ export const TopicCard = (props) => {
 	const { topic } = props;
 
 	// Retrieving photo url of user and saving it in a state
-	const [creatorPhoto, setCreatorPhoto] = useState("");
+	const [creatorPhoto, setCreatorPhoto] = useState(null);
 
 	// Displays numbers of comments (how many documents within "comments" collection in database)
 	const [numOfComments, setNumOfComments] = useState("");
