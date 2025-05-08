@@ -11,8 +11,9 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
-		"noEmit": true
+		"noEmit": true,
+		"types": ["vite/client"]
 	},
-	"include": ["src"],
+	"include": ["src", "vite-env.d.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
