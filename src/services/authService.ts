@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
-import { loginUser } from "../store/user/userSlice";
+import { loginUser, logoutUser } from "../store/user/userSlice";
 import { useDispatch } from "react-redux";
 import type { SignIn } from "../types/signin.types.js";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -35,27 +35,38 @@ export const authService = () => {
 						email: auth.currentUser.email,
 					})
 				);
-				// toast.success(
-				// 	`Hello ${auth.currentUser?.displayName}, you are logged in!`,
-				// 	{
-				// 		hideProgressBar: true,
-				// 	}
-				// );
+				toast.success(
+					`Hello ${auth.currentUser?.displayName}, you are logged in!`,
+					{
+						hideProgressBar: true,
+					}
+				);
 			}
 
 			console.log(`User name ${auth.currentUser?.displayName}`);
 			navigate("/home");
 		} catch (error: any) {
-			throw new Error(error.message);
+			if (error.message.includes("user-not-found")) {
+				toast.error("User not found!");
+			} else if (error.message.includes("wrong-password")) {
+				toast.error("Password is incorrect!");
+			} else {
+				toast.error("Sorry, we are having some technical issues!");
+			}
+			console.log(`Error: ${error.message}`);
 		}
 	};
 
 	const logOut = async () => {
 		try {
 			await signOut(auth);
-			return console.log(`User logged out ${auth.currentUser?.displayName}`);
+			dispatch(logoutUser());
+			navigate("/");
+			toast.info("You have been logged out!", {
+				hideProgressBar: true,
+			});
 		} catch (error: any) {
-			throw new Error(error.message);
+			console.log(`Error: ${error.message}`);
 		}
 	};
 
@@ -66,10 +77,13 @@ export const authService = () => {
 				"guest@apollo.com",
 				"guest123"
 			);
-			console.log(`User name ${auth.currentUser?.displayName} is logged in!`);
+			toast.success("Welcome to Apollo!", {
+				hideProgressBar: true,
+			});
 			navigate("/home");
 		} catch (error: any) {
-			throw new Error(error.message);
+			toast.error("Sorry, we are having some technical issues!");
+			console.log(`Error: ${error.message}`);
 		}
 	};
 
