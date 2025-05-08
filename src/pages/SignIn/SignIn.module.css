@@ -2,7 +2,7 @@ html body {
 	background-color: #191a23;
 }
 
-body .customContainer {
+body .container {
 	max-width: 375px;
 	max-height: 100vh;
 	margin-top: 90px;
