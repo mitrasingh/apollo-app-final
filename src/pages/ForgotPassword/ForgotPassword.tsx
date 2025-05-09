@@ -99,8 +99,7 @@ const ForgotPassword = () => {
 									className="fw-bold mt-3 fs-5 text-light"
 									variant="primary"
 									size="sm"
-									as={Link}
-									to="/"
+									href="/"
 								>
 									Back To Sign In
 								</Button>
