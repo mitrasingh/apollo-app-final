@@ -2,8 +2,12 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
 import { loginUser, logoutUser } from "../store/user/userSlice";
 import { useDispatch } from "react-redux";
-import type { SignIn } from "../types/signin.types.js";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import type { SignIn, EmailOnly } from "../types/signin.types.js";
+import {
+	sendPasswordResetEmail,
+	signInWithEmailAndPassword,
+	signOut,
+} from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -87,5 +91,21 @@ export const authService = () => {
 		}
 	};
 
-	return { login, logOut, guestLogin };
+	const retrievePassword = async (
+		data: EmailOnly,
+		setModalAlertMessage: React.Dispatch<React.SetStateAction<string>>
+	): Promise<void> => {
+		try {
+			const inputEmailData = data.email;
+			await sendPasswordResetEmail(auth, inputEmailData);
+			setModalAlertMessage("Email has been sent!");
+		} catch (error: any) {
+			if (error.message === "Firebase: Error (auth/user-not-found).") {
+				setModalAlertMessage("Email not found.");
+			}
+			console.log(`Error: ${error.message}`);
+		}
+	};
+
+	return { login, logOut, guestLogin, retrievePassword };
 };
