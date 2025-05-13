@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
 import { loginUser, logoutUser } from "../store/user/userSlice";
 import { useDispatch } from "react-redux";
-import type { SignIn, EmailOnly } from "../types/signin.types.js";
+import type { UserSignIn, UserEmail } from "../types/userdata.types";
 import {
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
@@ -18,7 +18,7 @@ export const authService = () => {
 	// React router function allows user to navigate to specified route
 	const navigate = useNavigate();
 
-	const login = async (data: SignIn) => {
+	const login = async (data: UserSignIn) => {
 		try {
 			const userCredential = await signInWithEmailAndPassword(
 				auth,
@@ -92,7 +92,7 @@ export const authService = () => {
 	};
 
 	const retrievePassword = async (
-		data: EmailOnly,
+		data: UserEmail,
 		setModalAlertMessage: React.Dispatch<React.SetStateAction<string>>
 	): Promise<void> => {
 		try {
