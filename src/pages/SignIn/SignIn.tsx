@@ -1,7 +1,7 @@
 import { Button, Card, Container, Form, Stack, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import type { SignIn } from "../../types/signin.types";
+import type { UserSignIn } from "../../types/userdata.types";
 import { authService } from "../../services/authService";
 import styles from "./SignIn.module.css";
 
@@ -10,10 +10,10 @@ const SignIn = () => {
 	const { login, guestLogin } = authService();
 
 	// React Hook Form
-	const form = useForm<SignIn>({ mode: "onBlur" });
+	const form = useForm<UserSignIn>({ mode: "onBlur" });
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
-	const onSubmit: SubmitHandler<SignIn> = async (data) => {
+	const onSubmit: SubmitHandler<UserSignIn> = async (data) => {
 		await login(data);
 	};
 	const emailRegex =
