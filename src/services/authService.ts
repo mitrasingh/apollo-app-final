@@ -1,15 +1,20 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
 import { loginUser, logoutUser } from "../store/user/userSlice";
 import { useDispatch } from "react-redux";
-import type { SignIn, EmailOnly } from "../types/signin.types.js";
+import type { UserSignIn, UserEmail, UserData } from "../types/userdata.types";
 import {
+	browserSessionPersistence,
+	createUserWithEmailAndPassword,
 	sendPasswordResetEmail,
+	setPersistence,
 	signInWithEmailAndPassword,
 	signOut,
+	updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 export const authService = () => {
 	// Redux function which will dispatch actions needed for user state changes
@@ -18,7 +23,11 @@ export const authService = () => {
 	// React router function allows user to navigate to specified route
 	const navigate = useNavigate();
 
-	const login = async (data: SignIn) => {
+	// Firebase storage for access
+	const storage = getStorage();
+	const storageRef = ref(storage);
+
+	const login = async (data: UserSignIn) => {
 		try {
 			const userCredential = await signInWithEmailAndPassword(
 				auth,
@@ -92,7 +101,7 @@ export const authService = () => {
 	};
 
 	const retrievePassword = async (
-		data: EmailOnly,
+		data: UserEmail,
 		setModalAlertMessage: React.Dispatch<React.SetStateAction<string>>
 	): Promise<void> => {
 		try {
@@ -107,5 +116,54 @@ export const authService = () => {
 		}
 	};
 
-	return { login, logOut, guestLogin, retrievePassword };
+	const signupUser = async (data: UserData) => {
+		try {
+			await setPersistence(auth, browserSessionPersistence);
+			await createUserWithEmailAndPassword(auth, data.email, data.password);
+			if (auth.currentUser) {
+				await updateProfile(auth.currentUser, {
+					displayName: data.firstname,
+				});
+				const photoRef = ref(storageRef, `user-photo/temporaryphoto.jpeg`);
+				const userTempPhotoURL = await getDownloadURL(photoRef);
+				const docRef = doc(db, "users", auth.currentUser.uid);
+				await setDoc(docRef, {
+					userId: auth.currentUser.uid,
+					userPhoto: userTempPhotoURL,
+					firstname: data.firstname,
+					lastname: data.lastname,
+					title: data.title,
+					email: auth.currentUser.email,
+				});
+				const docSnap = await getDoc(docRef);
+				if (docSnap.exists()) {
+					dispatch(
+						loginUser({
+							userId: auth.currentUser.uid,
+							userPhoto: userTempPhotoURL,
+							firstName: data.firstname,
+							lastName: data.lastname,
+							title: data.title,
+							email: auth.currentUser.email,
+						})
+					);
+				}
+			}
+			toast.success("Your profile has been created");
+			navigate("/photoupload");
+		} catch (error: any) {
+			if (error.message.includes("email-already-in-use")) {
+				toast.error("This email is already registered!", {
+					hideProgressBar: true,
+				});
+			} else {
+				toast.error("Sorry, we are having some technical issues!", {
+					hideProgressBar: true,
+				});
+			}
+			console.log(`Error: ${error.message}`);
+		}
+	};
+
+	return { login, logOut, guestLogin, retrievePassword, signupUser };
 };

@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { authService } from "../../services/authService";
-import { EmailOnly } from "../../types/signin.types";
+import { UserEmail } from "../../types/userdata.types";
 import styles from "./ForgotPassword.module.css";
 
 const ForgotPassword = () => {
@@ -12,10 +12,10 @@ const ForgotPassword = () => {
 	const { retrievePassword } = authService();
 
 	// React Hook Form
-	const form = useForm<EmailOnly>();
+	const form = useForm<UserEmail>();
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
-	const onSubmit: SubmitHandler<EmailOnly> = async (data) => {
+	const onSubmit: SubmitHandler<UserEmail> = async (data) => {
 		await retrievePassword(data, setModalAlertMessage);
 	};
 	const emailRegex =

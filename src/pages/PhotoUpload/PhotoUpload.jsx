@@ -17,7 +17,7 @@ const PhotoUpload = () => {
 
 	// The state of the chosen files URL 
 	// (after being uploaded as a temporary image to database) allowing user to preview image 
-	const [userPhoto, setUserPhoto] = useState("");
+	const [userPhoto, setUserPhoto] = useState(null);
 
 	// Authentication from firebase
 	// const auth = getAuth();
