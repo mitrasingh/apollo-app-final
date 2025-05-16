@@ -100,19 +100,33 @@ export const authService = () => {
 		}
 	};
 
-	const retrievePassword = async (
-		data: UserEmail,
-		setModalAlertMessage: React.Dispatch<React.SetStateAction<string>>
-	): Promise<void> => {
+	// const retrievePassword = async (
+	// 	data: UserEmail,
+	// 	setModalAlertMessage: React.Dispatch<React.SetStateAction<string>>
+	// ): Promise<void> => {
+	// 	try {
+	// 		const inputEmailData = data.email;
+	// 		await sendPasswordResetEmail(auth, inputEmailData);
+	// 		setModalAlertMessage("Email has been sent!");
+	// 	} catch (error: any) {
+	// 		if (error.message === "Firebase: Error (auth/user-not-found).") {
+	// 			setModalAlertMessage("Email not found.");
+	// 		}
+	// 		console.log(`Error: ${error.message}`);
+	// 	}
+	// };
+
+	const retrievePassword = async (data: UserEmail) => {
 		try {
 			const inputEmailData = data.email;
 			await sendPasswordResetEmail(auth, inputEmailData);
-			setModalAlertMessage("Email has been sent!");
+			return "Email has been sent!";
 		} catch (error: any) {
 			if (error.message === "Firebase: Error (auth/user-not-found).") {
-				setModalAlertMessage("Email not found.");
+				return "Email not found.";
 			}
 			console.log(`Error: ${error.message}`);
+			return "An unexpected error occured.";
 		}
 	};
 
