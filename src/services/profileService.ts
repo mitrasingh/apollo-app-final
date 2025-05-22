@@ -7,7 +7,7 @@ export const profileService = () => {
 	const storage = getStorage();
 	const storageRef = ref(storage);
 
-	//Function for previewing photo
+	// Function for previewing photo
 	const previewProfilePhoto = async (file: Blob) => {
 		try {
 			if (!auth.currentUser) {
@@ -27,7 +27,8 @@ export const profileService = () => {
 		}
 	};
 
-	//Function for actually uploading the photo
+	// Function for uploading the photo to DB and setting photo to user data object
+	// Function also returns data object
 	const submitProfilePhoto = async (file: Blob) => {
 		try {
 			if (!file) {
