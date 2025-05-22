@@ -13,6 +13,7 @@ export const profileService = () => {
 			if (!auth.currentUser) {
 				throw new Error("User not authenticated.");
 			} else {
+				console.log(auth.currentUser);
 				const imageRef = ref(
 					storageRef,
 					`user-photo/temp-${auth.currentUser.uid}`
@@ -25,7 +26,8 @@ export const profileService = () => {
 			throw error;
 		}
 	};
-	//function for actually uploading the photo
+
+	//Function for actually uploading the photo
 	const submitProfilePhoto = async (file: Blob) => {
 		try {
 			if (!file) {
@@ -44,7 +46,7 @@ export const profileService = () => {
 			if (userPhotoURL && docSnap) {
 				const data = docSnap.data();
 				await updateDoc(docRef, {
-					userPhoto: data,
+					userPhoto: userPhotoURL,
 				});
 				return {
 					userId: auth.currentUser.uid,
