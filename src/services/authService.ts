@@ -29,11 +29,7 @@ export const authService = () => {
 
 	const login = async (data: UserSignIn) => {
 		try {
-			const userCredential = await signInWithEmailAndPassword(
-				auth,
-				data.email,
-				data.password
-			);
+			await signInWithEmailAndPassword(auth, data.email, data.password);
 			if (auth.currentUser) {
 				const docRef = doc(db, "users", auth.currentUser.uid);
 				const docSnap = await getDoc(docRef);
@@ -99,22 +95,6 @@ export const authService = () => {
 			console.log(`Error: ${error.message}`);
 		}
 	};
-
-	// const retrievePassword = async (
-	// 	data: UserEmail,
-	// 	setModalAlertMessage: React.Dispatch<React.SetStateAction<string>>
-	// ): Promise<void> => {
-	// 	try {
-	// 		const inputEmailData = data.email;
-	// 		await sendPasswordResetEmail(auth, inputEmailData);
-	// 		setModalAlertMessage("Email has been sent!");
-	// 	} catch (error: any) {
-	// 		if (error.message === "Firebase: Error (auth/user-not-found).") {
-	// 			setModalAlertMessage("Email not found.");
-	// 		}
-	// 		console.log(`Error: ${error.message}`);
-	// 	}
-	// };
 
 	const retrievePassword = async (data: UserEmail) => {
 		try {
