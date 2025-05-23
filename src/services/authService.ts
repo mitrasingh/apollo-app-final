@@ -63,18 +63,9 @@ export const authService = () => {
 
 	const guestLogin = async () => {
 		try {
-			const guestCredential = await signInWithEmailAndPassword(
-				auth,
-				"guest@apollo.com",
-				"guest123"
-			);
-			toast.success("Welcome to Apollo!", {
-				hideProgressBar: true,
-			});
-			navigate("/home");
+			await signInWithEmailAndPassword(auth, "guest@apollo.com", "guest123");
 		} catch (error: any) {
-			toast.error("Sorry, we are having some technical issues!");
-			console.log(`Error: ${error.message}`);
+			throw error;
 		}
 	};
 
