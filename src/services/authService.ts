@@ -34,35 +34,17 @@ export const authService = () => {
 				const docRef = doc(db, "users", auth.currentUser.uid);
 				const docSnap = await getDoc(docRef);
 				const userData = docSnap.data();
-				dispatch(
-					loginUser({
-						userId: auth.currentUser.uid,
-						userPhoto: userData?.userPhoto,
-						firstName: auth.currentUser.displayName,
-						lastName: userData?.lastname,
-						title: userData?.title,
-						email: auth.currentUser.email,
-					})
-				);
-				toast.success(
-					`Hello ${auth.currentUser?.displayName}, you are logged in!`,
-					{
-						hideProgressBar: true,
-					}
-				);
+				return {
+					userId: auth.currentUser.uid,
+					userPhoto: userData?.userPhoto,
+					firstName: auth.currentUser.displayName,
+					lastName: userData?.lastname,
+					title: userData?.title,
+					email: auth.currentUser.email,
+				};
 			}
-
-			console.log(`User name ${auth.currentUser?.displayName}`);
-			navigate("/home");
 		} catch (error: any) {
-			if (error.message.includes("user-not-found")) {
-				toast.error("User not found!");
-			} else if (error.message.includes("wrong-password")) {
-				toast.error("Password is incorrect!");
-			} else {
-				toast.error("Sorry, we are having some technical issues!");
-			}
-			console.log(`Error: ${error.message}`);
+			throw error;
 		}
 	};
 
