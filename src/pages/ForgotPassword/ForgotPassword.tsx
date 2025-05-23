@@ -1,7 +1,7 @@
 import { Stack, Form, Modal, Button, Image, Card } from "react-bootstrap";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { authService } from "../../services/authService";
 import { UserEmail } from "../../types/userdata.types";
@@ -10,17 +10,6 @@ import styles from "./ForgotPassword.module.css";
 const ForgotPassword = () => {
 	// Authentication Service
 	const { retrievePassword } = authService();
-
-	// React Hook Form
-	const form = useForm<UserEmail>();
-	const { register, handleSubmit, formState } = form;
-	const { errors } = formState;
-	const onSubmit: SubmitHandler<UserEmail> = async (data) => {
-		const message = await retrievePassword(data);
-		setModalAlertMessage(message);
-	};
-	const emailRegex =
-		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	// State variable for alert message displayed
 	const [modalAlertMessage, setModalAlertMessage] = useState(
@@ -34,6 +23,26 @@ const ForgotPassword = () => {
 	const handleCancel = () => {
 		navigate(-1);
 	};
+
+	// React Hook Form
+	const form = useForm<UserEmail>();
+	const { register, handleSubmit, formState } = form;
+	const { errors } = formState;
+	const onSubmit: SubmitHandler<UserEmail> = async (data) => {
+		try {
+			await retrievePassword(data);
+			setModalAlertMessage("Email has been sent!");
+		} catch (error: any) {
+			if (error.message.includes("auth/user-not-found")) {
+				setModalAlertMessage("Email not found");
+			} else {
+				console.log(`Error: ${error.message}`);
+				setModalAlertMessage("An unexpected error has occured.");
+			}
+		}
+	};
+	const emailRegex =
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	return (
 		<Container className={styles.formContainer}>
