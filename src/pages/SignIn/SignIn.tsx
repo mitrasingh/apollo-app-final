@@ -19,6 +19,20 @@ const SignIn = () => {
 	// React router function allows user to navigate to specified route
 	const navigate = useNavigate();
 
+	// Guest login handle
+	const signinGuest = async () => {
+		try {
+			await guestLogin();
+			toast.success("Welcome to Apollo!", {
+				hideProgressBar: true,
+			});
+			navigate("/home");
+		} catch (error: any) {
+			toast.error("Sorry, we are having some technical issues!");
+			console.log(`Error: ${error.message}`);
+		}
+	};
+
 	// React Hook Form
 	const form = useForm<UserSignIn>({ mode: "onBlur" });
 	const { register, handleSubmit, formState } = form;
@@ -41,6 +55,7 @@ const SignIn = () => {
 			}
 		}
 	};
+
 	const emailRegex =
 		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -124,7 +139,7 @@ const SignIn = () => {
 			</Form>
 			<p className="text-center mt-4">
 				Sign In as{" "}
-				<a className="fw-bold" onClick={guestLogin}>
+				<a className="fw-bold" onClick={signinGuest}>
 					Guest
 				</a>
 			</p>
