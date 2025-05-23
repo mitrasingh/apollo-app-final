@@ -73,13 +73,8 @@ export const authService = () => {
 		try {
 			const inputEmailData = data.email;
 			await sendPasswordResetEmail(auth, inputEmailData);
-			return "Email has been sent!";
 		} catch (error: any) {
-			if (error.message === "Firebase: Error (auth/user-not-found).") {
-				return "Email not found.";
-			}
-			console.log(`Error: ${error.message}`);
-			return "An unexpected error occured.";
+			throw error;
 		}
 	};
 
