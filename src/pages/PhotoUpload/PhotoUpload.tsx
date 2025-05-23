@@ -34,7 +34,7 @@ const PhotoUpload = () => {
 	// React router function allows user to navigate to specified route
 	const navigate = useNavigate();
 
-	// Loads temporary (generic) image from database storage
+	// Initial loading of temporary image from database storage
 	useEffect(() => {
 		const loadUserImage = async () => {
 			const userPhoto = userState.userPhoto;
@@ -43,17 +43,7 @@ const PhotoUpload = () => {
 		loadUserImage();
 	}, []);
 
-	const handlePreviewClick = async () => {
-		try {
-			if (userChosenFile) {
-				const url = await previewProfilePhoto(userChosenFile);
-				setUserPhoto(url ?? null);
-			}
-		} catch (error: any) {
-			console.log(error.message);
-		}
-	};
-
+	// Handles event when user selects a file, keeps track of file
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const target = event.target as HTMLInputElement;
 		if (target.files && target.files[0]) {
@@ -61,6 +51,21 @@ const PhotoUpload = () => {
 		}
 	};
 
+	// Handles photo upload and preview of chosen file selected by user
+	const handlePreviewClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		try {
+			if (userChosenFile) {
+				const url = await previewProfilePhoto(userChosenFile);
+				setUserPhoto(url ?? null);
+			}
+		} catch (error: any) {
+			console.log(error.message);
+			toast.error(error.message || "Failed to preview photo.");
+		}
+	};
+
+	// Handles final upload of photo and moves into home section of app
 	const handleAcceptPhoto = async () => {
 		try {
 			if (userChosenFile) {
