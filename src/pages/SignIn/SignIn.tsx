@@ -3,18 +3,43 @@ import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import type { UserSignIn } from "../../types/userdata.types";
 import { authService } from "../../services/authService";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../store/user/userSlice";
+import { useNavigate } from "react-router-dom";
 import styles from "./SignIn.module.css";
 
 const SignIn = () => {
 	// Authentication Service
 	const { login, guestLogin } = authService();
 
+	// Redux function which will dispatch actions needed for user state changes
+	const dispatch = useDispatch();
+
+	// React router function allows user to navigate to specified route
+	const navigate = useNavigate();
+
 	// React Hook Form
 	const form = useForm<UserSignIn>({ mode: "onBlur" });
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
 	const onSubmit: SubmitHandler<UserSignIn> = async (data) => {
-		await login(data);
+		try {
+			const userData = await login(data);
+			dispatch(loginUser(userData));
+			toast.success(`Hello ${userData?.firstName}, you are logged in!`, {
+				hideProgressBar: true,
+			});
+			navigate("/home");
+		} catch (error: any) {
+			if (error.message.includes("user-not-found")) {
+				toast.error("User not found!");
+			} else if (error.message.includes("wrong-password")) {
+				toast.error("Password is incorrect!");
+			} else {
+				toast.error("Sorry, we are having some technical issues!");
+			}
+		}
 	};
 	const emailRegex =
 		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
