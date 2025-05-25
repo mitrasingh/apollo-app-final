@@ -51,13 +51,8 @@ export const authService = () => {
 	const logOut = async () => {
 		try {
 			await signOut(auth);
-			dispatch(logoutUser());
-			navigate("/");
-			toast.info("You have been logged out!", {
-				hideProgressBar: true,
-			});
 		} catch (error: any) {
-			console.log(`Error: ${error.message}`);
+			throw error;
 		}
 	};
 
