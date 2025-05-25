@@ -1,7 +1,5 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
-import { logoutUser } from "../store/user/userSlice";
-import { useDispatch } from "react-redux";
 import type { UserSignIn, UserEmail, UserData } from "../types/userdata.types";
 import {
 	browserSessionPersistence,
@@ -12,17 +10,9 @@ import {
 	signOut,
 	updateProfile,
 } from "firebase/auth";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 export const authService = () => {
-	// Redux function which will dispatch actions needed for user state changes
-	const dispatch = useDispatch();
-
-	// React router function allows user to navigate to specified route
-	const navigate = useNavigate();
-
 	// Firebase storage for access
 	const storage = getStorage();
 	const storageRef = ref(storage);
