@@ -1,12 +1,21 @@
 import { Container, Form, Card, Button, Stack, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { UserData } from "../../types/userdata.types";
 import { authService } from "../../services/authService";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../store/user/userSlice";
+import { toast } from "react-toastify";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./SignUp.module.css";
 
 const SignUp = () => {
 	const { signupUser } = authService();
+
+	// Redux function which will dispatch actions needed for user state changes
+	const dispatch = useDispatch();
+
+	// React router function allows user to navigate to specified route
+	const navigate = useNavigate();
 
 	// React Hook Form
 	const form = useForm<UserData>({ mode: "onBlur" });
@@ -17,7 +26,23 @@ const SignUp = () => {
 		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	const onSubmit: SubmitHandler<UserData> = async (data) => {
-		await signupUser(data);
+		try {
+			const userData = await signupUser(data);
+			dispatch(loginUser(userData));
+			toast.success("Your profile has been created");
+			navigate("/photoupload");
+		} catch (error: any) {
+			if (error.message.includes("email-already-in-use")) {
+				toast.error("This email is already registered!", {
+					hideProgressBar: true,
+				});
+			} else {
+				toast.error("Sorry, we are having some technical issues!", {
+					hideProgressBar: true,
+				});
+			}
+			console.log(`Error: ${error.message}`);
+		}
 	};
 
 	return (
