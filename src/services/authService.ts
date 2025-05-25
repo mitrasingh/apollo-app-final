@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
-import { loginUser, logoutUser } from "../store/user/userSlice";
+import { logoutUser } from "../store/user/userSlice";
 import { useDispatch } from "react-redux";
 import type { UserSignIn, UserEmail, UserData } from "../types/userdata.types";
 import {
@@ -13,7 +13,7 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 export const authService = () => {
@@ -37,10 +37,10 @@ export const authService = () => {
 				return {
 					userId: auth.currentUser.uid,
 					userPhoto: userData?.userPhoto,
-					firstName: auth.currentUser.displayName,
+					firstName: userData?.firstname,
 					lastName: userData?.lastname,
 					title: userData?.title,
-					email: auth.currentUser.email,
+					email: userData?.email,
 				};
 			}
 		} catch (error: any) {
@@ -98,32 +98,18 @@ export const authService = () => {
 					email: auth.currentUser.email,
 				});
 				const docSnap = await getDoc(docRef);
-				if (docSnap.exists()) {
-					dispatch(
-						loginUser({
-							userId: auth.currentUser.uid,
-							userPhoto: userTempPhotoURL,
-							firstName: data.firstname,
-							lastName: data.lastname,
-							title: data.title,
-							email: auth.currentUser.email,
-						})
-					);
-				}
+				const userData = docSnap.data();
+				return {
+					userId: auth.currentUser.uid,
+					userPhoto: userTempPhotoURL,
+					firstName: userData?.firstname,
+					lastName: userData?.lastname,
+					title: userData?.title,
+					email: userData?.email,
+				};
 			}
-			toast.success("Your profile has been created");
-			navigate("/photoupload");
 		} catch (error: any) {
-			if (error.message.includes("email-already-in-use")) {
-				toast.error("This email is already registered!", {
-					hideProgressBar: true,
-				});
-			} else {
-				toast.error("Sorry, we are having some technical issues!", {
-					hideProgressBar: true,
-				});
-			}
-			console.log(`Error: ${error.message}`);
+			throw error;
 		}
 	};
 
