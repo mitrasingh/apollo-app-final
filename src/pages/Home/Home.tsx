@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
-import { ErrorBoundary } from "react-error-boundary"
+import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackTasks from "../../components/ErrorFallback/ErrorFallbackTasks";
 import SearchTasksForm from "./SearchTasksForm/SearchTasksForm";
 import FilterTasksButton from "./FilterTasksButton/FilterTasksButton";
@@ -9,7 +9,6 @@ import TaskCardList from "./TaskCardList/TaskCardList";
 import styles from "./Home.module.css";
 
 const Home = () => {
-
 	// State array which sets parameters (for firebase query)
 	const [queryFilter, setQueryFilter] = useState(["dueDate", "asc"]);
 
@@ -22,7 +21,7 @@ const Home = () => {
 	// Boolean state decides whether refresh tasks button changes display text to "clear filter"
 	const [isClearFilterDisplayed, setIsClearFilterDisplayed] = useState(false);
 
-	// User input state from search task form 
+	// User input state from search task form
 	const [userInput, setUserInput] = useState("");
 
 	// Refresh task state (used for refresh tasks button) - resets form data and clears filters
@@ -45,25 +44,27 @@ const Home = () => {
 		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(true);
 	};
-	const filterPriorityHandle = (priorityType) => {
+	const filterPriorityHandle = (priorityType: string) => {
 		setQueryFilter(["priorityLevel", priorityType]);
 		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
-	const filterStatusHandle = (statusType) => {
+	const filterStatusHandle = (statusType: string) => {
 		setQueryFilter(["statusProject", statusType]);
 		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
-	const filterSearchHandle = (event) => {
+	const filterSearchHandle = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		setIsTasksSearched(prevState => !prevState);
+		setIsTasksSearched((prevState) => !prevState);
 		setIsClearFilterDisplayed(true);
 	};
 
 	return (
 		<Container className={styles.customContainer}>
-			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Task Board</p>
+			<p className="fs-2 fw-bold d-flex justify-content-center text-light">
+				Task Board
+			</p>
 			<Row>
 				<Col>
 					<SearchTasksForm
@@ -103,4 +104,3 @@ const Home = () => {
 };
 
 export default Home;
-
