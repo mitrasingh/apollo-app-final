@@ -125,7 +125,7 @@ const TaskCard = ({ task, fetchTasks }: TaskCardProps) => {
 									</Col>
 								) : null}
 							</Col>
-							{/* DELETE MODAL AND PROPS USED IN COMMENTCARD.JSX, AVOID ANY NAME CHANGES */}
+							{/* DELETE MODAL AND PROPS USED IN COMMENTCARD COMPONENT, AVOID ANY NAME CHANGES */}
 							{isVisible ? (
 								<DeleteModal
 									handleDelete={handleDeleteTaskCard}
@@ -151,13 +151,15 @@ const TaskCard = ({ task, fetchTasks }: TaskCardProps) => {
 							<hr className="mt-2"></hr>
 							<Col xs={4}>
 								<Stack direction="horizontal">
-									<Image
-										className="object-fit-cover"
-										height="35px"
-										width="35px"
-										src={creatorPhoto || ""}
-										roundedCircle
-									/>
+									{creatorPhoto && (
+										<Image
+											className="object-fit-cover"
+											height="35px"
+											width="35px"
+											src={creatorPhoto}
+											roundedCircle
+										/>
+									)}
 									<Stack direction="vertical" className="ms-2 mt-1">
 										<p className="fs-6 my-0 text-truncate">Creator:</p>
 										<p className="fs-6 fw-bold my-0 text-truncate">
