@@ -1,8 +1,18 @@
 import { Modal, Button } from "react-bootstrap";
-import PropTypes from "prop-types";
 
-const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
+interface DeleteModalProps {
+	handleDelete: () => void;
+	setIsVisible: (visible: boolean) => void;
+	isVisible: boolean;
+	type: string;
+}
 
+const DeleteModal = ({
+	handleDelete,
+	setIsVisible,
+	isVisible,
+	type,
+}: DeleteModalProps) => {
 	// Closes modal component
 	const handleClose = () => setIsVisible(false);
 
@@ -16,26 +26,24 @@ const DeleteModal = ({ handleDelete, setIsVisible, isVisible, type }) => {
 					Are you sure you want to delete this {type}?
 				</Modal.Body>
 				<Modal.Footer>
-					<Button className="fs-6 text-light fw-bold" variant="secondary" onClick={handleClose}>
+					<Button
+						className="fs-6 text-light fw-bold"
+						variant="secondary"
+						onClick={handleClose}
+					>
 						Cancel
 					</Button>
 					<Button
 						className="fs-6 text-light fw-bold"
 						variant="primary"
-						onClick={handleDelete}>
+						onClick={handleDelete}
+					>
 						Delete
 					</Button>
 				</Modal.Footer>
 			</Modal>
 		</>
 	);
-};
-
-DeleteModal.propTypes = {
-	setIsVisible: PropTypes.func.isRequired,
-	isVisible: PropTypes.bool.isRequired,
-	type: PropTypes.string.isRequired,
-	handleDelete: PropTypes.func.isRequired,
 };
 
 export default DeleteModal;
