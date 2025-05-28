@@ -10,7 +10,10 @@ import styles from "./Home.module.css";
 
 const Home = () => {
 	// State array which sets parameters (for firebase query)
-	const [queryFilter, setQueryFilter] = useState(["dueDate", "asc"]);
+	const [queryFilter, setQueryFilter] = useState<[string, string]>([
+		"dueDate",
+		"asc",
+	]);
 
 	// Boolean state which sets whether firebase query orderyby method is being used (orderby method sorts tasks)
 	const [isQuerySorted, setIsQuerySorted] = useState(true);
@@ -54,7 +57,9 @@ const Home = () => {
 		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
-	const filterSearchHandle = (event: React.FormEvent<HTMLFormElement>) => {
+	const filterSearchHandle = (
+		event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLImageElement>
+	) => {
 		event.preventDefault();
 		setIsTasksSearched((prevState) => !prevState);
 		setIsClearFilterDisplayed(true);
