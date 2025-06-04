@@ -8,12 +8,14 @@ import RefreshTasksButton from "./RefreshTasksButton/RefreshTasksButton";
 import TaskCardList from "./TaskCardList/TaskCardList";
 import styles from "./Home.module.css";
 
+type QueryFilter = [string, string];
+
+const defaultQueryFilter: QueryFilter = ["dueDate", "asc"];
+
 const Home = () => {
 	// State array which sets parameters (for firebase query)
-	const [queryFilter, setQueryFilter] = useState<[string, string]>([
-		"dueDate",
-		"asc",
-	]);
+	const [queryFilter, setQueryFilter] =
+		useState<QueryFilter>(defaultQueryFilter);
 
 	// Boolean state which sets whether firebase query orderyby method is being used (orderby method sorts tasks)
 	const [isQuerySorted, setIsQuerySorted] = useState(true);
@@ -35,6 +37,7 @@ const Home = () => {
 		setIsTasksSearched(false);
 		setUserInput(""); // Resets form data if needed
 	};
+	console.log("refreshTasksHandle created", refreshTasksHandle);
 
 	// Options for filter fuctionality
 	const filterLaterHandle = () => {
@@ -42,21 +45,29 @@ const Home = () => {
 		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(true);
 	};
+	console.log("filterLaterHandle created", filterLaterHandle);
+
 	const filterSoonHandle = () => {
 		setQueryFilter(["dueDate", "asc"]);
 		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(true);
 	};
+	console.log("filterSoonHandle created", filterSoonHandle);
+
 	const filterPriorityHandle = (priorityType: string) => {
 		setQueryFilter(["priorityLevel", priorityType]);
 		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
+	console.log("filterPriorityHandle created", filterPriorityHandle);
+
 	const filterStatusHandle = (statusType: string) => {
 		setQueryFilter(["statusProject", statusType]);
 		setIsQuerySorted(false);
 		setIsClearFilterDisplayed(true);
 	};
+	console.log("filterStatusHandle created", filterStatusHandle);
+
 	const filterSearchHandle = (
 		event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLImageElement>
 	) => {
@@ -64,6 +75,7 @@ const Home = () => {
 		setIsTasksSearched((prevState) => !prevState);
 		setIsClearFilterDisplayed(true);
 	};
+	console.log("filterSearchHandle created", filterSearchHandle);
 
 	return (
 		<Container className={styles.customContainer}>
