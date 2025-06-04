@@ -31,7 +31,7 @@ const Home = () => {
 
 	// Refresh task state (used for refresh tasks button) - resets form data and clears filters
 	const refreshTasksHandle = () => {
-		setQueryFilter(["dueDate", "asc"]);
+		setQueryFilter(defaultQueryFilter);
 		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(false);
 		setIsTasksSearched(false);
