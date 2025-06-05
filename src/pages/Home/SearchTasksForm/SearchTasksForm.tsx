@@ -14,14 +14,6 @@ const SearchTasksForm = ({ userInput, onInputChange }: Props) => {
 			<Row className="justify-content-center">
 				<Col lg={6} md={6} sm={8}>
 					<InputGroup className="d-flex ms-2">
-						<InputGroup.Text>
-							<img
-								src="/search_new.svg"
-								width="20"
-								height="20"
-								alt="Search bar button"
-							/>
-						</InputGroup.Text>
 						<FormControl
 							className="me-2 fs-6 shadow-none"
 							type="text"
