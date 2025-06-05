@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackTasks from "../../components/ErrorFallback/ErrorFallbackTasks";
@@ -57,12 +57,18 @@ const Home = () => {
 	const handleStatusFilter = (statusType: string) =>
 		applyFilter("statusProject", statusType);
 
-	const filterSearchHandle = (
-		event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLImageElement>
-	) => {
-		event.preventDefault();
-		setIsTasksSearched((prev) => !prev);
-		setIsClearFilterDisplayed(true);
+	const handleSearchInput = (value: string) => {
+		setUserInput(value);
+		if (value === "") {
+			// Reset tasks/filter state here
+			setQueryFilter(defaultQueryFilter);
+			setIsQuerySorted(true);
+			setIsClearFilterDisplayed(false);
+			setIsTasksSearched(false);
+		} else {
+			setIsTasksSearched(true);
+			setIsClearFilterDisplayed(true);
+		}
 	};
 
 	return (
@@ -74,9 +80,7 @@ const Home = () => {
 				<Col>
 					<SearchTasksForm
 						userInput={userInput}
-						setUserInput={setUserInput}
-						filterSearchHandle={filterSearchHandle}
-						refreshTasksHandle={refreshTasksHandle}
+						onInputChange={handleSearchInput}
 					/>
 				</Col>
 			</Row>
