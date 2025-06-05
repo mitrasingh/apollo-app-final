@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackTasks from "../../components/ErrorFallback/ErrorFallbackTasks";
@@ -29,53 +29,41 @@ const Home = () => {
 	// User input state from search task form
 	const [userInput, setUserInput] = useState("");
 
+	const applyFilter = (
+		type: "dueDate" | "priorityLevel" | "statusProject",
+		value: string
+	) => {
+		setQueryFilter([type, value]);
+		setIsQuerySorted(type === "dueDate");
+		setIsClearFilterDisplayed(true);
+	};
+
 	// Refresh task state (used for refresh tasks button) - resets form data and clears filters
 	const refreshTasksHandle = () => {
 		setQueryFilter(defaultQueryFilter);
 		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(false);
 		setIsTasksSearched(false);
-		setUserInput(""); // Resets form data if needed
+		setUserInput("");
 	};
-	console.log("refreshTasksHandle created", refreshTasksHandle);
 
 	// Options for filter fuctionality
-	const filterLaterHandle = () => {
-		setQueryFilter(["dueDate", "desc"]);
-		setIsQuerySorted(true);
-		setIsClearFilterDisplayed(true);
-	};
-	console.log("filterLaterHandle created", filterLaterHandle);
+	const handleDueDateFilter = (order: "asc" | "desc") =>
+		applyFilter("dueDate", order);
 
-	const filterSoonHandle = () => {
-		setQueryFilter(["dueDate", "asc"]);
-		setIsQuerySorted(true);
-		setIsClearFilterDisplayed(true);
-	};
-	console.log("filterSoonHandle created", filterSoonHandle);
+	const handlePriorityFilter = (priorityType: string) =>
+		applyFilter("priorityLevel", priorityType);
 
-	const filterPriorityHandle = (priorityType: string) => {
-		setQueryFilter(["priorityLevel", priorityType]);
-		setIsQuerySorted(false);
-		setIsClearFilterDisplayed(true);
-	};
-	console.log("filterPriorityHandle created", filterPriorityHandle);
-
-	const filterStatusHandle = (statusType: string) => {
-		setQueryFilter(["statusProject", statusType]);
-		setIsQuerySorted(false);
-		setIsClearFilterDisplayed(true);
-	};
-	console.log("filterStatusHandle created", filterStatusHandle);
+	const handleStatusFilter = (statusType: string) =>
+		applyFilter("statusProject", statusType);
 
 	const filterSearchHandle = (
 		event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLImageElement>
 	) => {
 		event.preventDefault();
-		setIsTasksSearched((prevState) => !prevState);
+		setIsTasksSearched((prev) => !prev);
 		setIsClearFilterDisplayed(true);
 	};
-	console.log("filterSearchHandle created", filterSearchHandle);
 
 	return (
 		<Container className={styles.customContainer}>
@@ -96,10 +84,10 @@ const Home = () => {
 				<Col lg={{ span: 8, offset: 2 }}>
 					<Stack direction="horizontal" gap={2} className="ms-4 mt-4">
 						<FilterTasksButton
-							filterLaterHandle={filterLaterHandle}
-							filterSoonHandle={filterSoonHandle}
-							filterPriorityHandle={filterPriorityHandle}
-							filterStatusHandle={filterStatusHandle}
+							filterLaterHandle={() => handleDueDateFilter("desc")}
+							filterSoonHandle={() => handleDueDateFilter("asc")}
+							filterPriorityHandle={handlePriorityFilter}
+							filterStatusHandle={handleStatusFilter}
 						/>
 						<RefreshTasksButton
 							refreshTasksHandle={refreshTasksHandle}
