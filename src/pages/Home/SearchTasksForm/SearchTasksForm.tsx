@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Col, Container, FormControl, InputGroup, Row } from "react-bootstrap";
 
 type Props = {
@@ -6,9 +7,7 @@ type Props = {
 };
 
 // Prop from Home.jsx
-const SearchTasksForm = ({ userInput, onInputChange }: Props) => {
-	console.log("search is rendered");
-
+const SearchTasksForm = memo(({ userInput, onInputChange }: Props) => {
 	return (
 		<Container className="mt-4 mb-3">
 			<Row className="justify-content-center">
@@ -28,6 +27,6 @@ const SearchTasksForm = ({ userInput, onInputChange }: Props) => {
 			</Row>
 		</Container>
 	);
-};
+});
 
 export default SearchTasksForm;
