@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackTasks from "../../components/ErrorFallback/ErrorFallbackTasks";
@@ -57,7 +57,7 @@ const Home = () => {
 	const handleStatusFilter = (statusType: string) =>
 		applyFilter("statusProject", statusType);
 
-	const handleSearchInput = (value: string) => {
+	const handleSearchInput = useCallback((value: string) => {
 		setUserInput(value);
 		if (value === "") {
 			// Reset tasks/filter state here
@@ -69,7 +69,7 @@ const Home = () => {
 			setIsTasksSearched(true);
 			setIsClearFilterDisplayed(true);
 		}
-	};
+	}, []);
 
 	return (
 		<Container className={styles.customContainer}>
