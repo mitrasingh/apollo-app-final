@@ -8,8 +8,8 @@ import RefreshTasksButton from "./RefreshTasksButton/RefreshTasksButton";
 import TaskCardList from "./TaskCardList/TaskCardList";
 import styles from "./Home.module.css";
 
+// Default filter state filtering tasks
 type QueryFilter = [string, string];
-
 const defaultQueryFilter: QueryFilter = ["dueDate", "asc"];
 
 const Home = () => {
@@ -29,15 +29,6 @@ const Home = () => {
 	// User input state from search task form
 	const [userInput, setUserInput] = useState("");
 
-	const applyFilter = (
-		type: "dueDate" | "priorityLevel" | "statusProject",
-		value: string
-	) => {
-		setQueryFilter([type, value]);
-		setIsQuerySorted(type === "dueDate");
-		setIsClearFilterDisplayed(true);
-	};
-
 	// Refresh task state (used for refresh tasks button) - resets form data and clears filters
 	const refreshTasksHandle = () => {
 		setQueryFilter(defaultQueryFilter);
@@ -45,6 +36,16 @@ const Home = () => {
 		setIsClearFilterDisplayed(false);
 		setIsTasksSearched(false);
 		setUserInput("");
+	};
+
+	// Default handler for applying functionality to the task filters below
+	const applyFilter = (
+		type: "dueDate" | "priorityLevel" | "statusProject",
+		value: string
+	) => {
+		setQueryFilter([type, value]);
+		setIsQuerySorted(type === "dueDate");
+		setIsClearFilterDisplayed(true);
 	};
 
 	// Options for filter fuctionality
