@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Row, Col, Container, Stack } from "react-bootstrap";
-import { ErrorBoundary } from "react-error-boundary"
+import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackTasks from "../../components/ErrorFallback/ErrorFallbackTasks";
 import SearchTasksForm from "./SearchTasksForm/SearchTasksForm";
 import FilterTasksButton from "./FilterTasksButton/FilterTasksButton";
@@ -8,10 +8,14 @@ import RefreshTasksButton from "./RefreshTasksButton/RefreshTasksButton";
 import TaskCardList from "./TaskCardList/TaskCardList";
 import styles from "./Home.module.css";
 
-const Home = () => {
+// Default filter state filtering tasks
+type QueryFilter = [string, string];
+const defaultQueryFilter: QueryFilter = ["dueDate", "asc"];
 
+const Home = () => {
 	// State array which sets parameters (for firebase query)
-	const [queryFilter, setQueryFilter] = useState(["dueDate", "asc"]);
+	const [queryFilter, setQueryFilter] =
+		useState<QueryFilter>(defaultQueryFilter);
 
 	// Boolean state which sets whether firebase query orderyby method is being used (orderby method sorts tasks)
 	const [isQuerySorted, setIsQuerySorted] = useState(true);
@@ -22,55 +26,62 @@ const Home = () => {
 	// Boolean state decides whether refresh tasks button changes display text to "clear filter"
 	const [isClearFilterDisplayed, setIsClearFilterDisplayed] = useState(false);
 
-	// User input state from search task form 
+	// User input state from search task form
 	const [userInput, setUserInput] = useState("");
 
 	// Refresh task state (used for refresh tasks button) - resets form data and clears filters
 	const refreshTasksHandle = () => {
-		setQueryFilter(["dueDate", "asc"]);
+		setQueryFilter(defaultQueryFilter);
 		setIsQuerySorted(true);
 		setIsClearFilterDisplayed(false);
 		setIsTasksSearched(false);
-		setUserInput(""); // Resets form data if needed
+		setUserInput("");
+	};
+
+	// Default handler for applying functionality to the task filters below
+	const applyFilter = (
+		type: "dueDate" | "priorityLevel" | "statusProject",
+		value: string
+	) => {
+		setQueryFilter([type, value]);
+		setIsQuerySorted(type === "dueDate");
+		setIsClearFilterDisplayed(true);
 	};
 
 	// Options for filter fuctionality
-	const filterLaterHandle = () => {
-		setQueryFilter(["dueDate", "desc"]);
-		setIsQuerySorted(true);
-		setIsClearFilterDisplayed(true);
-	};
-	const filterSoonHandle = () => {
-		setQueryFilter(["dueDate", "asc"]);
-		setIsQuerySorted(true);
-		setIsClearFilterDisplayed(true);
-	};
-	const filterPriorityHandle = (priorityType) => {
-		setQueryFilter(["priorityLevel", priorityType]);
-		setIsQuerySorted(false);
-		setIsClearFilterDisplayed(true);
-	};
-	const filterStatusHandle = (statusType) => {
-		setQueryFilter(["statusProject", statusType]);
-		setIsQuerySorted(false);
-		setIsClearFilterDisplayed(true);
-	};
-	const filterSearchHandle = (event) => {
-		event.preventDefault();
-		setIsTasksSearched(prevState => !prevState);
-		setIsClearFilterDisplayed(true);
-	};
+	const handleDueDateFilter = (order: "asc" | "desc") =>
+		applyFilter("dueDate", order);
+
+	const handlePriorityFilter = (priorityType: string) =>
+		applyFilter("priorityLevel", priorityType);
+
+	const handleStatusFilter = (statusType: string) =>
+		applyFilter("statusProject", statusType);
+
+	const handleSearchInput = useCallback((value: string) => {
+		setUserInput(value);
+		if (value === "") {
+			// Reset tasks/filter state here
+			setQueryFilter(defaultQueryFilter);
+			setIsQuerySorted(true);
+			setIsClearFilterDisplayed(false);
+			setIsTasksSearched(false);
+		} else {
+			setIsTasksSearched(true);
+			setIsClearFilterDisplayed(true);
+		}
+	}, []);
 
 	return (
 		<Container className={styles.customContainer}>
-			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Task Board</p>
+			<p className="fs-2 fw-bold d-flex justify-content-center text-light">
+				Task Board
+			</p>
 			<Row>
 				<Col>
 					<SearchTasksForm
 						userInput={userInput}
-						setUserInput={setUserInput}
-						filterSearchHandle={filterSearchHandle}
-						refreshTasksHandle={refreshTasksHandle}
+						onInputChange={handleSearchInput}
 					/>
 				</Col>
 			</Row>
@@ -78,10 +89,10 @@ const Home = () => {
 				<Col lg={{ span: 8, offset: 2 }}>
 					<Stack direction="horizontal" gap={2} className="ms-4 mt-4">
 						<FilterTasksButton
-							filterLaterHandle={filterLaterHandle}
-							filterSoonHandle={filterSoonHandle}
-							filterPriorityHandle={filterPriorityHandle}
-							filterStatusHandle={filterStatusHandle}
+							filterLaterHandle={() => handleDueDateFilter("desc")}
+							filterSoonHandle={() => handleDueDateFilter("asc")}
+							filterPriorityHandle={handlePriorityFilter}
+							filterStatusHandle={handleStatusFilter}
 						/>
 						<RefreshTasksButton
 							refreshTasksHandle={refreshTasksHandle}
@@ -103,4 +114,3 @@ const Home = () => {
 };
 
 export default Home;
-

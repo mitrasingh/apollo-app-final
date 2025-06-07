@@ -13,7 +13,7 @@ const useDateConverter = () => {
 	};
 
 	// Converts received timestamp and allows `dayjs` to calculate and display relative time
-	const convertToRelativeTime = (date) => {
+	const convertToRelativeTime = (date: Timestamp) => {
 		dayjs.extend(relativeTime);
 		const convertTimestamp = date.toDate();
 		const convertRelativeTime = dayjs(convertTimestamp).fromNow();
@@ -22,7 +22,7 @@ const useDateConverter = () => {
 	};
 
 	// Converts date to UTC ensuring date is converted to proper format as a firestore timestamp
-	const convertToTimestamp = (date) => {
+	const convertToTimestamp = (date: Date | string) => {
 		dayjs.extend(utc);
 		const formattedDate = dayjs.utc(date).format("MM/DD/YYYY");
 		const [month, day, year] = formattedDate.split("/").map(Number);
@@ -33,7 +33,7 @@ const useDateConverter = () => {
 	};
 
 	// Convert the parsed Date object to a Firestore Timestamp
-	const convertToDate = (date, locales) => {
+	const convertToDate = (date: Timestamp, locales?: string) => {
 		const timestampToDate = date.toDate();
 		const formattedDate = timestampToDate.toLocaleDateString(locales, {
 			year: "numeric",
@@ -46,12 +46,12 @@ const useDateConverter = () => {
 
 	// When passing Fire Timestamp as a prop, value is changed and becomes object
 	// This function converts new object to proper date formatting
-	const convertLostTimestampToDate = (date) => {
+	const convertLostTimestampToDate = (date: { seconds: number }) => {
 		const convertedTimestamp = new Date(date.seconds * 1000).toDateString();
 		const newDate = new Date(convertedTimestamp);
 		const year = newDate.getFullYear();
-		const month = String(newDate.getMonth() + 1).padStart(2, '0'); // Month starts from 0
-		const day = String(newDate.getDate()).padStart(2, '0');
+		const month = String(newDate.getMonth() + 1).padStart(2, "0"); // Month starts from 0
+		const day = String(newDate.getDate()).padStart(2, "0");
 		const formattedDate = `${year}-${month}-${day}`;
 
 		return formattedDate;
@@ -62,7 +62,7 @@ const useDateConverter = () => {
 		convertToRelativeTime,
 		convertToTimestamp,
 		convertToDate,
-		convertLostTimestampToDate
+		convertLostTimestampToDate,
 	};
 };
 

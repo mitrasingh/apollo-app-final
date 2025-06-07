@@ -1,19 +1,28 @@
 import { useState } from "react";
 import { Button, Modal, Stack, Image } from "react-bootstrap";
 import useDateConverter from "../../../hooks/useDateConverter";
-import PropTypes from "prop-types";
+import { TaskData } from "../../../types/taskdata.types";
 import styles from "./ViewTaskModal.module.css";
 
-// Props are from TaskCard.jsx
-const ViewTaskModal = ({ task, creatorPhoto, creatorName }) => {
+interface ViewTaskModalProps {
+	task: TaskData;
+	creatorPhoto: string;
+	creatorName: string;
+}
 
+// Props are from TaskCard.jsx
+const ViewTaskModal = ({
+	task,
+	creatorPhoto,
+	creatorName,
+}: ViewTaskModalProps) => {
 	// Details task modal functionality
 	const [isViewModal, setIsViewModal] = useState(false);
 	const handleClose = () => setIsViewModal(false);
 
 	// Custom hook converts date into date string
 	const { convertToDate } = useDateConverter();
-	const dateToString = convertToDate(task.dueDate, 'en-US');
+	const dateToString = convertToDate(task.dueDate, "en-US");
 
 	return (
 		<>
@@ -28,9 +37,7 @@ const ViewTaskModal = ({ task, creatorPhoto, creatorName }) => {
 
 			<Modal show={isViewModal} onHide={handleClose} className="mt-4">
 				<Modal.Header closeButton>
-					<Modal.Title className="fw-bold fs-3">
-						{task.taskName}
-					</Modal.Title>
+					<Modal.Title className="fw-bold fs-3">{task.taskName}</Modal.Title>
 				</Modal.Header>
 
 				<Modal.Body className="fs-6">
@@ -71,20 +78,6 @@ const ViewTaskModal = ({ task, creatorPhoto, creatorName }) => {
 			</Modal>
 		</>
 	);
-};
-
-ViewTaskModal.propTypes = {
-	creatorPhoto: PropTypes.string.isRequired,
-	creatorName: PropTypes.string.isRequired,
-	task: PropTypes.shape({
-		taskName: PropTypes.string.isRequired,
-		descriptionTask: PropTypes.string.isRequired,
-		statusProject: PropTypes.string.isRequired,
-		priorityLevel: PropTypes.string.isRequired,
-		dueDate: PropTypes.object.isRequired,
-		userId: PropTypes.string.isRequired,
-		taskId: PropTypes.string.isRequired
-	})
 };
 
 export default ViewTaskModal;

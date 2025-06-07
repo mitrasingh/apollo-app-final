@@ -1,0 +1,150 @@
+import {
+	collection,
+	getDocs,
+	query,
+	orderBy,
+	where,
+	limit,
+	startAfter,
+	getCountFromServer,
+	OrderByDirection,
+	QueryDocumentSnapshot,
+	DocumentData,
+} from "firebase/firestore";
+import { db } from "../utils/firebase-config";
+import { TaskData } from "../types/taskdata.types";
+
+export const taskService = () => {
+	// Fetch all tasks (for search)
+	const fetchAllTasks = async (): Promise<TaskData[]> => {
+		try {
+			const dbRef = collection(db, "tasks");
+			const snapshot = await getDocs(query(dbRef));
+			return snapshot.docs.map((doc) => ({
+				...(doc.data() as Omit<TaskData, "taskId">),
+				taskId: doc.id,
+			}));
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	// Fetch tasks with sorting or filtering (first page)
+	const fetchTasksWithQuery = async (
+		queryFilter: [string, string],
+		isQuerySorted: boolean,
+		limitCount = 5
+	): Promise<{
+		tasks: TaskData[];
+		lastTask: QueryDocumentSnapshot<DocumentData> | null;
+	}> => {
+		try {
+			const dbRef = collection(db, "tasks");
+			let q;
+
+			if (isQuerySorted) {
+				q = query(
+					dbRef,
+					orderBy(queryFilter[0], queryFilter[1] as OrderByDirection),
+					limit(limitCount)
+				);
+			} else {
+				q = query(
+					dbRef,
+					where(queryFilter[0], "==", queryFilter[1]),
+					limit(limitCount)
+				);
+			}
+
+			const snapshot = await getDocs(q);
+			const tasks = snapshot.docs.map((doc) => ({
+				...(doc.data() as Omit<TaskData, "taskId">),
+				taskId: doc.id,
+			}));
+			const lastTask =
+				snapshot.docs.length > 0
+					? snapshot.docs[snapshot.docs.length - 1]
+					: null;
+			return { tasks, lastTask };
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	// Fetch more tasks (pagination) with sorting or filtering
+	const fetchMoreTasksWithQuery = async (
+		queryFilter: [string, string],
+		isQuerySorted: boolean,
+		lastTask: QueryDocumentSnapshot<DocumentData>,
+		limitCount = 5
+	): Promise<{
+		tasks: TaskData[];
+		lastTask: QueryDocumentSnapshot<DocumentData> | null;
+	}> => {
+		try {
+			const dbRef = collection(db, "tasks");
+			let q;
+
+			if (isQuerySorted) {
+				q = query(
+					dbRef,
+					orderBy(queryFilter[0], queryFilter[1] as OrderByDirection),
+					startAfter(lastTask),
+					limit(limitCount)
+				);
+			} else {
+				q = query(
+					dbRef,
+					where(queryFilter[0], "==", queryFilter[1]),
+					startAfter(lastTask),
+					limit(limitCount)
+				);
+			}
+
+			const snapshot = await getDocs(q);
+			const tasks = snapshot.docs.map((doc) => ({
+				...(doc.data() as Omit<TaskData, "taskId">),
+				taskId: doc.id,
+			}));
+			const newLastTask =
+				snapshot.docs.length > 0
+					? snapshot.docs[snapshot.docs.length - 1]
+					: null;
+			return { tasks, lastTask: newLastTask };
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	// Get total count for tasks (for pagination)
+	const getTasksCount = async (
+		queryFilter: [string, string],
+		isQuerySorted: boolean
+	): Promise<number> => {
+		try {
+			const dbRef = collection(db, "tasks");
+			let q;
+
+			if (isQuerySorted) {
+				q = query(
+					dbRef,
+					orderBy(queryFilter[0], queryFilter[1] as OrderByDirection)
+				);
+			} else {
+				q = query(dbRef, where(queryFilter[0], "==", queryFilter[1]));
+			}
+
+			const snapshot = await getCountFromServer(q);
+			return snapshot.data().count;
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	return {
+		fetchAllTasks,
+		fetchTasksWithQuery,
+		fetchMoreTasksWithQuery,
+		getTasksCount,
+	};
+};
