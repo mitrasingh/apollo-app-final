@@ -1,6 +1,5 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { ErrorFallback } from "../../types/errorfallback.types";
 import styles from "./ErrorFallback.module.css";
 
@@ -39,10 +38,6 @@ export const ErrorFallbackProfile = ({ resetErrorBoundary }: ErrorFallback) => {
 			</Row>
 		</Container>
 	);
-};
-
-ErrorFallbackProfile.propTypes = {
-	resetErrorBoundary: PropTypes.func.isRequired,
 };
 
 export default ErrorFallbackProfile;
