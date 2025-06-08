@@ -1,15 +1,10 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { ErrorFallback } from "../../types/errorfallback.types";
 import styles from "./ErrorFallback.module.css";
 
-interface ErrorFallbackTopicsProps {
-	resetErrorBoundary: () => void;
-}
-
-export const ErrorFallbackTopics = ({
-	resetErrorBoundary,
-}: ErrorFallbackTopicsProps) => {
+export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
 	return (
 		<Container className={styles.customContainer}>
 			<Row>
