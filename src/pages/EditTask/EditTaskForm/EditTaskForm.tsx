@@ -7,7 +7,6 @@ import { db } from "../../../utils/firebase-config";
 import { Button, Row, Col, Image, Form, Stack } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import useDateConverter from "../../../hooks/useDateConverter";
-import PropTypes from "prop-types";
 
 const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 	// Custom hook converts date into firestore timestamp / date string
@@ -199,20 +198,6 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 			</Row>
 		</Form>
 	);
-};
-
-EditTaskForm.propTypes = {
-	creatorPhoto: PropTypes.string.isRequired,
-	creatorName: PropTypes.string.isRequired,
-	task: PropTypes.shape({
-		taskName: PropTypes.string.isRequired,
-		descriptionTask: PropTypes.string.isRequired,
-		statusProject: PropTypes.string.isRequired,
-		priorityLevel: PropTypes.string.isRequired,
-		dueDate: PropTypes.object.isRequired,
-		userId: PropTypes.string.isRequired,
-		taskId: PropTypes.string.isRequired,
-	}),
 };
 
 export default EditTaskForm;
