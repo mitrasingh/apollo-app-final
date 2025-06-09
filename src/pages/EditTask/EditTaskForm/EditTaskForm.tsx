@@ -6,17 +6,30 @@ import { toast } from "react-toastify";
 import { db } from "../../../utils/firebase-config";
 import { Button, Row, Col, Image, Form, Stack } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
+import { TaskData } from "../../../types/taskdata.types";
+import { TaskEditData } from "../../../types/taskdata.types";
 import useDateConverter from "../../../hooks/useDateConverter";
 
-const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
+type EditTaskFormProps = {
+	task: TaskData;
+	creatorName: string;
+	creatorPhoto: string;
+};
+
+const EditTaskForm = ({
+	task,
+	creatorName,
+	creatorPhoto,
+}: EditTaskFormProps) => {
 	// Custom hook converts date into firestore timestamp / date string
 	const { convertToTimestamp, convertLostTimestampToDate } = useDateConverter();
+	console.log(task);
 
 	// React Router Dom hook allowing access to different routes
 	const navigate = useNavigate();
 
 	// React Hook Form
-	const form = useForm();
+	const form = useForm<TaskEditData>();
 	const { register, handleSubmit, reset, formState } = form;
 	const { errors } = formState;
 
@@ -26,15 +39,21 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 	useEffect(() => {
 		const loadDefaultValues = () => {
 			try {
-				const dateToString = convertLostTimestampToDate(task.dueDate);
-				let defaultValues = {};
-				defaultValues.taskname = task.taskName;
-				defaultValues.taskdescription = task.descriptionTask;
-				defaultValues.taskstatus = task.statusProject;
-				defaultValues.taskpriority = task.priorityLevel;
-				defaultValues.taskduedate = dateToString;
-				reset({ ...defaultValues });
-			} catch (error) {
+				let dateToString: string;
+				if (typeof task.dueDate === "string") {
+					dateToString = task.dueDate;
+				} else {
+					dateToString = convertLostTimestampToDate(task.dueDate);
+				}
+				const defaultValues: TaskEditData = {
+					taskName: task.taskName,
+					descriptionTask: task.descriptionTask,
+					statusProject: task.statusProject,
+					priorityLevel: task.priorityLevel,
+					dueDate: dateToString,
+				};
+				reset(defaultValues);
+			} catch (error: any) {
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
@@ -43,21 +62,19 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 	}, []);
 
 	// Update new task content to database
-	const handleUpdate = async (data) => {
+	const handleUpdate = async (data: TaskEditData) => {
 		try {
-			const timestamp = convertToTimestamp(data.taskduedate);
+			const timestamp = convertToTimestamp(data.dueDate);
 			await updateDoc(doc(db, "tasks", task.taskId), {
-				taskName: data.taskname,
-				descriptionTask: data.taskdescription,
-				statusProject: data.taskstatus,
-				priorityLevel: data.taskpriority,
+				taskName: data.taskName,
+				descriptionTask: data.descriptionTask,
+				statusProject: data.statusProject,
+				priorityLevel: data.priorityLevel,
 				dueDate: timestamp,
 			});
-			if (updateDoc) {
-				toast.success("Task has been updated!");
-				navigate("/home");
-			}
-		} catch (error) {
+			toast.success("Task has been updated!");
+			navigate("/home");
+		} catch (error: any) {
 			console.log(`Error: ${error.message}`);
 			toast.error("Could not update task!", {
 				hideProgressBar: true,
@@ -77,14 +94,11 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 				<Form.Control
 					className="fs-6 shadow-none"
 					type="text"
-					{...register("taskname", {
-						required: {
-							value: true,
-							message: "Task name is required!",
-						},
+					{...register("taskName", {
+						required: { value: true, message: "Task name is required!" },
 					})}
 				/>
-				<p className="fs-6 mt-1">{errors.taskname?.message}</p>
+				<p className="fs-6 mt-1">{errors.taskName?.message}</p>
 			</Form.Group>
 
 			<Form.Group className="mb-4" controlId="taskDescriptionInput">
@@ -94,14 +108,11 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 					type="text"
 					as="textarea"
 					rows={3}
-					{...register("taskdescription", {
-						required: {
-							value: true,
-							message: "Task description is required!",
-						},
+					{...register("descriptionTask", {
+						required: { value: true, message: "Task description is required!" },
 					})}
 				/>
-				<p className="fs-6 mt-1">{errors.taskdescription?.message}</p>
+				<p className="fs-6 mt-1">{errors.descriptionTask?.message}</p>
 			</Form.Group>
 
 			<Form.Group className="mb-4" controlId="taskStatusInput">
@@ -109,9 +120,8 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 				<Form.Select
 					className="fs-6 shadow-none"
 					aria-label="Default select example"
-					{...register("taskstatus", {
-						required: true,
-						message: "Status must be chosen!",
+					{...register("statusProject", {
+						required: { value: true, message: "Status must be chosen!" },
 					})}
 				>
 					<option value="">Select status options</option>
@@ -120,7 +130,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 					<option value="Done">Done</option>
 					<option value="Cancelled">Cancelled</option>
 				</Form.Select>
-				<p className="fs-6 mt-1">{errors.taskstatus?.message}</p>
+				<p className="fs-6 mt-1">{errors.statusProject?.message}</p>
 			</Form.Group>
 
 			<Form.Group className="mb-4" controlId="taskPriorityInput">
@@ -130,9 +140,8 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 				<Form.Select
 					className="fs-6 shadow-none"
 					aria-label="Default select example"
-					{...register("taskpriority", {
-						required: true,
-						message: "Priority must be chosen!",
+					{...register("priorityLevel", {
+						required: { value: true, message: "Priority must be chosen!" },
 					})}
 				>
 					<option value="">Select priority level options</option>
@@ -141,7 +150,7 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 					<option value="Medium">Medium</option>
 					<option value="Low">Low</option>
 				</Form.Select>
-				<p className="fs-6 mt-1">{errors.taskpriority?.message}</p>
+				<p className="fs-6 mt-1">{errors.priorityLevel?.message}</p>
 			</Form.Group>
 
 			<Form.Group className="mb-4" controlId="taskDueDateInput">
@@ -149,15 +158,15 @@ const EditTaskForm = ({ task, creatorName, creatorPhoto }) => {
 				<Form.Control
 					className="fs-6 shadow-none"
 					type="date"
-					{...register("taskduedate", {
-						valueAsDate: true,
+					{...register("dueDate", {
+						// valueAsDate: true,
 						required: {
 							value: true,
 							message: "Due date is required!",
 						},
 					})}
 				/>
-				<p className="fs-6 mt-1">{errors.taskduedate?.message}</p>
+				<p className="fs-6 mt-1">{errors.dueDate?.message}</p>
 			</Form.Group>
 
 			<Row>
