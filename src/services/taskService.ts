@@ -10,9 +10,13 @@ import {
 	OrderByDirection,
 	QueryDocumentSnapshot,
 	DocumentData,
+	updateDoc,
+	doc,
 } from "firebase/firestore";
 import { db } from "../utils/firebase-config";
 import { TaskData } from "../types/taskdata.types";
+import { convertToTimestamp } from "../utils/date-config";
+import { TaskEditData } from "../types/taskdata.types";
 
 export const taskService = () => {
 	// Fetch all tasks (for search)
@@ -141,10 +145,28 @@ export const taskService = () => {
 		}
 	};
 
+	const updateTask = async (taskId: string, data: TaskEditData) => {
+		try {
+			console.log(data.dueDate);
+			const timestamp = convertToTimestamp(data.dueDate);
+			console.log(timestamp);
+			await updateDoc(doc(db, "tasks", taskId), {
+				taskName: data.taskName,
+				descriptionTask: data.descriptionTask,
+				statusProject: data.statusProject,
+				priorityLevel: data.priorityLevel,
+				dueDate: timestamp,
+			});
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	return {
 		fetchAllTasks,
 		fetchTasksWithQuery,
 		fetchMoreTasksWithQuery,
 		getTasksCount,
+		updateTask,
 	};
 };
