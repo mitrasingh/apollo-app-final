@@ -4,7 +4,7 @@ import { db } from "../../../utils/firebase-config";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import useDateConverter from "../../../hooks/useDateConverter";
+import { createTimestamp } from "../../../utils/date-config";
 import PropTypes from "prop-types";
 import styles from "./CreateTopicForm.module.css";
 
@@ -18,9 +18,6 @@ export const CreateTopicForm = ({ setIsCreateTopic, setIsTopicsRefreshed }) => {
 
 	// Access Redux state of user slice
 	const user = useSelector((state) => state.user);
-
-	// Custom hook converts current date/time as a firestore timestamp
-	const { createTimestamp } = useDateConverter();
 
 	// Function adds topic to database, refreshes topic list, closes create topic form (if success), shows success/error message
 	const handleCreateTopic = async (data) => {

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { db } from "../../../utils/firebase-config";
 import { toast } from 'react-toastify';
 import { useErrorBoundary } from "react-error-boundary";
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertToRelativeTime } from "../../../utils/date-config";
 import PropTypes from "prop-types";
 import EditTopicPost from "../EditTopicPost/EditTopicPost";
 import DeleteModal from "../../../components/Modals/DeleteModal";
@@ -36,9 +36,6 @@ const TopicPost = ({ id, isTopicRefreshed, setIsTopicRefreshed, isCommentsRefres
 
     // Display edit fields for the topic description when set to true
     const [isEditTopicDisplayed, setIsEditTopicDisplayed] = useState(false);
-
-    // Custom hook converts firestore timestamp into relative time from current time
-    const { convertToRelativeTime } = useDateConverter();
 
     // Catches error and returns to error boundary component (error component in parent (TopicDetailsPage component)
     const { showBoundary } = useErrorBoundary();

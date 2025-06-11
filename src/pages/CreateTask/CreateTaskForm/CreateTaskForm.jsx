@@ -5,16 +5,13 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertToTimestamp } from "../../../utils/date-config";
 
 const CreateTaskForm = () => {
     // React Hook Form
     const form = useForm();
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
-
-    // Custom hook converts date into firestore timestamp
-    const { convertToTimestamp } = useDateConverter();
 
     // React router function allows user to navigate to specified route
     const navigate = useNavigate();
