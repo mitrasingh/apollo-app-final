@@ -8,7 +8,8 @@ import { Button, Row, Col, Image, Form, Stack } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import { TaskData } from "../../../types/taskdata.types";
 import { TaskEditData } from "../../../types/taskdata.types";
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertLostTimestampToDate } from "../../../utils/date-config";
+import { taskService } from "../../../services/taskService";
 
 type EditTaskFormProps = {
 	task: TaskData;
@@ -21,9 +22,7 @@ const EditTaskForm = ({
 	creatorName,
 	creatorPhoto,
 }: EditTaskFormProps) => {
-	// Custom hook converts date into firestore timestamp / date string
-	const { convertToTimestamp, convertLostTimestampToDate } = useDateConverter();
-	console.log(task);
+	const { updateTask } = taskService();
 
 	// React Router Dom hook allowing access to different routes
 	const navigate = useNavigate();
@@ -62,16 +61,10 @@ const EditTaskForm = ({
 	}, []);
 
 	// Update new task content to database
-	const handleUpdate = async (data: TaskEditData) => {
+	// CAUSING INVALID DATE CHECK DATE-CONFIG and TASKSERVICE
+	const handleTaskUpdate = async () => {
 		try {
-			const timestamp = convertToTimestamp(data.dueDate);
-			await updateDoc(doc(db, "tasks", task.taskId), {
-				taskName: data.taskName,
-				descriptionTask: data.descriptionTask,
-				statusProject: data.statusProject,
-				priorityLevel: data.priorityLevel,
-				dueDate: timestamp,
-			});
+			await updateTask(task.taskId, task);
 			toast.success("Task has been updated!");
 			navigate("/home");
 		} catch (error: any) {
@@ -88,7 +81,7 @@ const EditTaskForm = ({
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(handleUpdate)} noValidate>
+		<Form onSubmit={handleSubmit(handleTaskUpdate)} noValidate>
 			<Form.Group className="mb-4" controlId="taskNameInput">
 				<Form.Label className="fw-bold fs-6 mt-3">Current Task Name</Form.Label>
 				<Form.Control
