@@ -1,17 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { doc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { db } from "../../../utils/firebase-config";
 import { Button, Row, Col, Image, Form, Stack } from "react-bootstrap";
 import { useErrorBoundary } from "react-error-boundary";
 import { TaskData } from "../../../types/taskdata.types";
 import { TaskEditData } from "../../../types/taskdata.types";
-import {
-	convertLostTimestampToDate,
-	convertToTimestamp,
-} from "../../../utils/date-config";
+import { convertLostTimestampToDate } from "../../../utils/date-config";
 import { taskService } from "../../../services/taskService";
 
 type EditTaskFormProps = {
@@ -64,7 +59,6 @@ const EditTaskForm = ({
 	}, []);
 
 	// Update new task content to database
-	// CAUSING INVALID DATE CHECK DATE-CONFIG and TASKSERVICE
 	const handleTaskUpdate = async (data: TaskEditData) => {
 		try {
 			await updateTask(task.taskId, data);
@@ -77,28 +71,6 @@ const EditTaskForm = ({
 			});
 		}
 	};
-	// WHY DOES THIS WORK BUT NOT THE ONE ABOVE? CHECK!
-	// const handleTaskUpdate = async (data: any) => {
-	// 	try {
-	// 		console.log(data.dueDate);
-	// 		const timestamp = convertToTimestamp(data.dueDate);
-	// 		await updateDoc(doc(db, "tasks", task.taskId), {
-	// 			taskName: data.taskName,
-	// 			descriptionTask: data.descriptionTask,
-	// 			statusProject: data.statusProject,
-	// 			priorityLevel: data.priorityLevel,
-	// 			dueDate: timestamp,
-	// 		});
-	// 		console.log(timestamp);
-	// 		toast.success("Task has been updated!");
-	// 		navigate("/home");
-	// 	} catch (error: any) {
-	// 		console.log(`Error: ${error.message}`);
-	// 		toast.error("Could not update task!", {
-	// 			hideProgressBar: true,
-	// 		});
-	// 	}
-	// };
 
 	// Goes to previous page
 	const handleCancel = () => {
