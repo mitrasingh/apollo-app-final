@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertToDate } from "../../../utils/date-config";
 import ViewTaskModal from "../ViewTaskModal/ViewTaskModal";
 import DeleteModal from "../../../components/Modals/DeleteModal";
 import { TaskData } from "../../../types/taskdata.types";
@@ -34,8 +34,13 @@ const TaskCard = ({ task, fetchTasks }: TaskCardProps) => {
 	const currentUser = useSelector((state: RootState) => state.user);
 
 	// Custom hook converts date into date string
-	const { convertToDate } = useDateConverter();
-	const dateToString = convertToDate(task.dueDate, "en-US");
+	// const dateToString = convertToDate(task.dueDate, "en-US");
+	let dateToString: string;
+	if (typeof task.dueDate === "string") {
+		dateToString = task.dueDate;
+	} else {
+		dateToString = convertToDate(task.dueDate, "en-US");
+	}
 
 	// State holds user creator photo
 	const [creatorPhoto, setCreatorPhoto] = useState<string | null>(null);

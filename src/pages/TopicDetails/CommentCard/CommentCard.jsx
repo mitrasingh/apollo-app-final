@@ -3,7 +3,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useState } from "react";
 import { Row, Col, Stack, Image, Card, Dropdown } from "react-bootstrap";
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertToRelativeTime } from "../../../utils/date-config";
 import PropTypes from "prop-types";
 import EditComment from "../EditComment/EditComment";
 import Like from "../../../components/Like/Like";
@@ -18,7 +18,6 @@ const CommentCard = ({ comment, setIsCommentsRefreshed }) => { // Props from par
 	const [isEditComment, setIsEditComment] = useState(false);
 
 	// Custom hook converts firestore timestamp into relative time from current time
-	const { convertToRelativeTime } = useDateConverter();
 	const dateRelativeTime = convertToRelativeTime(comment.datePosted);
 
 	// Delete comment functionality

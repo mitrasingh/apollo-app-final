@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { ErrorFallback } from "../../types/errorfallback.types";
 import styles from "./ErrorFallback.module.css";
 
-export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
+export const ErrorFallbackProfile = ({ resetErrorBoundary }: ErrorFallback) => {
 	return (
 		<Container className={styles.customContainer}>
 			<Row>
 				<Col className="d-flex justify-content-center mt-4">
 					<div className="text-light fs-4 fw-bold text-center">
-						Ground control, topics not loading!
+						Ground control, profile details not loading!
 					</div>
 				</Col>
 			</Row>
@@ -40,4 +40,4 @@ export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
 	);
 };
 
-export default ErrorFallbackTopics;
+export default ErrorFallbackProfile;

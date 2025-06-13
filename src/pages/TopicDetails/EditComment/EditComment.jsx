@@ -3,7 +3,7 @@ import { db } from "../../../utils/firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import useDateConverter from "../../../hooks/useDateConverter";
+import { createTimestamp } from "../../../utils/date-config";
 import PropTypes from "prop-types";
 
 const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }) => { // Props from CommentCard.jsx
@@ -16,9 +16,6 @@ const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRe
 	})
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
-
-	// Custom hook converts current date/time as a firestore timestamp
-	const { createTimestamp } = useDateConverter();
 
 	// Updates comment document in database and refreshes comment card
 	const handleUpdateButton = async (data) => {

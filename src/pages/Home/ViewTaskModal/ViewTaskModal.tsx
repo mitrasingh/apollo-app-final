@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Modal, Stack, Image } from "react-bootstrap";
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertToDate } from "../../../utils/date-config";
 import { TaskData } from "../../../types/taskdata.types";
 import styles from "./ViewTaskModal.module.css";
 
@@ -21,8 +21,14 @@ const ViewTaskModal = ({
 	const handleClose = () => setIsViewModal(false);
 
 	// Custom hook converts date into date string
-	const { convertToDate } = useDateConverter();
-	const dateToString = convertToDate(task.dueDate, "en-US");
+	// const dateToString = convertToDate(task.dueDate, "en-US");
+
+	let dateToString: string;
+	if (typeof task.dueDate === "string") {
+		dateToString = task.dueDate;
+	} else {
+		dateToString = convertToDate(task.dueDate, "en-US");
+	}
 
 	return (
 		<>

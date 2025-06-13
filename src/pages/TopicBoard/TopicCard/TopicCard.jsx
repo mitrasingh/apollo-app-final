@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { db } from "../../../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
-import useDateConverter from "../../../hooks/useDateConverter";
+import { convertToRelativeTime } from "../../../utils/date-config";
 import PropTypes from "prop-types";
 import styles from "./TopicCard.module.css";
 
@@ -20,7 +20,6 @@ export const TopicCard = (props) => {
 	const [numOfComments, setNumOfComments] = useState("");
 
 	// Custom hook converts firestore timestamp into relative time from current time
-	const { convertToRelativeTime } = useDateConverter();
 	const dateRelativeTime = convertToRelativeTime(topic.datePosted);
 
 	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
