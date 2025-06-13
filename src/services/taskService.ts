@@ -145,11 +145,10 @@ export const taskService = () => {
 		}
 	};
 
+	// Updates existing task in Firestore with new input data
 	const updateTask = async (taskId: string, data: TaskEditData) => {
 		try {
-			console.log(data.dueDate);
 			const timestamp = convertToTimestamp(data.dueDate);
-			console.log(timestamp);
 			await updateDoc(doc(db, "tasks", taskId), {
 				taskName: data.taskName,
 				descriptionTask: data.descriptionTask,
