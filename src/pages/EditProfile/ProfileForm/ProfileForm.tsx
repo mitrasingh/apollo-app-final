@@ -92,49 +92,33 @@ const ProfileForm = () => {
 	}, []);
 
 	// Uploads users chosen file to storage as a temporary image
-	const setPreviewPhotoHandle = async (
-		e: React.MouseEvent<HTMLButtonElement>
-	) => {
+	// const setPreviewPhotoHandle = async (
+	// 	e: React.MouseEvent<HTMLButtonElement>
+	// ) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		setIsFilePreviewed(true);
+	// 		if (userChosenFile) {
+	// 			const url = await previewProfilePhoto(userChosenFile);
+	// 			setUserPhoto(url);
+	// 		}
+	// 	} catch (error: any) {
+	// 		console.log(`Error: ${error.message}`);
+	// 		toast.error(error.message || "Failed to preview photo."),
+	// 			{
+	// 				hideProgressBar: true,
+	// 			};
+	// 	}
+	// };
+
+	const setPreviewPhotoHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		try {
-			if (!userAuth.currentUser) {
-				throw new Error("User not authenticated.");
-			} else {
-				setIsFilePreviewed(true);
-				const imageRef = ref(
-					storageRef,
-					`user-photo/temp-${userAuth.currentUser.uid}`
-				);
-				if (!userChosenFile) {
-					toast.error("Please select a file to upload.");
-					return;
-				}
-				await uploadBytes(imageRef, userChosenFile);
-				const getURL = await getDownloadURL(imageRef);
-				setUserPhoto(getURL);
-			}
-		} catch (error: any) {
-			console.log(`Error: ${error.message}`);
-			toast.error("Sorry, having issues displaying photo! Try another!", {
-				hideProgressBar: true,
-			});
+		setIsFilePreviewed(true);
+		if (userChosenFile) {
+			const url = URL.createObjectURL(userChosenFile);
+			setUserPhoto(url);
 		}
 	};
-
-	// const handlePreviewClick = async (
-	// 		e: React.MouseEvent<HTMLButtonElement>
-	// 	) => {
-	// 		e.preventDefault();
-	// 		try {
-	// 			if (userChosenFile) {
-	// 				const url = await previewProfilePhoto(userChosenFile);
-	// 				setUserPhoto(url ?? null);
-	// 			}
-	// 		} catch (error: any) {
-	// 			console.log(error.message);
-	// 			toast.error(error.message || "Failed to preview photo.");
-	// 		}
-	// 	};
 
 	// Sends new data to to database and storage (if user added a new image), updates Redux user state values
 	const handleUpdate = async (data: UserProfile) => {
@@ -240,9 +224,8 @@ const ProfileForm = () => {
 						<Row>
 							<Col className="mt-3 d-flex justify-content-center">
 								<Button
-									className={`fs-6 text-light fw-bold ${
-										userChosenFile ? "disabled" : ""
-									}`}
+									className={`fs-6 text-light fw-bold`}
+									disabled={!userChosenFile}
 									variant="primary"
 									size="sm"
 									type="button"
