@@ -91,15 +91,6 @@ const ProfileForm = () => {
 		fetchUserRedux();
 	}, []);
 
-	// Clean up blob URL when userPhoto changes or component unmounts
-	useEffect(() => {
-		return () => {
-			if (userPhoto && userPhoto.startsWith("blob:")) {
-				URL.revokeObjectURL(userPhoto);
-			}
-		};
-	}, [userPhoto]);
-
 	// Uploads users chosen file to storage as a temporary image
 	const setPreviewPhotoHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -132,7 +123,10 @@ const ProfileForm = () => {
 					await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
 						userPhoto: photoURL,
 					});
-					setUserPhoto(photoURL); // Ensure state is updated to permanent URL
+					if (userPhoto && userPhoto.startsWith("blob:")) {
+						URL.revokeObjectURL(userPhoto);
+					}
+					setUserPhoto(photoURL);
 				}
 				await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
 					firstname: data.firstname,
