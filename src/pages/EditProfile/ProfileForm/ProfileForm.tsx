@@ -91,26 +91,16 @@ const ProfileForm = () => {
 		fetchUserRedux();
 	}, []);
 
-	// Uploads users chosen file to storage as a temporary image
-	// const setPreviewPhotoHandle = async (
-	// 	e: React.MouseEvent<HTMLButtonElement>
-	// ) => {
-	// 	e.preventDefault();
-	// 	try {
-	// 		setIsFilePreviewed(true);
-	// 		if (userChosenFile) {
-	// 			const url = await previewProfilePhoto(userChosenFile);
-	// 			setUserPhoto(url);
-	// 		}
-	// 	} catch (error: any) {
-	// 		console.log(`Error: ${error.message}`);
-	// 		toast.error(error.message || "Failed to preview photo."),
-	// 			{
-	// 				hideProgressBar: true,
-	// 			};
-	// 	}
-	// };
+	// Clean up blob URL when userPhoto changes or component unmounts
+	useEffect(() => {
+		return () => {
+			if (userPhoto && userPhoto.startsWith("blob:")) {
+				URL.revokeObjectURL(userPhoto);
+			}
+		};
+	}, [userPhoto]);
 
+	// Uploads users chosen file to storage as a temporary image
 	const setPreviewPhotoHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		setIsFilePreviewed(true);
@@ -131,7 +121,19 @@ const ProfileForm = () => {
 				});
 
 				await updateEmail(userAuth.currentUser, data.email);
-
+				let photoURL: string | null = user.userPhoto;
+				if (isFilePreviewed && userChosenFile) {
+					const imageRef = ref(
+						storageRef,
+						`user-photo/${userAuth.currentUser.uid}`
+					);
+					await uploadBytes(imageRef, userChosenFile);
+					photoURL = await getDownloadURL(imageRef);
+					await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
+						userPhoto: photoURL,
+					});
+					setUserPhoto(photoURL); // Ensure state is updated to permanent URL
+				}
 				await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
 					firstname: data.firstname,
 					lastname: data.lastname,
@@ -139,25 +141,10 @@ const ProfileForm = () => {
 					email: data.email,
 				});
 
-				if (isFilePreviewed) {
-					const imageRef = ref(
-						storageRef,
-						`user-photo/${userAuth.currentUser.uid}`
-					);
-					if (!userChosenFile) {
-						toast.error("Please select a file to upload.");
-						return;
-					}
-					await uploadBytes(imageRef, userChosenFile);
-					await getDownloadURL(imageRef);
-					await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
-						userPhoto: userPhoto,
-					});
-				}
 				dispatch(
 					editUser({
 						userId: user.userId,
-						userPhoto: isFilePreviewed ? userPhoto : user.userPhoto,
+						userPhoto: photoURL,
 						firstName: data.firstname,
 						lastName: data.lastname,
 						title: data.title,
