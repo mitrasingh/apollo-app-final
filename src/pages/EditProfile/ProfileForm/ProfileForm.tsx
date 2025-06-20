@@ -102,43 +102,37 @@ const ProfileForm = () => {
 		}
 	};
 
-	// Sends new data to to database and storage (if user added a new image), updates Redux user state values
+	// Sends new data to to database and storage, cleans up ObjectURL to prevent memory leak,
+	// updates Redux user state values,
 	const handleUpdate = async (data: UserProfile) => {
 		try {
-			if (!userAuth.currentUser) {
-				throw new Error("User not authenticated.");
-			} else {
-				await updateProfile(userAuth.currentUser, {
-					displayName: data.firstname,
-				});
-
-				await updateEmail(userAuth.currentUser, data.email);
-				let photoURL: string | null = user.userPhoto;
-
-				if (isFilePreviewed && userChosenFile) {
-					const userData = await submitProfilePhoto(userChosenFile);
-					photoURL = userData.userPhoto;
-
-					if (userPhoto && userPhoto.startsWith("blob:")) {
-						URL.revokeObjectURL(userPhoto);
-					}
-
-					setUserPhoto(photoURL);
-					await updateUserProfileInfo(userData.userId, data);
-				}
-				dispatch(
-					editUser({
-						userId: user.userId,
-						userPhoto: photoURL,
-						firstName: data.firstname,
-						lastName: data.lastname,
-						title: data.title,
-						email: data.email,
-					})
-				);
-				toast.success("Your profile has been updated!");
-				navigate("/home");
+			if (!user.userId) {
+				toast.error("User authentication failed.");
+				return;
 			}
+			let photoURL: string | null = user.userPhoto;
+			if (isFilePreviewed && userChosenFile) {
+				const userData = await submitProfilePhoto(userChosenFile);
+				photoURL = userData.userPhoto;
+
+				if (userPhoto && userPhoto.startsWith("blob:")) {
+					URL.revokeObjectURL(userPhoto);
+				}
+				setUserPhoto(photoURL);
+			}
+			await updateUserProfileInfo(user.userId, data);
+			dispatch(
+				editUser({
+					userId: user.userId,
+					userPhoto: photoURL,
+					firstName: data.firstname,
+					lastName: data.lastname,
+					title: data.title,
+					email: data.email,
+				})
+			);
+			toast.success("Your profile has been updated!");
+			navigate("/home");
 		} catch (error: any) {
 			console.log(`Error: ${error.message}`);
 			toast.error("Sorry, could not update profile!", {
