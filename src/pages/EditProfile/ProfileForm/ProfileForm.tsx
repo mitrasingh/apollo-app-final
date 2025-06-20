@@ -25,7 +25,8 @@ import { UserProfile } from "../../../types/userdata.types";
 import { profileService } from "../../../services/profileService";
 
 const ProfileForm = () => {
-	const { previewProfilePhoto, submitProfilePhoto } = profileService();
+	const { previewProfilePhoto, submitProfilePhoto, updateUserProfileInfo } =
+		profileService();
 
 	// Allows access to Redux user state
 	const user = useSelector((state: RootState) => state.user);
@@ -113,28 +114,18 @@ const ProfileForm = () => {
 
 				await updateEmail(userAuth.currentUser, data.email);
 				let photoURL: string | null = user.userPhoto;
+
 				if (isFilePreviewed && userChosenFile) {
-					const imageRef = ref(
-						storageRef,
-						`user-photo/${userAuth.currentUser.uid}`
-					);
-					await uploadBytes(imageRef, userChosenFile);
-					photoURL = await getDownloadURL(imageRef);
-					await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
-						userPhoto: photoURL,
-					});
+					const userData = await submitProfilePhoto(userChosenFile);
+					photoURL = userData.userPhoto;
+
 					if (userPhoto && userPhoto.startsWith("blob:")) {
 						URL.revokeObjectURL(userPhoto);
 					}
-					setUserPhoto(photoURL);
-				}
-				await updateDoc(doc(db, "users", userAuth.currentUser.uid), {
-					firstname: data.firstname,
-					lastname: data.lastname,
-					title: data.title,
-					email: data.email,
-				});
 
+					setUserPhoto(photoURL);
+					await updateUserProfileInfo(userData.userId, data);
+				}
 				dispatch(
 					editUser({
 						userId: user.userId,
