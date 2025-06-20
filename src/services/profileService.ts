@@ -1,6 +1,8 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
+import { UserProfile } from "../types/userdata.types";
+import { updateEmail, updateProfile } from "firebase/auth";
 
 export const profileService = () => {
 	// Firebase storage access
@@ -65,5 +67,29 @@ export const profileService = () => {
 		}
 	};
 
-	return { previewProfilePhoto, submitProfilePhoto };
+	const updateUserProfileInfo = async (userId: string, data: UserProfile) => {
+		try {
+			if (!auth.currentUser) {
+				throw new Error("User not authenticated.");
+			}
+			if (data.firstname !== auth.currentUser.displayName) {
+				await updateProfile(auth.currentUser, {
+					displayName: data.firstname,
+				});
+			}
+			if (data.email !== auth.currentUser.email) {
+				await updateEmail(auth.currentUser, data.email);
+			}
+			await updateDoc(doc(db, "users", userId), {
+				firstname: data.firstname,
+				lastname: data.lastname,
+				title: data.title,
+				email: data.email,
+			});
+		} catch (error: any) {
+			throw error;
+		}
+	};
+
+	return { previewProfilePhoto, submitProfilePhoto, updateUserProfileInfo };
 };
