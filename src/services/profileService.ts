@@ -9,26 +9,6 @@ export const profileService = () => {
 	const storage = getStorage();
 	const storageRef = ref(storage);
 
-	// Function for previewing photo
-	const previewProfilePhoto = async (file: Blob) => {
-		try {
-			if (!auth.currentUser) {
-				throw new Error("User not authenticated.");
-			} else {
-				console.log(auth.currentUser);
-				const imageRef = ref(
-					storageRef,
-					`user-photo/temp-${auth.currentUser.uid}`
-				);
-				await uploadBytes(imageRef, file);
-				const getURL = await getDownloadURL(imageRef);
-				return getURL;
-			}
-		} catch (error: any) {
-			throw error;
-		}
-	};
-
 	// Function for uploading the photo to DB and setting photo to user data object
 	// Function also returns data object
 	const submitProfilePhoto = async (file: Blob) => {
@@ -91,5 +71,5 @@ export const profileService = () => {
 		}
 	};
 
-	return { previewProfilePhoto, submitProfilePhoto, updateUserProfileInfo };
+	return { submitProfilePhoto, updateUserProfileInfo };
 };
