@@ -10,3 +10,5 @@ export interface UserData {
 export type UserSignIn = Pick<UserData, "email" | "password">;
 
 export type UserEmail = Pick<UserData, "email">;
+
+export type UserProfile = Omit<UserData, "password" | "confirmPassword">;

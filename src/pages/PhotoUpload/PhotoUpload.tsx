@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import styles from "./PhotoUpload.module.css";
 
 const PhotoUpload = () => {
-	const { previewProfilePhoto, submitProfilePhoto } = profileService();
+	const { submitProfilePhoto } = profileService();
 
 	// Redux management
 	const userState = useSelector((state: RootState) => state.user);
@@ -51,17 +51,12 @@ const PhotoUpload = () => {
 		}
 	};
 
-	// Handles photo upload and preview of chosen file selected by user
+	// Temporary storage in browser to handle photo blob URL (clean up function is above)
 	const handlePreviewClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		try {
-			if (userChosenFile) {
-				const url = await previewProfilePhoto(userChosenFile);
-				setUserPhoto(url ?? null);
-			}
-		} catch (error: any) {
-			console.log(error.message);
-			toast.error(error.message || "Failed to preview photo.");
+		if (userChosenFile) {
+			const url = URL.createObjectURL(userChosenFile);
+			setUserPhoto(url);
 		}
 	};
 
@@ -70,6 +65,13 @@ const PhotoUpload = () => {
 		try {
 			if (userChosenFile) {
 				const userData = await submitProfilePhoto(userChosenFile);
+
+				// Clean up blob URL if it was used for preview
+				if (userPhoto && userPhoto.startsWith("blob:")) {
+					URL.revokeObjectURL(userPhoto);
+				}
+
+				setUserPhoto(userData.userPhoto);
 				dispatch(loginUser(userData));
 				toast.success(`Welcome ${userData.firstName} to Apollo!`);
 				navigate("/home");
@@ -132,9 +134,8 @@ const PhotoUpload = () => {
 					</Row>
 
 					<Button
-						className={`fw-bold mt-4 text-light fs-5 ${
-							userChosenFile === null ? "disabled" : ""
-						}`}
+						className={`fs-6 text-light fw-bold`}
+						disabled={!userChosenFile}
 						variant="secondary"
 						size="sm"
 						type="submit"

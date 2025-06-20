@@ -1,31 +1,13 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase-config";
+import { UserProfile } from "../types/userdata.types";
+import { updateEmail, updateProfile } from "firebase/auth";
 
 export const profileService = () => {
 	// Firebase storage access
 	const storage = getStorage();
 	const storageRef = ref(storage);
-
-	// Function for previewing photo
-	const previewProfilePhoto = async (file: Blob) => {
-		try {
-			if (!auth.currentUser) {
-				throw new Error("User not authenticated.");
-			} else {
-				console.log(auth.currentUser);
-				const imageRef = ref(
-					storageRef,
-					`user-photo/temp-${auth.currentUser.uid}`
-				);
-				await uploadBytes(imageRef, file);
-				const getURL = await getDownloadURL(imageRef);
-				return getURL;
-			}
-		} catch (error: any) {
-			throw error;
-		}
-	};
 
 	// Function for uploading the photo to DB and setting photo to user data object
 	// Function also returns data object
@@ -65,5 +47,29 @@ export const profileService = () => {
 		}
 	};
 
-	return { previewProfilePhoto, submitProfilePhoto };
+	const updateUserProfileInfo = async (userId: string, data: UserProfile) => {
+		try {
+			if (!auth.currentUser) {
+				throw new Error("User not authenticated.");
+			}
+			if (data.firstname !== auth.currentUser.displayName) {
+				await updateProfile(auth.currentUser, {
+					displayName: data.firstname,
+				});
+			}
+			if (data.email !== auth.currentUser.email) {
+				await updateEmail(auth.currentUser, data.email);
+			}
+			await updateDoc(doc(db, "users", userId), {
+				firstname: data.firstname,
+				lastname: data.lastname,
+				title: data.title,
+				email: data.email,
+			});
+		} catch (error: any) {
+			throw error;
+		}
+	};
+
+	return { submitProfilePhoto, updateUserProfileInfo };
 };
