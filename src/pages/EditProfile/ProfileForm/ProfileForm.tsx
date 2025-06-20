@@ -11,10 +11,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { editUser } from "../../../store/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { updateProfile, updateEmail } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
-import { db, auth } from "../../../utils/firebase-config";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useErrorBoundary } from "react-error-boundary";
@@ -25,8 +21,8 @@ import { UserProfile } from "../../../types/userdata.types";
 import { profileService } from "../../../services/profileService";
 
 const ProfileForm = () => {
-	const { previewProfilePhoto, submitProfilePhoto, updateUserProfileInfo } =
-		profileService();
+	// Service file for profile functions
+	const { submitProfilePhoto, updateUserProfileInfo } = profileService();
 
 	// Allows access to Redux user state
 	const user = useSelector((state: RootState) => state.user);
@@ -36,9 +32,6 @@ const ProfileForm = () => {
 
 	// React Router Dom hook allowing access to different routes
 	const navigate = useNavigate();
-
-	// Instance created from firebase authentication
-	const userAuth = auth;
 
 	// React Hook Form initial state
 	const form = useForm<UserProfile>({
@@ -62,10 +55,6 @@ const ProfileForm = () => {
 
 	// State for displaying loader component
 	const [isLoading, setIsLoading] = useState(true);
-
-	// Allows us access to our firebase storage
-	const storage = getStorage();
-	const storageRef = ref(storage);
 
 	// Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
