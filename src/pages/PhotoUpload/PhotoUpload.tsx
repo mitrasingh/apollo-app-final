@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import styles from "./PhotoUpload.module.css";
 
 const PhotoUpload = () => {
-	const { previewProfilePhoto, submitProfilePhoto } = profileService();
+	const { submitProfilePhoto } = profileService();
 
 	// Redux management
 	const userState = useSelector((state: RootState) => state.user);
