@@ -11,3 +11,5 @@ export interface TaskData {
 }
 
 export type TaskEditData = Omit<TaskData, "userId" | "taskId">;
+
+export type TaskCreateData = Omit<TaskData, "taskId">;
