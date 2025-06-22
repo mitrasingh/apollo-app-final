@@ -8,8 +8,11 @@ import { toast } from "react-toastify";
 import { convertToTimestamp } from "../../../utils/date-config";
 import { RootState } from "../../../store/store";
 import { TaskCreateData } from "../../../types/taskdata.types";
+import { taskService } from "../../../services/taskService";
 
 const CreateTaskForm = () => {
+	const { createTask } = taskService();
+
 	// React Hook Form
 	const form = useForm<TaskCreateData>();
 	const { register, handleSubmit, formState } = form;
@@ -24,17 +27,23 @@ const CreateTaskForm = () => {
 	// Firestore to generate task ID
 	const handleCreateTask = async (data: TaskCreateData) => {
 		try {
-			const timestamp = convertToTimestamp(data.dueDate);
-			const dbRef = collection(db, "tasks");
-			const taskData = {
-				taskName: data.taskName,
-				descriptionTask: data.descriptionTask,
-				statusProject: data.statusProject,
-				priorityLevel: data.priorityLevel,
-				dueDate: timestamp,
-				userId: user.userId,
-			};
-			await addDoc(dbRef, taskData);
+			if (!user.userId) {
+				console.log("User ID is missing. Please log in again.");
+				toast.error("Oops, we hit a snag! Try again later.");
+				return;
+			}
+			// const timestamp = convertToTimestamp(data.dueDate);
+			// const dbRef = collection(db, "tasks");
+			// const taskData = {
+			// 	taskName: data.taskName,
+			// 	descriptionTask: data.descriptionTask,
+			// 	statusProject: data.statusProject,
+			// 	priorityLevel: data.priorityLevel,
+			// 	dueDate: timestamp,
+			// 	userId: user.userId,
+			// };
+			// await addDoc(dbRef, taskData);
+			await createTask(user.userId, data);
 			toast.success("Your task has been added!");
 			navigate("/home");
 		} catch (error: any) {
