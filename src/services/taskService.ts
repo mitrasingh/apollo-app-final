@@ -14,7 +14,7 @@ import {
 	doc,
 	addDoc,
 } from "firebase/firestore";
-import { auth, db } from "../utils/firebase-config";
+import { db } from "../utils/firebase-config";
 import { TaskCreateData, TaskData } from "../types/taskdata.types";
 import { convertToTimestamp } from "../utils/date-config";
 import { TaskEditData } from "../types/taskdata.types";
@@ -162,6 +162,7 @@ export const taskService = () => {
 		}
 	};
 
+	// Create new task in DB, firebase will create taskId (used for editing task)
 	const createTask = async (userId: string, data: TaskCreateData) => {
 		try {
 			const timestamp = convertToTimestamp(data.dueDate);

@@ -1,11 +1,8 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../../utils/firebase-config";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { convertToTimestamp } from "../../../utils/date-config";
 import { RootState } from "../../../store/store";
 import { TaskCreateData } from "../../../types/taskdata.types";
 import { taskService } from "../../../services/taskService";
@@ -24,7 +21,7 @@ const CreateTaskForm = () => {
 	// Access Redux state of user slice
 	const user = useSelector((state: RootState) => state.user);
 
-	// Firestore to generate task ID
+	// Form data sent to taskService function (createTask) to create task
 	const handleCreateTask = async (data: TaskCreateData) => {
 		try {
 			if (!user.userId) {
@@ -32,17 +29,6 @@ const CreateTaskForm = () => {
 				toast.error("Oops, we hit a snag! Try again later.");
 				return;
 			}
-			// const timestamp = convertToTimestamp(data.dueDate);
-			// const dbRef = collection(db, "tasks");
-			// const taskData = {
-			// 	taskName: data.taskName,
-			// 	descriptionTask: data.descriptionTask,
-			// 	statusProject: data.statusProject,
-			// 	priorityLevel: data.priorityLevel,
-			// 	dueDate: timestamp,
-			// 	userId: user.userId,
-			// };
-			// await addDoc(dbRef, taskData);
 			await createTask(user.userId, data);
 			toast.success("Your task has been added!");
 			navigate("/home");
