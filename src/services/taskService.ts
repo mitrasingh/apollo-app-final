@@ -20,7 +20,7 @@ import { convertToTimestamp } from "../utils/date-config";
 import { TaskEditData } from "../types/taskdata.types";
 
 // Fetch all tasks (for search)
-const fetchAllTasks = async (): Promise<TaskData[]> => {
+export const fetchAllTasks = async (): Promise<TaskData[]> => {
 	try {
 		const dbRef = collection(db, "tasks");
 		const snapshot = await getDocs(query(dbRef));
@@ -142,7 +142,7 @@ export const getTasksCount = async (
 };
 
 // Updates existing task in Firestore with new input data
-const updateTask = async (taskId: string, data: TaskEditData) => {
+export const updateTask = async (taskId: string, data: TaskEditData) => {
 	try {
 		const timestamp = convertToTimestamp(data.dueDate);
 		await updateDoc(doc(db, "tasks", taskId), {
