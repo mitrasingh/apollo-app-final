@@ -7,7 +7,7 @@ import { useErrorBoundary } from "react-error-boundary";
 import { TaskData } from "../../../types/taskdata.types";
 import { TaskEditData } from "../../../types/taskdata.types";
 import { convertLostTimestampToDate } from "../../../utils/date-config";
-import { taskService } from "../../../services/taskService";
+import { updateTask } from "../../../services/taskService";
 
 type EditTaskFormProps = {
 	task: TaskData;
@@ -20,7 +20,7 @@ const EditTaskForm = ({
 	creatorName,
 	creatorPhoto,
 }: EditTaskFormProps) => {
-	const { updateTask } = taskService();
+	// const { updateTask } = taskService();
 
 	// React Router Dom hook allowing access to different routes
 	const navigate = useNavigate();
