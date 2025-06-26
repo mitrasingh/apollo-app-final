@@ -5,7 +5,12 @@ import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { TaskData } from "../../../types/taskdata.types";
 import TaskCard from "../TaskCard/TaskCard";
-import { taskService } from "../../../services/taskService";
+import {
+	fetchAllTasks,
+	fetchTasksWithQuery,
+	fetchMoreTasksWithQuery,
+	getTasksCount,
+} from "../../../services/taskService";
 import { QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
 
 interface TaskCardListProps {
@@ -21,13 +26,6 @@ const TaskCardList = ({
 	isTasksSearched,
 	userInput,
 }: TaskCardListProps) => {
-	const {
-		fetchAllTasks,
-		fetchTasksWithQuery,
-		fetchMoreTasksWithQuery,
-		getTasksCount,
-	} = taskService();
-
 	const [tasksList, setTasksList] = useState<TaskData[]>([]);
 	const [tasksCount, setTasksCount] = useState<number>(0);
 	const [lastTask, setLastTask] =
