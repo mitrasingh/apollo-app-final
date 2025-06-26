@@ -13,13 +13,11 @@ import {
 	Stack,
 	Image,
 } from "react-bootstrap";
-import { profileService } from "../../services/profileService";
+import { submitProfilePhoto } from "../../services/profileService";
 import { toast } from "react-toastify";
 import styles from "./PhotoUpload.module.css";
 
 const PhotoUpload = () => {
-	const { submitProfilePhoto } = profileService();
-
 	// Redux management
 	const userState = useSelector((state: RootState) => state.user);
 	const dispatch = useDispatch();
