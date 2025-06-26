@@ -18,12 +18,12 @@ import Spinner from "react-bootstrap/Spinner";
 import styles from "./ProfileForm.module.css";
 import { RootState } from "../../../store/store";
 import { UserProfile } from "../../../types/userdata.types";
-import { profileService } from "../../../services/profileService";
+import {
+	submitProfilePhoto,
+	updateUserProfileInfo,
+} from "../../../services/profileService";
 
 const ProfileForm = () => {
-	// Service file for profile functions
-	const { submitProfilePhoto, updateUserProfileInfo } = profileService();
-
 	// Allows access to Redux user state
 	const user = useSelector((state: RootState) => state.user);
 
