@@ -20,8 +20,6 @@ const EditTaskForm = ({
 	creatorName,
 	creatorPhoto,
 }: EditTaskFormProps) => {
-	// const { updateTask } = taskService();
-
 	// React Router Dom hook allowing access to different routes
 	const navigate = useNavigate();
 
