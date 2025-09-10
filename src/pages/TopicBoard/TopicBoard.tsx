@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
-import { ErrorBoundary } from "react-error-boundary"
+import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackTopics from "../../components/ErrorFallback/ErrorFallbackTopics";
 import TopicCardList from "./TopicCardList/TopicCardList";
 import CreateTopicForm from "./CreateTopicForm/CreateTopicForm";
@@ -21,7 +21,9 @@ const TopicBoard = () => {
 
 	return (
 		<Container className={styles.customContainer}>
-			<p className="fs-2 fw-bold d-flex justify-content-center text-light">Topic Board</p>
+			<p className="fs-2 fw-bold d-flex justify-content-center text-light">
+				Topic Board
+			</p>
 			<Row>
 				<Col lg={{ span: 8, offset: 2 }}>
 					<Button
