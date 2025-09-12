@@ -5,11 +5,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { RootState } from "../../../store/store";
 import { TaskCreateData } from "../../../types/taskdata.types";
-import { taskService } from "../../../services/taskService";
+import { createTask } from "../../../services/taskService";
 
 const CreateTaskForm = () => {
-	const { createTask } = taskService();
-
 	// React Hook Form
 	const form = useForm<TaskCreateData>();
 	const { register, handleSubmit, formState } = form;
