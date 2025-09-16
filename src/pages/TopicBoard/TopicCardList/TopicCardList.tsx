@@ -21,15 +21,15 @@ interface TopicCardListProps {
 }
 
 export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
-	const [topicsList, setTopicsList] = useState([]); // State for fetched data from querying database
-	const [topicsCount, setTopicsCount] = useState(); // State for the topics collection count
-	const [lastTopic, setLastTopic] = useState(); // State for the last topic/document from query
+	const [topicsList, setTopicsList] = useState<any[]>([]); // State for fetched data from querying database
+	const [topicsCount, setTopicsCount] = useState<number>(0); // State for the topics collection count
+	const [lastTopic, setLastTopic] = useState<any | null>(null); // State for the last topic/document from query
 
-	const [isTopicsEmpty, setIsTopicsEmpty] = useState(); // Boolean state for if topic collection is empty
-	const [isLoadMoreShown, setIsLoadMoreShown] = useState(); // Boolean state for displaying the Load More Button
+	const [isTopicsEmpty, setIsTopicsEmpty] = useState<boolean>(false); // Boolean state for if topic collection is empty
+	const [isLoadMoreShown, setIsLoadMoreShown] = useState<boolean>(false); // Boolean state for displaying the Load More Button
 
-	const [isLoading, setIsLoading] = useState(false); // Boolean state for loading additional topics
-	const [isLoadingSpinner, setIsLoadingSpinner] = useState(false); // Boolean state for loading initial fetch of topics (uses spinner component)
+	const [isLoading, setIsLoading] = useState<boolean>(false); // Boolean state for loading additional topics
+	const [isLoadingSpinner, setIsLoadingSpinner] = useState<boolean>(false); // Boolean state for loading initial fetch of topics (uses spinner component)
 
 	// Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
@@ -81,7 +81,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 				if (topicsCount == 6) {
 					setIsLoadMoreShown(false);
 				}
-			} catch (error) {
+			} catch (error: any) {
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			} finally {
@@ -118,7 +118,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 				// If data is empty (no additional documents/comments) set boolean value isTopicsEmpty to true
 				setIsTopicsEmpty(true);
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.log(`Error: ${error.message}`);
 			toast.error("Sorry, could not load more topics!", {
 				hideProgressBar: true,
