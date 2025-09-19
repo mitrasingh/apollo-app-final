@@ -5,6 +5,6 @@ export interface TopicData {
 	lastName: string;
 	userId: string;
 	topicId: string;
-	datePosted: object;
+	datePosted: string;
 	isDocEdited: boolean;
 }
