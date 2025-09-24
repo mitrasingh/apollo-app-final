@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import TopicCard from "../TopicCard/TopicCard";
-import PropTypes from "prop-types";
 
 interface TopicCardListProps {
 	isTopicsRefreshed: boolean;
@@ -190,10 +189,6 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 			</Container>
 		</>
 	);
-};
-
-TopicCardList.propTypes = {
-	isTopicsRefreshed: PropTypes.bool.isRequired,
 };
 
 export default TopicCardList;
