@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 export interface TopicData {
 	title: string;
 	description: string;
@@ -5,6 +6,6 @@ export interface TopicData {
 	lastName: string;
 	userId: string;
 	topicId: string;
-	datePosted: string;
+	datePosted: Timestamp;
 	isDocEdited: boolean;
 }
