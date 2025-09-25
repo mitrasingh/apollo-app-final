@@ -33,62 +33,52 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 	// Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
 
-	// Function that fetches data from database by querying "topics" collection
 	useEffect(() => {
+		// Fetch topics from Firestore whenever isTopicsRefreshed changes
 		const fetchTopics = async () => {
 			try {
-				setIsLoadingSpinner(true);
+				setIsLoadingSpinner(true); // Show loading spinner
 
-				// Fetches data from the entire comments collection for this topic
-				const dbRef = collection(db, "topics");
-				const topicsCollection = query(dbRef);
-				const snapshot = await getCountFromServer(topicsCollection); // Retrieves document count from topicsCollection
-				setTopicsCount(snapshot.data().count); // Stores the amount of topics into state variable
+				const dbRef = collection(db, "topics"); // Reference to "topics" collection
+				const topicsCollection = query(dbRef); // Create query for all topics
+				const snapshot = await getCountFromServer(topicsCollection); // Get total topic count
+				const count = snapshot.data().count;
+				setTopicsCount(count); // Store topic count in state
 
-				// If collection count is 0, isTopicsEmpty will be true
-				if (topicsCount == 0) {
+				// If there are no topics, set empty state and clear list
+				if (count === 0) {
 					setIsTopicsEmpty(true);
+					setTopicsList([]);
+					return;
 				}
 
-				if (topicsCount > 0) {
-					// Query specific topics within collection and display the first six topics
-					const dbRef = collection(db, "topics");
-					const topicsToQuery = query(
-						dbRef,
-						orderBy("datePosted", "desc"),
-						limit(6)
-					);
-					const data = await getDocs(topicsToQuery); // Retrieves documents from topicsToQuery
-					const topicsMap = data.docs.map((doc) => ({
-						// Declared variable for mapping through retrieved docs
-						...doc.data(),
-						topicId: doc.id,
-					}));
-					const lastTopicDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last document returned by query
+				// Query for the latest 6 topics, ordered by datePosted descending
+				const topicsToQuery = query(
+					dbRef,
+					orderBy("datePosted", "desc"),
+					limit(6)
+				);
+				const data = await getDocs(topicsToQuery); // Get topic documents
 
-					// Set states with variables via query data
-					setTopicsList(topicsMap);
-					setLastTopic(lastTopicDoc);
-				}
-
-				// If collection count exceeds 6, isLoadMoreShown (the displaying of load more comments button) will be true
-				if (topicsCount > 6) {
-					setIsLoadMoreShown(true);
-				}
-
-				// If collection count is 6, isLoadMoreShown will be false (no other comments are needed to load)
-				if (topicsCount == 6) {
-					setIsLoadMoreShown(false);
-				}
+				// Map Firestore docs to topic objects and update state
+				const topicsMap = data.docs.map((doc) => ({
+					...doc.data(),
+					topicId: doc.id,
+				}));
+				setTopicsList(topicsMap); // Store topics in state
+				setLastTopic(data.docs[data.docs.length - 1]); // Track last topic for pagination
+				setIsTopicsEmpty(false); // There are topics, so not empty
+				setIsLoadMoreShown(count > 6); // Show "Load More" if more than 6 topics
 			} catch (error: any) {
+				// If error occurs, log and show error boundary
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			} finally {
-				setIsLoadingSpinner(false);
+				setIsLoadingSpinner(false); // Hide loading spinner
 			}
 		};
-		fetchTopics();
-	}, [isTopicsRefreshed, topicsCount]);
+		fetchTopics(); // Run fetch on mount or when isTopicsRefreshed changes
+	}, [isTopicsRefreshed]);
 
 	const handleLoadMore = async () => {
 		setIsLoading(true);
