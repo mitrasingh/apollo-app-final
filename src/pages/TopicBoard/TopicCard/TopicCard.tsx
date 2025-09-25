@@ -3,21 +3,27 @@ import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { Link } from "react-router-dom";
 import { db } from "../../../utils/firebase-config";
-import { collection, getCountFromServer, query, where } from "firebase/firestore";
+import {
+	collection,
+	getCountFromServer,
+	query,
+	where,
+} from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 import { convertToRelativeTime } from "../../../utils/date-config";
-import PropTypes from "prop-types";
 import styles from "./TopicCard.module.css";
+import { TopicData } from "../../../types/topicdata.types";
 
-export const TopicCard = (props) => {
-	// Receiving prop data from TopicCards.jsx
-	const { topic } = props;
+type TopicCardProps = {
+	topic: TopicData;
+};
 
+export const TopicCard = ({ topic }: TopicCardProps) => {
 	// Retrieving photo url of user and saving it in a state
-	const [creatorPhoto, setCreatorPhoto] = useState(null);
+	const [creatorPhoto, setCreatorPhoto] = useState<string>();
 
 	// Displays numbers of comments (how many documents within "comments" collection in database)
-	const [numOfComments, setNumOfComments] = useState("");
+	const [numOfComments, setNumOfComments] = useState<number>();
 
 	// Custom hook converts firestore timestamp into relative time from current time
 	const dateRelativeTime = convertToRelativeTime(topic.datePosted);
@@ -39,7 +45,7 @@ export const TopicCard = (props) => {
 				if (creatorPhotoURL) {
 					setCreatorPhoto(creatorPhotoURL);
 				}
-			} catch (error) {
+			} catch (error: any) {
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
@@ -57,7 +63,7 @@ export const TopicCard = (props) => {
 				);
 				const snapshot = await getCountFromServer(commentsToQuery);
 				setNumOfComments(snapshot.data().count);
-			} catch (error) {
+			} catch (error: any) {
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
@@ -73,7 +79,9 @@ export const TopicCard = (props) => {
 						<Col>
 							{/* Link below renders TopicDetailsPage component via React Router Dynamic Routing */}
 							<Link to={`/topicboard/${topic.topicId}`}>
-								<Card.Text className="fw-bold fs-5 text-truncate">{topic.title}</Card.Text>
+								<Card.Text className="fw-bold fs-5 text-truncate">
+									{topic.title}
+								</Card.Text>
 							</Link>
 						</Col>
 					</Row>
@@ -92,13 +100,17 @@ export const TopicCard = (props) => {
 								/>
 								<Stack direction="vertical">
 									<Card.Text className="my-0">by:</Card.Text>
-									<Card.Text className="my-0 fw-bold">{topic.firstName} {topic.lastName}</Card.Text>
+									<Card.Text className="my-0 fw-bold">
+										{topic.firstName} {topic.lastName}
+									</Card.Text>
 								</Stack>
 							</Stack>
 						</Col>
 
 						<Col xs={4} className={styles.mobileHidden}>
-							<Card.Text className="my-0">{topic.isDocEdited ? `Post edited` : `Posted`}</Card.Text>
+							<Card.Text className="my-0">
+								{topic.isDocEdited ? `Post edited` : `Posted`}
+							</Card.Text>
 							<Card.Text className="my-0">{dateRelativeTime}</Card.Text>
 						</Col>
 
@@ -110,7 +122,9 @@ export const TopicCard = (props) => {
 									height="18"
 									alt="comments icon"
 								/>
-								<Card.Text>{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}</Card.Text>
+								<Card.Text>
+									{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}
+								</Card.Text>
 							</Stack>
 						</Col>
 					</Row>
@@ -119,20 +133,4 @@ export const TopicCard = (props) => {
 		</Container>
 	);
 };
-
-TopicCard.propTypes = {
-	topic: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-		description: PropTypes.string,
-		firstName: PropTypes.string.isRequired,
-		lastName: PropTypes.string.isRequired,
-		userId: PropTypes.string.isRequired,
-		topicId: PropTypes.string.isRequired,
-		datePosted: PropTypes.object.isRequired,
-		isDocEdited: PropTypes.bool.isRequired
-	})
-};
-
 export default TopicCard;
-
-
