@@ -11,26 +11,27 @@ import styles from "./TopicDetailsPage.module.css";
 const TopicDetailsPage = () => {
 	const { id } = useParams();
 
-	// State value of true will trigger fetchComments function in Comments component
-	const [isCommentsRefreshed, setIsCommentsRefreshed] = useState(false);
+	// Triggers fetchComments in CommentCardList and CommentPostForm
+	const [isCommentsRefreshed, setIsCommentsRefreshed] = useState<boolean>(false);
 
-	// State value of true will trigger fetchTopicData function in TopicPost component
-	const [isTopicRefreshed, setIsTopicRefreshed] = useState(false);
+	// Triggers fetchTopicData in TopicPost
+	const [isTopicRefreshed, setIsTopicRefreshed] = useState<boolean>(false);
 
 	return (
 		<Container className={`p-4 ${styles.customContainer}`}>
+			{/* ErrorBoundary catches errors in child components */}
 			<ErrorBoundary FallbackComponent={ErrorFallbackTopicPost}>
+				{/* Topic details and refresh logic */}
 				<TopicPost
 					id={id}
 					isTopicRefreshed={isTopicRefreshed}
 					setIsTopicRefreshed={setIsTopicRefreshed}
 					isCommentsRefreshed={isCommentsRefreshed}
 				/>
+				{/* Form to post new comments */}
 				<CommentPostForm setIsCommentsRefreshed={setIsCommentsRefreshed} />
-				<CommentCardList
-					isCommentsRefreshed={isCommentsRefreshed}
-					setIsCommentsRefreshed={setIsCommentsRefreshed}
-				/>
+				{/* List of comments for the topic */}
+				<CommentCardList isCommentsRefreshed={isCommentsRefreshed} setIsCommentsRefreshed={setIsCommentsRefreshed} />
 			</ErrorBoundary>
 		</Container>
 	);
