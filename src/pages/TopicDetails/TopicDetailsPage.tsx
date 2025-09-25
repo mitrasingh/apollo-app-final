@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container } from "react-bootstrap";
-import { ErrorBoundary } from "react-error-boundary"
+import { ErrorBoundary } from "react-error-boundary";
 import { useParams } from "react-router-dom";
 import TopicPost from "./TopicPost/TopicPost";
 import CommentPostForm from "./CommentPostForm/CommentPostForm";
@@ -20,11 +20,19 @@ const TopicDetailsPage = () => {
 	return (
 		<Container className={`p-4 ${styles.customContainer}`}>
 			<ErrorBoundary FallbackComponent={ErrorFallbackTopicPost}>
-				<TopicPost id={id} isTopicRefreshed={isTopicRefreshed} setIsTopicRefreshed={setIsTopicRefreshed} isCommentsRefreshed={isCommentsRefreshed} />
+				<TopicPost
+					id={id}
+					isTopicRefreshed={isTopicRefreshed}
+					setIsTopicRefreshed={setIsTopicRefreshed}
+					isCommentsRefreshed={isCommentsRefreshed}
+				/>
 				<CommentPostForm setIsCommentsRefreshed={setIsCommentsRefreshed} />
-				<CommentCardList isCommentsRefreshed={isCommentsRefreshed} setIsCommentsRefreshed={setIsCommentsRefreshed} />
+				<CommentCardList
+					isCommentsRefreshed={isCommentsRefreshed}
+					setIsCommentsRefreshed={setIsCommentsRefreshed}
+				/>
 			</ErrorBoundary>
-		</Container >
+		</Container>
 	);
 };
 
