@@ -5,7 +5,9 @@ export interface TopicData {
 	firstName: string;
 	lastName: string;
 	userId: string;
-	topicId: string;
 	datePosted: Timestamp;
+	topicId: string;
 	isDocEdited: boolean;
 }
+
+export type TopicDetailData = Omit<TopicData, "topicId">;
