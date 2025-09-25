@@ -1,6 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface UserState {
+	userId: string | null;
+	userPhoto: string | null;
+	firstName: string | null;
+	lastName: string | null;
+	title: string | null;
+	email: string | null;
+}
+
+const initialState: UserState = {
 	userId: null,
 	userPhoto: null,
 	firstName: null,
@@ -13,29 +22,14 @@ const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		loginUser: (state, action) => {
-			state.userId = action.payload.userId;
-			state.userPhoto = action.payload.userPhoto;
-			state.firstName = action.payload.firstName;
-			state.lastName = action.payload.lastName;
-			state.title = action.payload.title;
-			state.email = action.payload.email;
+		loginUser: (state, action: PayloadAction<UserState>) => {
+			Object.assign(state, action.payload);
 		},
 		logoutUser: (state) => {
-			state.userId = null;
-			state.userPhoto = null;
-			state.firstName = null;
-			state.lastName = null;
-			state.title = null;
-			state.email = null;
+			Object.assign(state, initialState);
 		},
-		editUser: (state, action) => {
-			state.userId = action.payload.userId;
-			state.userPhoto = action.payload.userPhoto;
-			state.firstName = action.payload.firstName;
-			state.lastName = action.payload.lastName;
-			state.title = action.payload.title;
-			state.email = action.payload.email;
+		editUser: (state, action: PayloadAction<UserState>) => {
+			Object.assign(state, action.payload);
 		},
 	},
 });
