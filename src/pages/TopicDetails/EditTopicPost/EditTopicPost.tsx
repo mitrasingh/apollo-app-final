@@ -4,7 +4,6 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { createTimestamp } from "../../../utils/date-config";
-import PropTypes from "prop-types";
 
 type EditTopicPostProps = {
 	setIsEditTopicDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
@@ -86,13 +85,6 @@ const EditTopicPost = ({ setIsEditTopicDisplayed, description, id, setIsTopicRef
 			</Form>
 		</>
 	);
-};
-
-EditTopicPost.propTypes = {
-	description: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	setIsEditTopicDisplayed: PropTypes.func.isRequired,
-	setIsTopicRefreshed: PropTypes.func.isRequired,
 };
 
 export default EditTopicPost;
