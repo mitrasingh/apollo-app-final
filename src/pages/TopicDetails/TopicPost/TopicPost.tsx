@@ -8,7 +8,6 @@ import { db } from "../../../utils/firebase-config";
 import { toast } from "react-toastify";
 import { useErrorBoundary } from "react-error-boundary";
 import { convertToRelativeTime } from "../../../utils/date-config";
-import PropTypes from "prop-types";
 import EditTopicPost from "../EditTopicPost/EditTopicPost";
 import DeleteModal from "../../../components/Modals/DeleteModal";
 import Like from "../../../components/Like/Like";
@@ -196,13 +195,6 @@ const TopicPost = ({ id, isTopicRefreshed, setIsTopicRefreshed, isCommentsRefres
 			)}
 		</>
 	);
-};
-
-TopicPost.propTypes = {
-	id: PropTypes.string.isRequired,
-	isTopicRefreshed: PropTypes.bool.isRequired,
-	setIsTopicRefreshed: PropTypes.func.isRequired,
-	isCommentsRefreshed: PropTypes.bool.isRequired,
 };
 
 export default TopicPost;
