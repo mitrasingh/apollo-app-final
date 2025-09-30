@@ -176,10 +176,10 @@ const TopicPost = ({ id, isTopicRefreshed, setIsTopicRefreshed, isCommentsRefres
 							{numOfComments === 1 ? " Reply" : " Replies"}
 						</p>
 
-						{isEditTopicDisplayed ? (
+						{isEditTopicDisplayed && topic ? (
 							<EditTopicPost
 								setIsEditTopicDisplayed={setIsEditTopicDisplayed}
-								description={topic?.description}
+								description={topic.description}
 								id={id}
 								setIsTopicRefreshed={setIsTopicRefreshed}
 								setIsTopicEdited={setIsTopicEdited}
