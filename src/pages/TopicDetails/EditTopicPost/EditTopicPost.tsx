@@ -10,6 +10,7 @@ type EditTopicPostProps = {
 	description: string;
 	id: string;
 	setIsTopicRefreshed: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsTopicEdited: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type EditTopicPostData = {
