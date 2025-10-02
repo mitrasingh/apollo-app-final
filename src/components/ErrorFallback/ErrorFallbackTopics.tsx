@@ -8,9 +8,7 @@ export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
 		<Container className={styles.customContainer}>
 			<Row>
 				<Col className="d-flex justify-content-center mt-4">
-					<div className="text-light fs-4 fw-bold text-center">
-						Ground control, topics not loading!
-					</div>
+					<div className="text-light fs-4 fw-bold text-center">Ground control, topics not loading!</div>
 				</Col>
 			</Row>
 			<Row>
