@@ -2,36 +2,47 @@ import { Form, Stack, Button, Row, Col } from "react-bootstrap";
 import { db } from "../../../utils/firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { createTimestamp } from "../../../utils/date-config";
-import PropTypes from "prop-types";
 
-const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }) => { // Props from CommentCard.jsx
+type EditCommentProps = {
+	userComment: string;
+	setIsEditComment: React.Dispatch<React.SetStateAction<boolean>>;
+	commentId: string;
+	setIsCommentsRefreshed: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+type EditCommentData = {
+	editcomment: string;
+};
+
+const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRefreshed }: EditCommentProps) => {
+	// Props from CommentCard.jsx
 
 	// React Hook Form
-	const form = useForm({
+	const form = useForm<EditCommentData>({
 		defaultValues: {
-			editcomment: userComment
-		}
-	})
+			editcomment: userComment,
+		},
+	});
 	const { register, handleSubmit, formState } = form;
 	const { errors } = formState;
 
 	// Updates comment document in database and refreshes comment card
-	const handleUpdateButton = async (data) => {
+	const handleUpdateButton = async (data: EditCommentData) => {
 		try {
 			const timestamp = createTimestamp();
 			const docRef = doc(db, "comments", commentId);
 			await updateDoc(docRef, {
 				userComment: data.editcomment,
 				datePosted: timestamp,
-				isDocEdited: true
+				isDocEdited: true,
 			});
 			setIsEditComment(false); // Hides display of edit component
 			setIsCommentsRefreshed((current) => !current); // Refreshes topic for immediate update
-		} catch (error) {
+		} catch (error: any) {
 			console.log(`Error: ${error.message}`);
-			toast.error('Sorry, could not edit your comment!');
+			toast.error("Sorry, could not edit your comment!");
 		}
 	};
 
@@ -49,8 +60,8 @@ const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRe
 						{...register("editcomment", {
 							required: {
 								value: true,
-								message: "This field cannot be empty!"
-							}
+								message: "This field cannot be empty!",
+							},
 						})}
 					/>
 				</Form.Group>
@@ -65,12 +76,7 @@ const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRe
 							>
 								Cancel
 							</Button>
-							<Button
-								className="ms-2 fs-6 text-light fw-bold"
-								variant="primary"
-								size="sm"
-								type="submit"
-							>
+							<Button className="ms-2 fs-6 text-light fw-bold" variant="primary" size="sm" type="submit">
 								Update
 							</Button>
 						</Stack>
@@ -78,16 +84,8 @@ const EditComment = ({ userComment, setIsEditComment, commentId, setIsCommentsRe
 				</Row>
 				<p className="mt-2 fs-6 d-flex justify-content-end">{errors.editcomment?.message}</p>
 			</Form>
-
 		</>
 	);
-};
-
-EditComment.propTypes = {
-	userComment: PropTypes.string.isRequired,
-	commentId: PropTypes.string.isRequired,
-	setIsEditComment: PropTypes.func.isRequired,
-	setIsCommentsRefreshed: PropTypes.func.isRequired,
 };
 
 export default EditComment;
