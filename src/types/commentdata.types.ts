@@ -11,3 +11,5 @@ export interface CommentData {
 	commentId: string;
 	isDocEdited: boolean;
 }
+
+export type CommentPostData = Omit<CommentData, "commentId">;
