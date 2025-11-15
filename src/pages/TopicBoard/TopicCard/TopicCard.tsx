@@ -6,18 +6,19 @@ import { db } from "../../../utils/firebase-config";
 import { collection, getCountFromServer, query, where } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 import { convertToRelativeTime } from "../../../utils/date-config";
-import PropTypes from "prop-types";
 import styles from "./TopicCard.module.css";
+import { TopicData } from "../../../types/topicdata.types";
 
-export const TopicCard = (props) => {
-	// Receiving prop data from TopicCards.jsx
-	const { topic } = props;
+type TopicCardProps = {
+	topic: TopicData;
+};
 
+export const TopicCard = ({ topic }: TopicCardProps) => {
 	// Retrieving photo url of user and saving it in a state
-	const [creatorPhoto, setCreatorPhoto] = useState(null);
+	const [creatorPhoto, setCreatorPhoto] = useState<string>();
 
 	// Displays numbers of comments (how many documents within "comments" collection in database)
-	const [numOfComments, setNumOfComments] = useState("");
+	const [numOfComments, setNumOfComments] = useState<number>(0);
 
 	// Custom hook converts firestore timestamp into relative time from current time
 	const dateRelativeTime = convertToRelativeTime(topic.datePosted);
@@ -33,13 +34,11 @@ export const TopicCard = (props) => {
 	useEffect(() => {
 		const fetchUserPhoto = async () => {
 			try {
-				const creatorPhotoURL = await getDownloadURL(
-					ref(storageRef, `user-photo/${topic.userId}`)
-				);
+				const creatorPhotoURL = await getDownloadURL(ref(storageRef, `user-photo/${topic.userId}`));
 				if (creatorPhotoURL) {
 					setCreatorPhoto(creatorPhotoURL);
 				}
-			} catch (error) {
+			} catch (error: any) {
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
@@ -51,13 +50,10 @@ export const TopicCard = (props) => {
 	useEffect(() => {
 		const getNumOfComments = async () => {
 			try {
-				const commentsToQuery = query(
-					collection(db, "comments"),
-					where("topicId", "==", topic.topicId)
-				);
+				const commentsToQuery = query(collection(db, "comments"), where("topicId", "==", topic.topicId));
 				const snapshot = await getCountFromServer(commentsToQuery);
 				setNumOfComments(snapshot.data().count);
-			} catch (error) {
+			} catch (error: any) {
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			}
@@ -83,16 +79,12 @@ export const TopicCard = (props) => {
 					<Row>
 						<Col xs={5}>
 							<Stack direction="horizontal" gap={2}>
-								<Image
-									className="object-fit-cover"
-									height="35px"
-									width="35px"
-									src={creatorPhoto}
-									roundedCircle
-								/>
+								<Image className="object-fit-cover" height="35px" width="35px" src={creatorPhoto} roundedCircle />
 								<Stack direction="vertical">
 									<Card.Text className="my-0">by:</Card.Text>
-									<Card.Text className="my-0 fw-bold">{topic.firstName} {topic.lastName}</Card.Text>
+									<Card.Text className="my-0 fw-bold">
+										{topic.firstName} {topic.lastName}
+									</Card.Text>
 								</Stack>
 							</Stack>
 						</Col>
@@ -104,13 +96,10 @@ export const TopicCard = (props) => {
 
 						<Col xs={3}>
 							<Stack direction="horizontal" gap={2} className="mt-1">
-								<Image
-									src="/comments.svg"
-									width="18"
-									height="18"
-									alt="comments icon"
-								/>
-								<Card.Text>{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}</Card.Text>
+								<Image src="/comments.svg" width="18" height="18" alt="comments icon" />
+								<Card.Text>
+									{numOfComments} {numOfComments === 1 ? "Reply" : "Replies"}
+								</Card.Text>
 							</Stack>
 						</Col>
 					</Row>
@@ -119,20 +108,4 @@ export const TopicCard = (props) => {
 		</Container>
 	);
 };
-
-TopicCard.propTypes = {
-	topic: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-		description: PropTypes.string,
-		firstName: PropTypes.string.isRequired,
-		lastName: PropTypes.string.isRequired,
-		userId: PropTypes.string.isRequired,
-		topicId: PropTypes.string.isRequired,
-		datePosted: PropTypes.object.isRequired,
-		isDocEdited: PropTypes.bool.isRequired
-	})
-};
-
 export default TopicCard;
-
-

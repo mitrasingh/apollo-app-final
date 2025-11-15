@@ -1,14 +1,13 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ErrorFallback } from "../../types/errorfallback.types";
-import styles from "./ErrorFallback.module.css";
 
-export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
+export const ErrorFallbackTopicPost = ({ resetErrorBoundary }: ErrorFallback) => {
 	return (
-		<Container className={styles.customContainer}>
+		<Container>
 			<Row>
 				<Col className="d-flex justify-content-center mt-4">
-					<div className="text-light fs-4 fw-bold text-center">Ground control, topics not loading!</div>
+					<div className="text-light fs-4 fw-bold text-center">Ground control, this topic is not loading!</div>
 				</Col>
 			</Row>
 			<Row>
@@ -28,8 +27,8 @@ export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
 				<Col className="d-flex justify-content-center mt-4 fs-6">
 					<p className="text-center text-light">
 						Head to&nbsp;
-						<Link className="fw-bold" to="/">
-							Home
+						<Link className="fw-bold" to="/topicboard">
+							Topic Board
 						</Link>
 					</p>
 				</Col>
@@ -38,4 +37,4 @@ export const ErrorFallbackTopics = ({ resetErrorBoundary }: ErrorFallback) => {
 	);
 };
 
-export default ErrorFallbackTopics;
+export default ErrorFallbackTopicPost;

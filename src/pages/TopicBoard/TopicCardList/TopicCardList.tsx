@@ -14,82 +14,71 @@ import { toast } from "react-toastify";
 import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import TopicCard from "../TopicCard/TopicCard";
-import PropTypes from "prop-types";
 
 interface TopicCardListProps {
 	isTopicsRefreshed: boolean;
 }
 
 export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
-	const [topicsList, setTopicsList] = useState([]); // State for fetched data from querying database
-	const [topicsCount, setTopicsCount] = useState(); // State for the topics collection count
-	const [lastTopic, setLastTopic] = useState(); // State for the last topic/document from query
+	const [topicsList, setTopicsList] = useState<any[]>([]); // State for fetched data from querying database
+	const [topicsCount, setTopicsCount] = useState<number>(0); // State for the topics collection count
+	const [lastTopic, setLastTopic] = useState<any | null>(null); // State for the last topic/document from query
 
-	const [isTopicsEmpty, setIsTopicsEmpty] = useState(); // Boolean state for if topic collection is empty
-	const [isLoadMoreShown, setIsLoadMoreShown] = useState(); // Boolean state for displaying the Load More Button
+	const [isTopicsEmpty, setIsTopicsEmpty] = useState<boolean>(false); // Boolean state for if topic collection is empty
+	const [isLoadMoreShown, setIsLoadMoreShown] = useState<boolean>(false); // Boolean state for displaying the Load More Button
 
-	const [isLoading, setIsLoading] = useState(false); // Boolean state for loading additional topics
-	const [isLoadingSpinner, setIsLoadingSpinner] = useState(false); // Boolean state for loading initial fetch of topics (uses spinner component)
+	const [isLoading, setIsLoading] = useState<boolean>(false); // Boolean state for loading additional topics
+	const [isLoadingSpinner, setIsLoadingSpinner] = useState<boolean>(false); // Boolean state for loading initial fetch of topics (uses spinner component)
 
 	// Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
 
-	// Function that fetches data from database by querying "topics" collection
 	useEffect(() => {
+		// Fetch topics from Firestore whenever isTopicsRefreshed changes
 		const fetchTopics = async () => {
 			try {
-				setIsLoadingSpinner(true);
+				setIsLoadingSpinner(true); // Show loading spinner
 
-				// Fetches data from the entire comments collection for this topic
-				const dbRef = collection(db, "topics");
-				const topicsCollection = query(dbRef);
-				const snapshot = await getCountFromServer(topicsCollection); // Retrieves document count from topicsCollection
-				setTopicsCount(snapshot.data().count); // Stores the amount of topics into state variable
+				const dbRef = collection(db, "topics"); // Reference to "topics" collection
+				const topicsCollection = query(dbRef); // Create query for all topics
+				const snapshot = await getCountFromServer(topicsCollection); // Get total topic count
+				const count = snapshot.data().count;
+				setTopicsCount(count); // Store topic count in state
 
-				// If collection count is 0, isTopicsEmpty will be true
-				if (topicsCount == 0) {
+				// If there are no topics, set empty state and clear list
+				if (count === 0) {
 					setIsTopicsEmpty(true);
+					setTopicsList([]);
+					return;
 				}
 
-				if (topicsCount > 0) {
-					// Query specific topics within collection and display the first six topics
-					const dbRef = collection(db, "topics");
-					const topicsToQuery = query(
-						dbRef,
-						orderBy("datePosted", "desc"),
-						limit(6)
-					);
-					const data = await getDocs(topicsToQuery); // Retrieves documents from topicsToQuery
-					const topicsMap = data.docs.map((doc) => ({
-						// Declared variable for mapping through retrieved docs
-						...doc.data(),
-						topicId: doc.id,
-					}));
-					const lastTopicDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last document returned by query
+				// Query for the latest 6 topics, ordered by datePosted descending
+				const topicsToQuery = query(
+					dbRef,
+					orderBy("datePosted", "desc"),
+					limit(6)
+				);
+				const data = await getDocs(topicsToQuery); // Get topic documents
 
-					// Set states with variables via query data
-					setTopicsList(topicsMap);
-					setLastTopic(lastTopicDoc);
-				}
-
-				// If collection count exceeds 6, isLoadMoreShown (the displaying of load more comments button) will be true
-				if (topicsCount > 6) {
-					setIsLoadMoreShown(true);
-				}
-
-				// If collection count is 6, isLoadMoreShown will be false (no other comments are needed to load)
-				if (topicsCount == 6) {
-					setIsLoadMoreShown(false);
-				}
-			} catch (error) {
+				// Map Firestore docs to topic objects and update state
+				const topicsMap = data.docs.map((doc) => ({
+					...doc.data(),
+					topicId: doc.id,
+				}));
+				setTopicsList(topicsMap); // Store topics in state
+				setLastTopic(data.docs[data.docs.length - 1]); // Track last topic for pagination
+				setIsTopicsEmpty(false); // There are topics, so not empty
+				setIsLoadMoreShown(count > 6); // Show "Load More" if more than 6 topics
+			} catch (error: any) {
+				// If error occurs, log and show error boundary
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			} finally {
-				setIsLoadingSpinner(false);
+				setIsLoadingSpinner(false); // Hide loading spinner
 			}
 		};
-		fetchTopics();
-	}, [isTopicsRefreshed, topicsCount]);
+		fetchTopics(); // Run fetch on mount or when isTopicsRefreshed changes
+	}, [isTopicsRefreshed]);
 
 	const handleLoadMore = async () => {
 		setIsLoading(true);
@@ -118,7 +107,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 				// If data is empty (no additional documents/comments) set boolean value isTopicsEmpty to true
 				setIsTopicsEmpty(true);
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.log(`Error: ${error.message}`);
 			toast.error("Sorry, could not load more topics!", {
 				hideProgressBar: true,
@@ -190,10 +179,6 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 			</Container>
 		</>
 	);
-};
-
-TopicCardList.propTypes = {
-	isTopicsRefreshed: PropTypes.bool.isRequired,
 };
 
 export default TopicCardList;
