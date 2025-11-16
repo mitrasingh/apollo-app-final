@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-	collection,
-	getDocs,
-	query,
-	orderBy,
-	getCountFromServer,
-	limit,
-	startAfter,
-} from "firebase/firestore";
+import { collection, getDocs, query, orderBy, getCountFromServer, limit, startAfter } from "firebase/firestore";
 import { db } from "../../../utils/firebase-config";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from "react-toastify";
@@ -53,11 +45,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 				}
 
 				// Query for the latest 6 topics, ordered by datePosted descending
-				const topicsToQuery = query(
-					dbRef,
-					orderBy("datePosted", "desc"),
-					limit(6)
-				);
+				const topicsToQuery = query(dbRef, orderBy("datePosted", "desc"), limit(6));
 				const data = await getDocs(topicsToQuery); // Get topic documents
 
 				// Map Firestore docs to topic objects and update state
@@ -85,12 +73,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 		try {
 			// Query additional topics starting after the state of lastTopic
 			const dbRef = collection(db, "topics");
-			const topicsToQuery = query(
-				dbRef,
-				orderBy("datePosted", "desc"),
-				startAfter(lastTopic),
-				limit(6)
-			);
+			const topicsToQuery = query(dbRef, orderBy("datePosted", "desc"), startAfter(lastTopic), limit(6));
 			const data = await getDocs(topicsToQuery); // Retrieves documents from topicsToQuery
 			const isDataEmpty = data.size === 0; // Declared variable for if document equal 0 (no additional documents/topics)
 			if (!isDataEmpty) {
@@ -128,11 +111,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 
 	// If true, UI will be returned (shown when page has no topics)
 	if (isTopicsEmpty) {
-		return (
-			<h4 className="text-light text-center fs-6 mt-4">
-				Be the first to post a topic!
-			</h4>
-		);
+		return <h4 className="text-light text-center fs-6 mt-4">Be the first to post a topic!</h4>;
 	}
 
 	return (
@@ -148,31 +127,17 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 					return <TopicCard topic={topic} key={topic.topicId} />;
 				})}
 
-				{isLoading && (
-					<h4 className="text-light text-center fs-6 mt-4">
-						Loading topics...
-					</h4>
-				)}
+				{isLoading && <h4 className="text-light text-center fs-6 mt-4">Loading topics...</h4>}
 
 				{!isLoading && !isTopicsEmpty && isLoadMoreShown && (
-					<Stack
-						direction="horizontal"
-						gap={2}
-						className="d-flex justify-content-center"
-					>
+					<Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
 						<Button
 							className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
 							variant="primary"
 							size="sm"
-							onClick={
-								topicsList.length === topicsCount
-									? handleScrollToTop
-									: handleLoadMore
-							}
+							onClick={topicsList.length === topicsCount ? handleScrollToTop : handleLoadMore}
 						>
-							{topicsList.length === topicsCount
-								? `Back to the top`
-								: `Load More Topics`}
+							{topicsList.length === topicsCount ? `Back to the top` : `Load More Topics`}
 						</Button>
 					</Stack>
 				)}
