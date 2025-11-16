@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import TopicCard from "../TopicCard/TopicCard";
+import { fetchAllTopics } from "../../../services/topicService";
 
 interface TopicCardListProps {
 	isTopicsRefreshed: boolean;
@@ -30,11 +31,12 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 		const fetchTopics = async () => {
 			try {
 				setIsLoadingSpinner(true); // Show loading spinner
-
-				const dbRef = collection(db, "topics"); // Reference to "topics" collection
-				const topicsCollection = query(dbRef); // Create query for all topics
-				const snapshot = await getCountFromServer(topicsCollection); // Get total topic count
-				const count = snapshot.data().count;
+				const allTopics = await fetchAllTopics();
+				const count = allTopics.length;
+				// const dbRef = collection(db, "topics"); // Reference to "topics" collection
+				// const topicsCollection = query(dbRef); // Create query for all topics
+				// const snapshot = await getCountFromServer(topicsCollection); // Get total topic count
+				// const count = snapshot.data().count;
 				setTopicsCount(count); // Store topic count in state
 
 				// If there are no topics, set empty state and clear list
@@ -45,6 +47,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 				}
 
 				// Query for the latest 6 topics, ordered by datePosted descending
+				const dbRef = collection(db, "topics");
 				const topicsToQuery = query(dbRef, orderBy("datePosted", "desc"), limit(6));
 				const data = await getDocs(topicsToQuery); // Get topic documents
 
