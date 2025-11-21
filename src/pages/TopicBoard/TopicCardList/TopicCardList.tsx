@@ -33,10 +33,6 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 				setIsLoadingSpinner(true); // Show loading spinner
 				const allTopics = await fetchAllTopics();
 				const count = allTopics.length;
-				// const dbRef = collection(db, "topics"); // Reference to "topics" collection
-				// const topicsCollection = query(dbRef); // Create query for all topics
-				// const snapshot = await getCountFromServer(topicsCollection); // Get total topic count
-				// const count = snapshot.data().count;
 				setTopicsCount(count); // Store topic count in state
 
 				// If there are no topics, set empty state and clear list
