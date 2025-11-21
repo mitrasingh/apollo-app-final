@@ -30,42 +30,45 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 		// Fetch topics from Firestore whenever isTopicsRefreshed changes
 		const fetchTopics = async () => {
 			try {
-				setIsLoadingSpinner(true); // Show loading spinner
+				setIsLoadingSpinner(true);
+
+				// Fetch all topics to get count
 				const allTopics = await fetchAllTopics();
 				const count = allTopics.length;
-				setTopicsCount(count); // Store topic count in state
+				setTopicsCount(count);
 
-				// If there are no topics, set empty state and clear list
+				// Handle empty topics case
 				if (count === 0) {
 					setIsTopicsEmpty(true);
 					setTopicsList([]);
 					return;
 				}
 
-				// Query for the latest 6 topics, ordered by datePosted descending
+				// Fetch first 6 topics for display
 				const dbRef = collection(db, "topics");
-				const topicsToQuery = query(dbRef, orderBy("datePosted", "desc"), limit(6));
-				const data = await getDocs(topicsToQuery); // Get topic documents
+				const topicsQuery = query(dbRef, orderBy("datePosted", "desc"), limit(6));
+				const snapshot = await getDocs(topicsQuery);
 
-				// Map Firestore docs to topic objects and update state
-				const topicsMap = data.docs.map((doc) => ({
+				// Map and update state
+				const topics = snapshot.docs.map((doc) => ({
 					...doc.data(),
 					topicId: doc.id,
 				}));
-				setTopicsList(topicsMap); // Store topics in state
-				setLastTopic(data.docs[data.docs.length - 1]); // Track last topic for pagination
-				setIsTopicsEmpty(false); // There are topics, so not empty
-				setIsLoadMoreShown(count > 6); // Show "Load More" if more than 6 topics
+
+				setTopicsList(topics);
+				setLastTopic(snapshot.docs[snapshot.docs.length - 1] || null);
+				setIsTopicsEmpty(false);
+				setIsLoadMoreShown(count > 6);
 			} catch (error: any) {
-				// If error occurs, log and show error boundary
 				console.log(`Error: ${error.message}`);
 				showBoundary(error);
 			} finally {
-				setIsLoadingSpinner(false); // Hide loading spinner
+				setIsLoadingSpinner(false);
 			}
 		};
-		fetchTopics(); // Run fetch on mount or when isTopicsRefreshed changes
-	}, [isTopicsRefreshed]);
+
+		fetchTopics();
+	}, [isTopicsRefreshed, showBoundary]);
 
 	const handleLoadMore = async () => {
 		setIsLoading(true);
