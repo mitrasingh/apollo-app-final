@@ -4,14 +4,10 @@ import { db } from "../utils/firebase-config";
 
 // Fetch all topics
 export const fetchAllTopics = async (): Promise<TopicData[]> => {
-	try {
-		const dbRef = collection(db, "topics");
-		const snapshot = await getDocs(query(dbRef));
-		return snapshot.docs.map((doc) => ({
-			...(doc.data() as Omit<TopicData, "topicId">),
-			topicId: doc.id,
-		}));
-	} catch (error) {
-		throw error;
-	}
+	const dbRef = collection(db, "topics");
+	const snapshot = await getDocs(query(dbRef));
+	return snapshot.docs.map((doc) => ({
+		...(doc.data() as Omit<TopicData, "topicId">),
+		topicId: doc.id,
+	}));
 };
