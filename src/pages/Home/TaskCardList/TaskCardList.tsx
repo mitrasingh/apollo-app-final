@@ -31,7 +31,7 @@ const TaskCardList = ({ queryFilter, isQuerySorted, isTasksSearched, userInput }
 	const { showBoundary } = useErrorBoundary();
 
 	// Fetch tasks (initial or search)
-	const fetchTasks = useCallback(async () => {
+	const loadTasks = useCallback(async () => {
 		setIsLoadingSpinner(true);
 		try {
 			if (isTasksSearched) {
@@ -59,8 +59,8 @@ const TaskCardList = ({ queryFilter, isQuerySorted, isTasksSearched, userInput }
 	}, [isTasksSearched, userInput, queryFilter, isQuerySorted, showBoundary]);
 
 	useEffect(() => {
-		fetchTasks();
-	}, [fetchTasks]);
+		loadTasks();
+	}, [loadTasks]);
 
 	// Load more tasks (pagination)
 	const handleLoadMore = async () => {
@@ -101,7 +101,7 @@ const TaskCardList = ({ queryFilter, isQuerySorted, isTasksSearched, userInput }
 				</div>
 			)}
 			{tasksList.map((task) => (
-				<TaskCard fetchTasks={fetchTasks} task={task} key={task.taskId} />
+				<TaskCard fetchTasks={loadTasks} task={task} key={task.taskId} />
 			))}
 			{tasksList.length === 0 && <h4 className="text-light text-center fs-6 mt-4">No tasks found</h4>}
 			{isLoading && <h4 className="text-light text-center fs-6 mt-4">Loading tasks...</h4>}
