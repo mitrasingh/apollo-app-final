@@ -28,7 +28,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 
 	useEffect(() => {
 		// Fetch topics from Firestore whenever isTopicsRefreshed changes
-		const fetchTopics = async () => {
+		const loadTopics = async () => {
 			try {
 				setIsLoadingSpinner(true);
 
@@ -67,7 +67,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 			}
 		};
 
-		fetchTopics();
+		loadTopics();
 	}, [isTopicsRefreshed, showBoundary]);
 
 	const handleLoadMore = async () => {
