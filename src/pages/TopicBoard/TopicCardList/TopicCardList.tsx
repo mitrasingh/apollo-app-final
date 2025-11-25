@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, orderBy, getCountFromServer, limit, startAfter } from "firebase/firestore";
-import { db } from "../../../utils/firebase-config";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from "react-toastify";
 import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import TopicCard from "../TopicCard/TopicCard";
-import { fetchAllTopics } from "../../../services/topicService";
+import { fetchInitialTopics, fetchMoreTopics } from "../../../services/topicService";
 
 interface TopicCardListProps {
 	isTopicsRefreshed: boolean;
@@ -27,40 +25,27 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 	const { showBoundary } = useErrorBoundary();
 
 	useEffect(() => {
-		// Fetch topics from Firestore whenever isTopicsRefreshed changes
 		const loadTopics = async () => {
 			try {
 				setIsLoadingSpinner(true);
 
-				// Fetch all topics to get count
-				const allTopics = await fetchAllTopics();
-				const count = allTopics.length;
-				setTopicsCount(count);
+				// Fetch topics using the service function
+				const { topics, lastDoc } = await fetchInitialTopics();
 
 				// Handle empty topics case
-				if (count === 0) {
+				if (topics.length === 0) {
 					setIsTopicsEmpty(true);
 					setTopicsList([]);
 					return;
 				}
 
-				// Fetch first 6 topics for display
-				const dbRef = collection(db, "topics");
-				const topicsQuery = query(dbRef, orderBy("datePosted", "desc"), limit(6));
-				const snapshot = await getDocs(topicsQuery);
-
-				// Map and update state
-				const topics = snapshot.docs.map((doc) => ({
-					...doc.data(),
-					topicId: doc.id,
-				}));
-
+				// Update state with fetched topics
 				setTopicsList(topics);
-				setLastTopic(snapshot.docs[snapshot.docs.length - 1] || null);
+				setLastTopic(lastDoc);
 				setIsTopicsEmpty(false);
-				setIsLoadMoreShown(count > 6);
+				setIsLoadMoreShown(topics.length > 6); // Show "Load More" if there are more than 6 topics
 			} catch (error: any) {
-				console.log(`Error: ${error.message}`);
+				console.error("Error fetching topics:", error.message);
 				showBoundary(error);
 			} finally {
 				setIsLoadingSpinner(false);
@@ -73,27 +58,17 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 	const handleLoadMore = async () => {
 		setIsLoading(true);
 		try {
-			// Query additional topics starting after the state of lastTopic
-			const dbRef = collection(db, "topics");
-			const topicsToQuery = query(dbRef, orderBy("datePosted", "desc"), startAfter(lastTopic), limit(6));
-			const data = await getDocs(topicsToQuery); // Retrieves documents from topicsToQuery
-			const isDataEmpty = data.size === 0; // Declared variable for if document equal 0 (no additional documents/topics)
-			if (!isDataEmpty) {
-				const topics = data.docs.map((doc) => ({
-					...doc.data(),
-					topicId: doc.id,
-				})); // Declared variable for mapping through retrieved docs
-				const lastTopicDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last topic returned by query
+			const { topics, lastDoc } = await fetchMoreTopics(lastTopic);
 
-				// Set states with variables via query data
-				setTopicsList((topicsList) => [...topicsList, ...topics]);
-				setLastTopic(lastTopicDoc);
-			} else {
-				// If data is empty (no additional documents/comments) set boolean value isTopicsEmpty to true
+			if (topics.length === 0) {
 				setIsTopicsEmpty(true);
+				return;
 			}
+
+			setTopicsList((prev) => [...prev, ...topics]);
+			setLastTopic(lastDoc);
 		} catch (error: any) {
-			console.log(`Error: ${error.message}`);
+			console.error("Error loading more topics:", error.message);
 			toast.error("Sorry, could not load more topics!", {
 				hideProgressBar: true,
 			});
