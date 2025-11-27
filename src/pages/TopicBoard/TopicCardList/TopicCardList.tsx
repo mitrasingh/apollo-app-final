@@ -22,16 +22,15 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 
 	const { showBoundary } = useErrorBoundary();
 
+	// Fetch the initial list of topics and the total count
 	useEffect(() => {
 		const loadTopics = async () => {
 			try {
 				setIsLoadingSpinner(true);
 
-				// Fetch topics count
 				const totalTopicsCount = await fetchTopicsCount();
 				setTopicsCount(totalTopicsCount);
 
-				// Fetch initial topics
 				const { topics, lastDoc } = await fetchInitialTopics();
 
 				if (topics.length === 0) {
@@ -55,6 +54,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 		loadTopics();
 	}, [isTopicsRefreshed, showBoundary]);
 
+	// Load more topics for pagination
 	const handleLoadMore = async () => {
 		setIsLoading(true);
 		try {
@@ -78,6 +78,7 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 		}
 	};
 
+	// Auto scroll to the top of the page
 	const handleScrollToTop = () => {
 		window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 	};
