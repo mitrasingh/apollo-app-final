@@ -4,13 +4,14 @@ import { toast } from "react-toastify";
 import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import TopicCard from "../TopicCard/TopicCard";
+import { TopicData } from "../../../types/topicdata.types";
 import { fetchInitialTopics, fetchMoreTopics, fetchTopicsCount } from "../../../services/topicService";
 interface TopicCardListProps {
 	isTopicsRefreshed: boolean;
 }
 
 export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
-	const [topicsList, setTopicsList] = useState<any[]>([]);
+	const [topicsList, setTopicsList] = useState<TopicData[]>([]);
 	const [topicsCount, setTopicsCount] = useState<number>(0);
 	const [lastTopic, setLastTopic] = useState<any | null>(null);
 
