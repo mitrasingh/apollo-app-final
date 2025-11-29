@@ -13,8 +13,7 @@ interface TopicCardListProps {
 export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 	const [topicsList, setTopicsList] = useState<TopicData[]>([]);
 	const [topicsCount, setTopicsCount] = useState<number>(0);
-	const [lastTopic, setLastTopic] = useState<any | null>(null);
-
+	const [lastTopic, setLastTopic] = useState<TopicData | null>(null);
 	const [isTopicsEmpty, setIsTopicsEmpty] = useState<boolean>(false);
 	const [isLoadMoreShown, setIsLoadMoreShown] = useState<boolean>(false);
 
