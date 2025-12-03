@@ -8,58 +8,18 @@ import { useErrorBoundary } from "react-error-boundary";
 import { convertToRelativeTime } from "../../../utils/date-config";
 import styles from "./TopicCard.module.css";
 import { TopicData } from "../../../types/topicdata.types";
+import { useUserPhoto } from "../../../hooks/useUserPhoto";
+import { useCommentCount } from "../../../hooks/useCommentCount";
 
 type TopicCardProps = {
 	topic: TopicData;
 };
 
 export const TopicCard = ({ topic }: TopicCardProps) => {
-	// Retrieving photo url of user and saving it in a state
-	const [creatorPhoto, setCreatorPhoto] = useState<string>();
+	const creatorPhoto = useUserPhoto(topic.userId);
+	const numOfComments = useCommentCount(topic.topicId);
 
-	// Displays numbers of comments (how many documents within "comments" collection in database)
-	const [numOfComments, setNumOfComments] = useState<number>(0);
-
-	// Custom hook converts firestore timestamp into relative time from current time
 	const dateRelativeTime = convertToRelativeTime(topic.datePosted);
-
-	// Catches error and returns error boundary component (error component invoked in TopicBoard.jsx)
-	const { showBoundary } = useErrorBoundary();
-
-	// Firebase storage method and reference (used for fetching user photo url based off of userId prop)
-	const storage = getStorage();
-	const storageRef = ref(storage);
-
-	// Function fetches users (userId) photo url address
-	useEffect(() => {
-		const fetchUserPhoto = async () => {
-			try {
-				const creatorPhotoURL = await getDownloadURL(ref(storageRef, `user-photo/${topic.userId}`));
-				if (creatorPhotoURL) {
-					setCreatorPhoto(creatorPhotoURL);
-				}
-			} catch (error: any) {
-				console.log(`Error: ${error.message}`);
-				showBoundary(error);
-			}
-		};
-		fetchUserPhoto();
-	}, []);
-
-	// Function fetches number of comments for specific topic
-	useEffect(() => {
-		const getNumOfComments = async () => {
-			try {
-				const commentsToQuery = query(collection(db, "comments"), where("topicId", "==", topic.topicId));
-				const snapshot = await getCountFromServer(commentsToQuery);
-				setNumOfComments(snapshot.data().count);
-			} catch (error: any) {
-				console.log(`Error: ${error.message}`);
-				showBoundary(error);
-			}
-		};
-		getNumOfComments();
-	}, [numOfComments]);
 
 	return (
 		<Container className="mt-3">
@@ -67,7 +27,6 @@ export const TopicCard = ({ topic }: TopicCardProps) => {
 				<Card.Header>
 					<Row>
 						<Col>
-							{/* Link below renders TopicDetailsPage component via React Router Dynamic Routing */}
 							<Link to={`/topicboard/${topic.topicId}`}>
 								<Card.Text className="fw-bold fs-5 text-truncate">{topic.title}</Card.Text>
 							</Link>
@@ -108,4 +67,5 @@ export const TopicCard = ({ topic }: TopicCardProps) => {
 		</Container>
 	);
 };
+
 export default TopicCard;
