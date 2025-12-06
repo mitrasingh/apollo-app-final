@@ -1,10 +1,5 @@
-import { useEffect, useState } from "react";
 import { Card, Col, Container, Row, Image, Stack } from "react-bootstrap";
-import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import { Link } from "react-router-dom";
-import { db } from "../../../utils/firebase-config";
-import { collection, getCountFromServer, query, where } from "firebase/firestore";
-import { useErrorBoundary } from "react-error-boundary";
 import { convertToRelativeTime } from "../../../utils/date-config";
 import styles from "./TopicCard.module.css";
 import { TopicData } from "../../../types/topicdata.types";
