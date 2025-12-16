@@ -1,114 +1,75 @@
 import { useEffect, useState } from "react";
-import {
-	collection,
-	getDocs,
-	query,
-	orderBy,
-	getCountFromServer,
-	limit,
-	startAfter,
-} from "firebase/firestore";
-import { db } from "../../../utils/firebase-config";
 import { useErrorBoundary } from "react-error-boundary";
 import { toast } from "react-toastify";
 import { Button, Stack, Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import TopicCard from "../TopicCard/TopicCard";
-
+import { TopicData } from "../../../types/topicdata.types";
+import { fetchInitialTopics, fetchMoreTopics, fetchTopicsCount } from "../../../services/topicService";
 interface TopicCardListProps {
 	isTopicsRefreshed: boolean;
 }
 
 export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
-	const [topicsList, setTopicsList] = useState<any[]>([]); // State for fetched data from querying database
-	const [topicsCount, setTopicsCount] = useState<number>(0); // State for the topics collection count
-	const [lastTopic, setLastTopic] = useState<any | null>(null); // State for the last topic/document from query
+	const [topicsList, setTopicsList] = useState<TopicData[]>([]);
+	const [topicsCount, setTopicsCount] = useState<number>(0);
+	const [lastTopic, setLastTopic] = useState<TopicData | null>(null);
+	const [isTopicsEmpty, setIsTopicsEmpty] = useState<boolean>(false);
+	const [isLoadMoreShown, setIsLoadMoreShown] = useState<boolean>(false);
 
-	const [isTopicsEmpty, setIsTopicsEmpty] = useState<boolean>(false); // Boolean state for if topic collection is empty
-	const [isLoadMoreShown, setIsLoadMoreShown] = useState<boolean>(false); // Boolean state for displaying the Load More Button
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoadingSpinner, setIsLoadingSpinner] = useState<boolean>(false);
 
-	const [isLoading, setIsLoading] = useState<boolean>(false); // Boolean state for loading additional topics
-	const [isLoadingSpinner, setIsLoadingSpinner] = useState<boolean>(false); // Boolean state for loading initial fetch of topics (uses spinner component)
-
-	// Catches error and returns to error boundary component (error component in parent (TopicBoard.jsx)
 	const { showBoundary } = useErrorBoundary();
 
+	// Fetch the initial list of topics and the total count
 	useEffect(() => {
-		// Fetch topics from Firestore whenever isTopicsRefreshed changes
-		const fetchTopics = async () => {
+		const loadTopics = async () => {
 			try {
-				setIsLoadingSpinner(true); // Show loading spinner
+				setIsLoadingSpinner(true);
 
-				const dbRef = collection(db, "topics"); // Reference to "topics" collection
-				const topicsCollection = query(dbRef); // Create query for all topics
-				const snapshot = await getCountFromServer(topicsCollection); // Get total topic count
-				const count = snapshot.data().count;
-				setTopicsCount(count); // Store topic count in state
+				const totalTopicsCount = await fetchTopicsCount();
+				setTopicsCount(totalTopicsCount);
 
-				// If there are no topics, set empty state and clear list
-				if (count === 0) {
+				const { topics, lastDoc } = await fetchInitialTopics();
+
+				if (topics.length === 0) {
 					setIsTopicsEmpty(true);
 					setTopicsList([]);
 					return;
 				}
 
-				// Query for the latest 6 topics, ordered by datePosted descending
-				const topicsToQuery = query(
-					dbRef,
-					orderBy("datePosted", "desc"),
-					limit(6)
-				);
-				const data = await getDocs(topicsToQuery); // Get topic documents
-
-				// Map Firestore docs to topic objects and update state
-				const topicsMap = data.docs.map((doc) => ({
-					...doc.data(),
-					topicId: doc.id,
-				}));
-				setTopicsList(topicsMap); // Store topics in state
-				setLastTopic(data.docs[data.docs.length - 1]); // Track last topic for pagination
-				setIsTopicsEmpty(false); // There are topics, so not empty
-				setIsLoadMoreShown(count > 6); // Show "Load More" if more than 6 topics
+				setTopicsList(topics);
+				setLastTopic(lastDoc);
+				setIsTopicsEmpty(false);
+				setIsLoadMoreShown(topics.length < totalTopicsCount);
 			} catch (error: any) {
-				// If error occurs, log and show error boundary
-				console.log(`Error: ${error.message}`);
+				console.error("Error fetching topics:", error.message);
 				showBoundary(error);
 			} finally {
-				setIsLoadingSpinner(false); // Hide loading spinner
+				setIsLoadingSpinner(false);
 			}
 		};
-		fetchTopics(); // Run fetch on mount or when isTopicsRefreshed changes
-	}, [isTopicsRefreshed]);
 
+		loadTopics();
+	}, [isTopicsRefreshed, showBoundary]);
+
+	// Load more topics for pagination
 	const handleLoadMore = async () => {
 		setIsLoading(true);
 		try {
-			// Query additional topics starting after the state of lastTopic
-			const dbRef = collection(db, "topics");
-			const topicsToQuery = query(
-				dbRef,
-				orderBy("datePosted", "desc"),
-				startAfter(lastTopic),
-				limit(6)
-			);
-			const data = await getDocs(topicsToQuery); // Retrieves documents from topicsToQuery
-			const isDataEmpty = data.size === 0; // Declared variable for if document equal 0 (no additional documents/topics)
-			if (!isDataEmpty) {
-				const topics = data.docs.map((doc) => ({
-					...doc.data(),
-					topicId: doc.id,
-				})); // Declared variable for mapping through retrieved docs
-				const lastTopicDoc = data.docs[data.docs.length - 1]; // Declared variable for accessing the last topic returned by query
+			const { topics, lastDoc } = await fetchMoreTopics(lastTopic);
 
-				// Set states with variables via query data
-				setTopicsList((topicsList) => [...topicsList, ...topics]);
-				setLastTopic(lastTopicDoc);
-			} else {
-				// If data is empty (no additional documents/comments) set boolean value isTopicsEmpty to true
+			if (topics.length === 0) {
 				setIsTopicsEmpty(true);
+				return;
 			}
+
+			setTopicsList((prev) => [...prev, ...topics]);
+			setLastTopic(lastDoc);
+			setIsLoadMoreShown(topicsList.length + topics.length < topicsCount);
 		} catch (error: any) {
-			console.log(`Error: ${error.message}`);
+			console.error("Error loading more topics:", error.message);
 			toast.error("Sorry, could not load more topics!", {
 				hideProgressBar: true,
 			});
@@ -117,67 +78,42 @@ export const TopicCardList = ({ isTopicsRefreshed }: TopicCardListProps) => {
 		}
 	};
 
-	// When triggered function scrolls user back to top of page
+	// Auto scroll to the top of the page
 	const handleScrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			left: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 	};
 
-	// If true, UI will be returned (shown when page has no topics)
 	if (isTopicsEmpty) {
-		return (
-			<h4 className="text-light text-center fs-6 mt-4">
-				Be the first to post a topic!
-			</h4>
-		);
+		return <h4 className="text-light text-center fs-6 mt-4">Be the first to post a topic!</h4>;
 	}
 
 	return (
-		<>
-			<Container className="pb-4">
-				{isLoadingSpinner && (
-					<div className="d-flex justify-content-center align-items-center vh-100">
-						<Spinner animation="border" variant="warning" />
-					</div>
-				)}
+		<Container className="pb-4">
+			{isLoadingSpinner && (
+				<div className="d-flex justify-content-center align-items-center vh-100">
+					<Spinner animation="border" variant="warning" />
+				</div>
+			)}
 
-				{topicsList.map((topic) => {
-					return <TopicCard topic={topic} key={topic.topicId} />;
-				})}
+			{topicsList.map((topic) => (
+				<TopicCard topic={topic} key={topic.topicId} />
+			))}
 
-				{isLoading && (
-					<h4 className="text-light text-center fs-6 mt-4">
-						Loading topics...
-					</h4>
-				)}
+			{isLoading && <h4 className="text-light text-center fs-6 mt-4">Loading topics...</h4>}
 
-				{!isLoading && !isTopicsEmpty && isLoadMoreShown && (
-					<Stack
-						direction="horizontal"
-						gap={2}
-						className="d-flex justify-content-center"
+			{!isLoading && !isTopicsEmpty && isLoadMoreShown && (
+				<Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+					<Button
+						className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
+						variant="primary"
+						size="sm"
+						onClick={topicsList.length === topicsCount ? handleScrollToTop : handleLoadMore}
 					>
-						<Button
-							className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
-							variant="primary"
-							size="sm"
-							onClick={
-								topicsList.length === topicsCount
-									? handleScrollToTop
-									: handleLoadMore
-							}
-						>
-							{topicsList.length === topicsCount
-								? `Back to the top`
-								: `Load More Topics`}
-						</Button>
-					</Stack>
-				)}
-			</Container>
-		</>
+						{topicsList.length === topicsCount ? `Back to the top` : `Load More Topics`}
+					</Button>
+				</Stack>
+			)}
+		</Container>
 	);
 };
 

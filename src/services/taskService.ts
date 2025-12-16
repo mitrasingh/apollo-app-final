@@ -47,17 +47,9 @@ export const fetchTasksWithQuery = async (
 		let q;
 
 		if (isQuerySorted) {
-			q = query(
-				dbRef,
-				orderBy(queryFilter[0], queryFilter[1] as OrderByDirection),
-				limit(limitCount)
-			);
+			q = query(dbRef, orderBy(queryFilter[0], queryFilter[1] as OrderByDirection), limit(limitCount));
 		} else {
-			q = query(
-				dbRef,
-				where(queryFilter[0], "==", queryFilter[1]),
-				limit(limitCount)
-			);
+			q = query(dbRef, where(queryFilter[0], "==", queryFilter[1]), limit(limitCount));
 		}
 
 		const snapshot = await getDocs(q);
@@ -65,8 +57,7 @@ export const fetchTasksWithQuery = async (
 			...(doc.data() as Omit<TaskData, "taskId">),
 			taskId: doc.id,
 		}));
-		const lastTask =
-			snapshot.docs.length > 0 ? snapshot.docs[snapshot.docs.length - 1] : null;
+		const lastTask = snapshot.docs.length > 0 ? snapshot.docs[snapshot.docs.length - 1] : null;
 		return { tasks, lastTask };
 	} catch (error) {
 		throw error;
@@ -95,12 +86,7 @@ export const fetchMoreTasksWithQuery = async (
 				limit(limitCount)
 			);
 		} else {
-			q = query(
-				dbRef,
-				where(queryFilter[0], "==", queryFilter[1]),
-				startAfter(lastTask),
-				limit(limitCount)
-			);
+			q = query(dbRef, where(queryFilter[0], "==", queryFilter[1]), startAfter(lastTask), limit(limitCount));
 		}
 
 		const snapshot = await getDocs(q);
@@ -108,8 +94,7 @@ export const fetchMoreTasksWithQuery = async (
 			...(doc.data() as Omit<TaskData, "taskId">),
 			taskId: doc.id,
 		}));
-		const newLastTask =
-			snapshot.docs.length > 0 ? snapshot.docs[snapshot.docs.length - 1] : null;
+		const newLastTask = snapshot.docs.length > 0 ? snapshot.docs[snapshot.docs.length - 1] : null;
 		return { tasks, lastTask: newLastTask };
 	} catch (error) {
 		throw error;
@@ -117,19 +102,13 @@ export const fetchMoreTasksWithQuery = async (
 };
 
 // Get total count for tasks (for pagination)
-export const getTasksCount = async (
-	queryFilter: [string, string],
-	isQuerySorted: boolean
-): Promise<number> => {
+export const getTasksCount = async (queryFilter: [string, string], isQuerySorted: boolean): Promise<number> => {
 	try {
 		const dbRef = collection(db, "tasks");
 		let q;
 
 		if (isQuerySorted) {
-			q = query(
-				dbRef,
-				orderBy(queryFilter[0], queryFilter[1] as OrderByDirection)
-			);
+			q = query(dbRef, orderBy(queryFilter[0], queryFilter[1] as OrderByDirection));
 		} else {
 			q = query(dbRef, where(queryFilter[0], "==", queryFilter[1]));
 		}

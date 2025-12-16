@@ -20,16 +20,10 @@ interface TaskCardListProps {
 	userInput: string;
 }
 
-const TaskCardList = ({
-	queryFilter,
-	isQuerySorted,
-	isTasksSearched,
-	userInput,
-}: TaskCardListProps) => {
+const TaskCardList = ({ queryFilter, isQuerySorted, isTasksSearched, userInput }: TaskCardListProps) => {
 	const [tasksList, setTasksList] = useState<TaskData[]>([]);
 	const [tasksCount, setTasksCount] = useState<number>(0);
-	const [lastTask, setLastTask] =
-		useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+	const [lastTask, setLastTask] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 	const [isLoadMoreShown, setIsLoadMoreShown] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLoadingSpinner, setIsLoadingSpinner] = useState(false);
@@ -37,14 +31,12 @@ const TaskCardList = ({
 	const { showBoundary } = useErrorBoundary();
 
 	// Fetch tasks (initial or search)
-	const fetchTasks = useCallback(async () => {
+	const loadTasks = useCallback(async () => {
 		setIsLoadingSpinner(true);
 		try {
 			if (isTasksSearched) {
 				const allTasks = await fetchAllTasks();
-				const filtered = allTasks.filter((task) =>
-					task.taskName.toLowerCase().includes(userInput.toLowerCase())
-				);
+				const filtered = allTasks.filter((task) => task.taskName.toLowerCase().includes(userInput.toLowerCase()));
 				setTasksList(filtered);
 				setIsLoadMoreShown(false);
 				setTasksCount(filtered.length);
@@ -53,11 +45,7 @@ const TaskCardList = ({
 				const count = await getTasksCount(queryFilter, isQuerySorted);
 				setTasksCount(count);
 
-				const { tasks, lastTask } = await fetchTasksWithQuery(
-					queryFilter,
-					isQuerySorted,
-					5
-				);
+				const { tasks, lastTask } = await fetchTasksWithQuery(queryFilter, isQuerySorted, 5);
 				setTasksList(tasks);
 				setLastTask(lastTask);
 				setIsLoadMoreShown(count > 5);
@@ -71,16 +59,20 @@ const TaskCardList = ({
 	}, [isTasksSearched, userInput, queryFilter, isQuerySorted, showBoundary]);
 
 	useEffect(() => {
-		fetchTasks();
-	}, [fetchTasks]);
+		loadTasks();
+	}, [loadTasks]);
 
 	// Load more tasks (pagination)
 	const handleLoadMore = async () => {
 		if (!lastTask) return;
 		setIsLoading(true);
 		try {
-			const { tasks: moreTasks, lastTask: newLastTask } =
-				await fetchMoreTasksWithQuery(queryFilter, isQuerySorted, lastTask, 5);
+			const { tasks: moreTasks, lastTask: newLastTask } = await fetchMoreTasksWithQuery(
+				queryFilter,
+				isQuerySorted,
+				lastTask,
+				5
+			);
 			if (moreTasks.length) {
 				setTasksList((prev) => [...prev, ...moreTasks]);
 				setLastTask(newLastTask);
@@ -109,42 +101,23 @@ const TaskCardList = ({
 				</div>
 			)}
 			{tasksList.map((task) => (
-				<TaskCard fetchTasks={fetchTasks} task={task} key={task.taskId} />
+				<TaskCard fetchTasks={loadTasks} task={task} key={task.taskId} />
 			))}
-			{tasksList.length === 0 && (
-				<h4 className="text-light text-center fs-6 mt-4">No tasks found</h4>
-			)}
-			{isLoading && (
-				<h4 className="text-light text-center fs-6 mt-4">Loading tasks...</h4>
-			)}
-			{!isTasksSearched &&
-				!isLoading &&
-				isLoadMoreShown &&
-				tasksList.length > 0 && (
-					<Stack
-						direction="horizontal"
-						gap={2}
-						className="d-flex justify-content-center"
+			{tasksList.length === 0 && <h4 className="text-light text-center fs-6 mt-4">No tasks found</h4>}
+			{isLoading && <h4 className="text-light text-center fs-6 mt-4">Loading tasks...</h4>}
+			{!isTasksSearched && !isLoading && isLoadMoreShown && tasksList.length > 0 && (
+				<Stack direction="horizontal" gap={2} className="d-flex justify-content-center">
+					<Button
+						className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
+						variant="primary"
+						size="sm"
+						onClick={tasksList.length === tasksCount ? handleScrollToTop : handleLoadMore}
 					>
-						<Button
-							className="fw-bold text-light fs-6 text-center mt-4 d-flex justify-content-center"
-							variant="primary"
-							size="sm"
-							onClick={
-								tasksList.length === tasksCount
-									? handleScrollToTop
-									: handleLoadMore
-							}
-						>
-							{tasksList.length === tasksCount
-								? `Back to the top`
-								: `Load More Tasks`}
-						</Button>
-					</Stack>
-				)}
-			{isTasksSearched && tasksList.length > 0 && (
-				<h4 className="text-light text-center fs-6 mt-4">End of results</h4>
+						{tasksList.length === tasksCount ? `Back to the top` : `Load More Tasks`}
+					</Button>
+				</Stack>
 			)}
+			{isTasksSearched && tasksList.length > 0 && <h4 className="text-light text-center fs-6 mt-4">End of results</h4>}
 		</Container>
 	);
 };
